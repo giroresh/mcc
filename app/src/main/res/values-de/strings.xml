@@ -1,0 +1,28 @@
+<resources>
+	<string name="app_name">MediaCenterClient</string>
+	<string name="action_settings">action_settings</string>
+	<string name="playback">Abspiel Kontrolle</string>
+	<string name="play">Abspielen/Pausieren</string>
+	<string name="stop">Stop</string>
+	<string name="previous">Vorherige</string>
+	<string name="volume">Lautstärke</string>
+	<string name="mute">Stumm</string>
+	<string name="next">Nächste</string>
+	<string name="louder">lauter</string>
+	<string name="quieter">leiserer</string>
+	<string name="back">zurück</string>
+	<string name="ip">192.168.0.102</string>
+	<string name="port">5002</string>
+	<string name="portTV">Port Nummer</string>
+	<string name="serverName">Servername oder IP Adresse</string>
+	<string name="connectButtonString">Verbinden</string>
+	<string name="taginfos"/>
+	<string name="offset">offset</string>
+	<string name="length">länge</string>
+	<string name="shutdownServerButtonTxt">Server herunterfahren</string>
+	<string name="restartServerButtonTxt">Server neustarten</string>
+	<string name="setAdminKeyButtonTxt">Admin Key setzen</string>
+	<string name="setAdminKeyTV">Admin Key setzen</string>
+	<string name="playbackInfoTV">Hier sollten Sie die Taginformationen der grad abgespielten Datei sehen</string>
+	<string name="playlistContextMenuTxt">Taginformation anzeigen</string>
+</resources>

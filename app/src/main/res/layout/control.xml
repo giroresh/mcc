@@ -1,0 +1,84 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                tools:context=".Control">
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textAppearance="?android:attr/textAppearanceMedium"
+		android:text="MediaServer Control App"
+		android:id="@+id/textView"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Use MediaCenter"
+		android:id="@+id/useMediacenterTV"
+		android:layout_below="@+id/textView"
+		android:layout_centerHorizontal="true"
+		android:layout_marginTop="10dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Set server info"
+        android:id="@+id/connServer"
+        android:layout_marginTop="50dp"
+        android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Close App"
+        android:id="@+id/closeApp"
+		android:layout_alignParentBottom="true"
+		android:layout_centerHorizontal="true"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Go to the Playlist"
+        android:id="@+id/playlistButton"
+        android:layout_below="@+id/connServer"
+        android:layout_centerHorizontal="true"/>
+
+	<TextView
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="Server Controls"
+		android:id="@+id/serverControlTV"
+		android:layout_below="@+id/playlistButton"
+		android:layout_marginTop="50dp"
+		android:layout_centerHorizontal="true"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/setAdminKeyButtonTxt"
+		android:id="@+id/setAdminKeyButton"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@+id/serverControlTV"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/restartServerButtonTxt"
+		android:id="@+id/restartButton"
+		android:layout_centerVertical="true"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@+id/setAdminKeyButton"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/shutdownServerButtonTxt"
+		android:id="@+id/shutdownButton"
+		android:layout_below="@+id/restartButton"
+		android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

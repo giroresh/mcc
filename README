@@ -1,0 +1,40 @@
+Android Media Center Client
+---------------------------
+
+General
+-------
+
+The App is a mere client to the following project: Tiny Media Center Server, which may be found here:
+https://github.com/GOMF/mcs
+The main focus at the moment is to implement a usable app and later on to implement the whole
+scale of functionality provided by the server and finally making it visually more appealing...
+
+The App requires at least Android 4.x (minSdkVersion="14").
+It does work with SDK19 and should work also on Android L.
+
+Current features:
+-----------------
+
+- Connecting to the server
+- Setting the appropriate admin key
+- Playback of audiofiles
+- Playback of videofiles
+- Listing all supported audio, video and rom files
+- controlling the playback of video and audio files
+- displaying basic tag information
+- multilingual (en, hu, de)
+
+To be done:
+-----------
+
+- Handling rom files
+- displaying further tag information
+- adding more languages
+- making several methods more efficient and robust
+- making sure all status codes are handled properly
+- etc
+
+License
+-------
+
+For license information please refer to the LICENSE file

@@ -1,0 +1,27 @@
+<resources>
+	<string name="app_name">MediaCenterClient</string>
+	<string name="playback">controls of playback</string>
+	<string name="play">play/pause</string>
+	<string name="stop">stop</string>
+	<string name="previous">previous</string>
+	<string name="volume">volume</string>
+	<string name="mute">mute</string>
+	<string name="next">next</string>
+	<string name="louder">louder</string>
+	<string name="quieter">quieter</string>
+	<string name="back">back</string>
+	<string name="ip">192.168.0.102</string>
+	<string name="port">5002</string>
+	<string name="portTV">Port</string>
+	<string name="serverName">Server name or IP address</string>
+	<string name="connectButtonString">Connect</string>
+	<string name="taginfos"></string>
+	<string name="offset">offset</string>
+	<string name="length">length</string>
+	<string name="shutdownServerButtonTxt">Shutdown Server</string>
+	<string name="restartServerButtonTxt">Restart Server</string>
+	<string name="setAdminKeyButtonTxt">Set Admin Key</string>
+	<string name="setAdminKeyTV">Set the admin key</string>
+	<string name="playbackInfoTV">Here should be some Info about what you are listening/watching</string>
+	<string name="playlistContextMenuTxt">get Tag Info</string>
+</resources>

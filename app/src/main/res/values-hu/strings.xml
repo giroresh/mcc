@@ -1,0 +1,28 @@
+<resources>
+	<string name="app_name">MediaCenterClient</string>
+	<string name="action_settings">action_settings</string>
+	<string name="playback">lejátszás vezérlése</string>
+	<string name="play">lejátszás/szüneteltetés</string>
+	<string name="stop">megállít</string>
+	<string name="previous">előző</string>
+	<string name="volume">hangerő</string>
+	<string name="mute">némítás</string>
+	<string name="next">következő</string>
+	<string name="louder">hangosítás</string>
+	<string name="quieter">halkitás</string>
+	<string name="back">vissza</string>
+	<string name="ip">192.168.0.102</string>
+	<string name="port">5002</string>
+	<string name="portTV">port</string>
+	<string name="serverName">kiszolgáló neve vagy IP száma</string>
+	<string name="connectButtonString">kapcsolódj</string>
+	<string name="taginfos"/>
+	<string name="offset">offset</string>
+	<string name="length">hossz</string>
+	<string name="shutdownServerButtonTxt">Kiszolgáló leállítása</string>
+	<string name="restartServerButtonTxt">Kiszolgáló újra indítása</string>
+	<string name="setAdminKeyButtonTxt">Kulcs beállítása</string>
+	<string name="setAdminKeyTV">Rendszergazda hozzáférés beállítása</string>
+	<string name="playbackInfoTV">a lejátszásban lévő fajl információi itt láthatóak </string>
+	<string name="playlistContextMenuTxt">bővebb információ</string>
+</resources>
