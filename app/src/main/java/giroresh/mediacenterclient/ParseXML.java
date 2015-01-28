@@ -1,7 +1,6 @@
 package giroresh.mediacenterclient;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -14,6 +13,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.playlistItems.filetypes.AudioFiles;
+import giroresh.mediacenterclient.playlistItems.filetypes.GBRomsFiles;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.filetypes.RomFiles;
 import giroresh.mediacenterclient.playlistItems.filetypes.VideoFiles;
@@ -44,7 +44,6 @@ public class ParseXML {
     }
 
     public List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
-
         String result = xmlResponse.get();
         result = result.substring(14);
 
@@ -63,6 +62,12 @@ public class ParseXML {
                                     audioFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
                                 } else if (xpp.getAttributeValue(i).equals("200")) {
                                     romFiles = new RomFiles();
+                                    romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                } else if (xpp.getAttributeValue(i).equals("201")) {
+                                    romFiles = new GBRomsFiles();
+                                    romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                } else if (xpp.getAttributeValue(i).equals("202")) {
+                                    romFiles = new GBRomsFiles();
                                     romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
                                 } else if (xpp.getAttributeValue(i).equals("300")) {
                                     videoFiles = new VideoFiles();
@@ -113,7 +118,6 @@ public class ParseXML {
     }
 
     public Tags getTagInfo(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
-
         String result = xmlResponse.get();
         result = result.substring(14);
 
@@ -123,7 +127,6 @@ public class ParseXML {
 
         String tagname = null;
         while (eventType != XmlPullParser.END_DOCUMENT) {
-            Log.d("ParseXMLViaClasses", "eventType is: " + eventType);
             switch (eventType) {
                 case XmlPullParser.START_TAG:
                     tagname = xpp.getName();
@@ -140,7 +143,13 @@ public class ParseXML {
                                 } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 200) {
                                     romTags = new RomTags();
                                     break;
-                                } else {
+                                } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 201) {
+                                    romTags = new RomTags();
+                                    break;
+                                } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 202) {
+                                    romTags = new RomTags();
+                                    break;
+                                }else {
                                     return null;
                                 }
                             }

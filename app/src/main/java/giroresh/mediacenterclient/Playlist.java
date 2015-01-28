@@ -142,8 +142,8 @@ public class Playlist extends ListActivity implements OnItemClickListener, Adapt
             case R.id.info:
                 try {
                     Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + selectedID));
-
                     String classTypeOfTags = selectedFile.getClass().getName();
+
 
                     if (classTypeOfTags.contains("AudioTags")) {
                         AudioTags at = (AudioTags) selectedFile;
