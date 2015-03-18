@@ -178,7 +178,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
         /** Should be changed to something more sophisticated!!!!
          * ATM playID is fetched from list element
          */
-        playID = Integer.parseInt(((TextView)view).getText().toString().substring(0, 8));
+        playID = Integer.parseInt(((TextView) view).getText().toString().substring(0, 8));
 
         Boolean playReturnCode;
         try {
@@ -187,10 +187,15 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
                 if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                     playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
+                        ParseXML xml = new ParseXML();
+                        int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
+                        int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
                         intentPlayback.putExtra("playID", playID);
+                        intentPlayback.putExtra("prevID", prevID);
+                        intentPlayback.putExtra("nextID", nextID);
                         startActivityForResult(intentPlayback, 2);
                     } else {
                         Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
@@ -205,6 +210,10 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
             Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException ie) {
             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (XmlPullParserException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
