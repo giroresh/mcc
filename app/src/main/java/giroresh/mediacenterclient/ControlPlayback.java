@@ -24,7 +24,6 @@ import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
  * Here we control the actual forked program alias the mediaplayer
  */
 public class ControlPlayback extends Activity implements OnClickListener {
-    private Button backApp;
     private String serverIP;
     private int portNr;
     private int prevID;
@@ -37,6 +36,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
     private Button muteButton;
     private Button louderButton;
     private Button quieterButton;
+    private Button backApp;
     private TextView playbackInfoTV;
 
     @Override
@@ -145,7 +145,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 case R.id.prevButton:
                     try {
                         Boolean playReturnCode;
-                        Log.d("prev", "prevID is: "+prevID);
                         if (prevID == 0) {
                             Toast.makeText(this, "First item on the List!", Toast.LENGTH_SHORT).show();
                         } else {
@@ -157,7 +156,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                         ParseXML xml = new ParseXML();
                                         int prevID2 = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), prevID);
                                         Intent intentPlayback = new Intent(this, ControlPlayback.class);
-                                        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  prevID2: " + prevID2);
                                         intentPlayback.putExtra("IP", serverIP);
                                         intentPlayback.putExtra("port", portNr);
                                         intentPlayback.putExtra("playID", prevID);
@@ -181,9 +179,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
                         Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
 
                     } catch (XmlPullParserException e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.nextButton:
@@ -218,14 +216,12 @@ public class ControlPlayback extends Activity implements OnClickListener {
                         }
                     } catch (ExecutionException e) {
                         Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
-
                     } catch (InterruptedException e) {
                         Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
-
                     } catch (XmlPullParserException e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
-                        e.printStackTrace();
+                        Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.muteButton:

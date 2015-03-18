@@ -194,12 +194,8 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
                     playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
                         ParseXML xml = new ParseXML();
-
-                        Log.d("AudioFrag", "playID is: " +playID);
-
                         int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
                         int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
-                        Log.d("AudioFrag", "prevID is: " + prevID + "  nextID is: " + nextID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
@@ -221,7 +217,9 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         } catch (InterruptedException ie) {
             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
         } catch (XmlPullParserException e) {
-            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();        } catch (IOException e) {
+            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
         }
     }
 

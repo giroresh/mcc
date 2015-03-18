@@ -216,9 +216,9 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
         } catch (InterruptedException ie) {
             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
-            e.printStackTrace();
+            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
         }
     }
 
