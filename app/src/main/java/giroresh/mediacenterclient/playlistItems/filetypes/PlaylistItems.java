@@ -8,8 +8,12 @@ public abstract class PlaylistItems {
     abstract public int getID();
     abstract public String getLabel();
     abstract public int getType();
+    public abstract int getNextID();
+    public abstract int getPrevID();
 
     abstract public void setID(int ID);
     abstract public void setLabel(String Label);
     abstract public void setType(int type);
+    public abstract void setNextID(int nextID);
+    public abstract void setPrevID(int prevID);
 }

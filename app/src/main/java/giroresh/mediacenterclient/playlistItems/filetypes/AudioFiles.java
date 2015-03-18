@@ -9,7 +9,7 @@ public class AudioFiles extends PlaylistItems {
     private String label = "";
     private int type = 100;
     private int nextID;
-    int prevID;
+    private int prevID;
 
     @Override
     public int getID() {
@@ -24,6 +24,14 @@ public class AudioFiles extends PlaylistItems {
     @Override
     public int getType() {
         return type;
+    }
+
+    public int getNextID() {
+        return nextID;
+    }
+
+    public int getPrevID() {
+        return prevID;
     }
 
     @Override
@@ -41,7 +49,14 @@ public class AudioFiles extends PlaylistItems {
         this.type = type;
     }
 
-    public int getNextID() {
-        return nextID;
+    @Override
+    public void setNextID(int nextID) {
+        this.nextID = nextID;
     }
+
+    @Override
+    public void setPrevID(int prevID) {
+        this.prevID = prevID;
+    }
+
 }

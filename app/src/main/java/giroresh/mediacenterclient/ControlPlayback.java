@@ -3,6 +3,7 @@ package giroresh.mediacenterclient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -26,7 +27,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
     private Button backApp;
     private String serverIP;
     private int portNr;
-    private String playID;
+    private int prevID;
+    private int nextID;
+    private int playID;
     private Button playButton;
     private Button stopButton;
     private Button prevButton;
@@ -44,7 +47,11 @@ public class ControlPlayback extends Activity implements OnClickListener {
         Intent intent = getIntent();
         serverIP = intent.getStringExtra("IP");
         portNr = intent.getIntExtra("port", 0);
-        playID = intent.getStringExtra("playID");
+        playID = intent.getIntExtra("playID", 0);
+        prevID = intent.getIntExtra("prevID", 0);
+        nextID = intent.getIntExtra("nextID", 0);
+
+        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  nextID: " + nextID);
 
         playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
 
@@ -136,24 +143,89 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     }
                     break;
                 case R.id.prevButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                        if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL 1"))) {
-                            Toast.makeText(this, "Playback of previous file was successful", Toast.LENGTH_SHORT).show();
+                    try {
+                        Boolean playReturnCode;
+                        Log.d("prev", "prevID is: "+prevID);
+                        if (prevID == 0) {
+                            Toast.makeText(this, "First item on the List!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "Playback of previous file was unsuccessful", Toast.LENGTH_SHORT).show();
+                            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
+                            if (playReturnCode) {
+                                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
+                                    if (playReturnCode) {
+                                        ParseXML xml = new ParseXML();
+                                        int prevID2 = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), prevID);
+                                        Intent intentPlayback = new Intent(this, ControlPlayback.class);
+                                        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  prevID2: " + prevID2);
+                                        intentPlayback.putExtra("IP", serverIP);
+                                        intentPlayback.putExtra("port", portNr);
+                                        intentPlayback.putExtra("playID", prevID);
+                                        intentPlayback.putExtra("prevID", prevID2);
+                                        intentPlayback.putExtra("nextID", playID);
+                                        startActivityForResult(intentPlayback, 2);
+                                    } else {
+                                        Toast.makeText(this, "ERROR1 playing selected file", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(this, "ERROR2 stopping selected file", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(this, "ERROR3 stopping selected file", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    } else {
-                        Toast.makeText(this, "Playback of previous file was unsuccessful", Toast.LENGTH_SHORT).show();                    }
+                    } catch (ExecutionException e) {
+                        Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
+
+                    } catch (InterruptedException e) {
+                        Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
                 case R.id.nextButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                        if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL 2"))) {
-                            Toast.makeText(this, "Playback of next file was successful", Toast.LENGTH_SHORT).show();
+                    try {
+                        if (nextID == 0) {
+                            Toast.makeText(this, "Last item on the list!", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(this, "Playback of next file was unsuccessful", Toast.LENGTH_SHORT).show();
+                            Boolean playReturnCode;
+                            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
+                            if (playReturnCode) {
+                                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
+                                    if (playReturnCode) {
+                                        ParseXML xml = new ParseXML();
+                                        int nextID2 = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), nextID);
+                                        Intent intentPlayback = new Intent(this, ControlPlayback.class);
+                                        intentPlayback.putExtra("IP", serverIP);
+                                        intentPlayback.putExtra("port", portNr);
+                                        intentPlayback.putExtra("playID", nextID);
+                                        intentPlayback.putExtra("prevID", playID);
+                                        intentPlayback.putExtra("nextID", nextID2);
+                                        startActivityForResult(intentPlayback, 2);
+                                    } else {
+                                        Toast.makeText(this, "ERROR1 playing selected file", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(this, "ERROR2 stopping selected file", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                Toast.makeText(this, "ERROR3 stopping selected file", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    } else {
-                        Toast.makeText(this, "Playback of next file was unsuccessful", Toast.LENGTH_SHORT).show();
+                    } catch (ExecutionException e) {
+                        Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
+
+                    } catch (InterruptedException e) {
+                        Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+
+                    } catch (XmlPullParserException e) {
+                        e.printStackTrace();
+                    } catch (IOException e) {
+                        e.printStackTrace();
                     }
                     break;
                 case R.id.muteButton:

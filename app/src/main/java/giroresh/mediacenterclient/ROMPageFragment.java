@@ -41,7 +41,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private ListView lv;
     private String serverIP;
     private int portNr;
-    private String playID;
+    private int playID;
     private String selectedID;
     private TextView infoTV;
     private int type = 200;
@@ -178,7 +178,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
         /** Should be changed to something more sophisticated!!!!
          * ATM playID is fetched from list element
          */
-        playID = ((TextView)view).getText().toString().substring(0, 8);
+        playID = Integer.parseInt(((TextView)view).getText().toString().substring(0, 8));
 
         Boolean playReturnCode;
         try {

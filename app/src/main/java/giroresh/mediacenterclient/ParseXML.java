@@ -1,6 +1,7 @@
 package giroresh.mediacenterclient;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -114,7 +115,136 @@ public class ParseXML {
             }
             eventType = xpp.next();
         }
+        Log.d("parseXML", "playlist might be empty: " + playlistItemList.isEmpty());
+        if (!playlistItemList.isEmpty()) {
+            playlistItemList.get(0).setNextID(playlistItemList.get(1).getID());
+            playlistItemList.get(playlistItemList.size() - 1).setPrevID(playlistItemList.get(playlistItemList.size() - 2).getID());
+            for (int x = 1; x < playlistItemList.size() - 1; x++) {
+                playlistItemList.get(x).setNextID(playlistItemList.get(x + 1).getID());
+                playlistItemList.get(x).setPrevID(playlistItemList.get(x - 1).getID());
+            }
+        }
         return playlistItemList;
+    }
+
+    public int getPrevID(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+        String result = xmlResponse.get();
+        Log.d("parseXML", "XML is: " + result);
+        result = result.substring(14);
+        Log.d("parseXML", "XML is: " + result);
+        xpp.setInput( new StringReader(result));
+
+        int eventType = xpp.getEventType();
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            switch (eventType) {
+                case XmlPullParser.START_TAG:
+                    if (xpp.getName().equals("item")) {
+                        if (xpp.getAttributeName(0).equals("id")) {
+                            Log.d("'parseXML", "id is: " + xpp.getAttributeValue(0));
+                            audioFiles = new AudioFiles();
+                            audioFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
+                        }
+                    }
+                    break;
+                case XmlPullParser.TEXT:
+                    break;
+                case XmlPullParser.END_TAG:
+                    break;
+                default:
+                    break;
+            }
+            if (audioFiles != null) {
+                playlistItemList.add(audioFiles);
+                audioFiles = null;
+            }
+            eventType = xpp.next();
+        }
+        if (!playlistItemList.isEmpty()) {
+            String classTypeOfFile = playlistItemList.get(0).getClass().getName();
+            Log.d("parseXML", "Class of File is: " + classTypeOfFile);
+            if (classTypeOfFile.contains("AudioFiles")) {
+                Log.d("parseXML", "first next id is: " + playlistItemList.get(1).getID());
+                playlistItemList.get(0).setNextID(playlistItemList.get(1).getID());
+                Log.d("parseXML", "last prev ID is: " + playlistItemList.get(playlistItemList.size() - 1).getID());
+                playlistItemList.get(playlistItemList.size()-1).setPrevID(playlistItemList.get(playlistItemList.size()-2).getID());
+                for (int x = 1; x < playlistItemList.size()-1; x++) {
+                    Log.d("parseXML", "nextID is: " + playlistItemList.get(x+1).getID());
+                    Log.d("parseXML", "prevID is: " + playlistItemList.get(x-1).getID());
+                    playlistItemList.get(x).setNextID(playlistItemList.get(x+1).getID());
+                    playlistItemList.get(x).setPrevID(playlistItemList.get(x-1).getID());
+                }
+            }
+        }
+        Log.d("parseXML", "id is: " + id + "    size is: " + playlistItemList.size());
+        for (int x = 0; x < playlistItemList.size(); x++) {
+            Log.d("parseXML", "parsed ID is: " + playlistItemList.get(x).getID());
+            if (playlistItemList.get(x).getID() == id) {
+            Log.d("parseXML", "prevID is: "+ playlistItemList.get(x).getPrevID());
+                return playlistItemList.get(x).getPrevID();
+            }
+        }
+        return 0;
+    }
+
+    public int getNextID(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+        String result = xmlResponse.get();
+        Log.d("parseXML", "XML is: " + result);
+        result = result.substring(14);
+        Log.d("parseXML", "XML is: " + result);
+        xpp.setInput( new StringReader(result));
+
+        int eventType = xpp.getEventType();
+
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            switch (eventType) {
+                case XmlPullParser.START_TAG:
+                    if (xpp.getName().equals("item")) {
+                        if (xpp.getAttributeName(0).equals("id")) {
+                            Log.d("'parseXML", "id is: " + xpp.getAttributeValue(0));
+                            audioFiles = new AudioFiles();
+                            audioFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
+                        }
+                    }
+                    break;
+                case XmlPullParser.TEXT:
+                    break;
+                case XmlPullParser.END_TAG:
+                    break;
+                default:
+                    break;
+            }
+            if (audioFiles != null) {
+                playlistItemList.add(audioFiles);
+                audioFiles = null;
+            }
+            eventType = xpp.next();
+        }
+        if (!playlistItemList.isEmpty()) {
+            String classTypeOfFile = playlistItemList.get(0).getClass().getName();
+            Log.d("parseXML", "Class of File is: " + classTypeOfFile);
+            if (classTypeOfFile.contains("AudioFiles")) {
+                Log.d("parseXML", "first next id is: " + playlistItemList.get(1).getID());
+                playlistItemList.get(0).setNextID(playlistItemList.get(1).getID());
+                Log.d("parseXML", "last prev ID is: "+ playlistItemList.get(playlistItemList.size() - 1).getID());
+                playlistItemList.get(playlistItemList.size()-1).setPrevID(playlistItemList.get(playlistItemList.size()-2).getID());
+                for (int x = 1; x < playlistItemList.size()-1; x++) {
+                    Log.d("parseXML", "nextID is: " + playlistItemList.get(x+1).getID());
+                    Log.d("parseXML", "prevID is: " + playlistItemList.get(x-1).getID());
+                    playlistItemList.get(x).setNextID(playlistItemList.get(x+1).getID());
+                    playlistItemList.get(x).setPrevID(playlistItemList.get(x-1).getID());
+                }
+            }
+        }
+        Log.d("parseXML", "id is: " + id + "    size is: " + playlistItemList.size());
+        for (int x = 0; x < playlistItemList.size(); x++) {
+            Log.d("parseXML", "parsed ID is: " + playlistItemList.get(x).getID());
+            if (playlistItemList.get(x).getID() == id) {
+                Log.d("parseXML", "prevID is: "+ playlistItemList.get(x).getPrevID());
+                return playlistItemList.get(x).getNextID();
+            }
+        }
+        return 0;
     }
 
     public Tags getTagInfo(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
@@ -149,7 +279,7 @@ public class ParseXML {
                                 } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 202) {
                                     romTags = new RomTags();
                                     break;
-                                }else {
+                                } else {
                                     return null;
                                 }
                             }

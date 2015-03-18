@@ -40,7 +40,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     private ListView lv;
     private String serverIP;
     private int portNr;
-    private String playID;
+    private int playID;
     private String selectedID;
     private TextView infoTV;
     private View view;
@@ -184,7 +184,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         /** Should be changed to something more sophisticated!!!!
          * ATM playID is fetched from list element
          */
-        playID = ((TextView)view).getText().toString().substring(0, 8);
+        playID = Integer.parseInt(((TextView)view).getText().toString().substring(0, 8));
 
         Boolean playReturnCode;
         try {
@@ -193,10 +193,19 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
                 if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                     playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
+                        ParseXML xml = new ParseXML();
+
+                        Log.d("AudioFrag", "playID is: " +playID);
+
+                        int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
+                        int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
+                        Log.d("AudioFrag", "prevID is: " + prevID + "  nextID is: " + nextID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
                         intentPlayback.putExtra("playID", playID);
+                        intentPlayback.putExtra("prevID", prevID);
+                        intentPlayback.putExtra("nextID", nextID);
                         startActivityForResult(intentPlayback, 2);
                     } else {
                         Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
@@ -211,6 +220,8 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
             Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException ie) {
             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (XmlPullParserException e) {
+            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();        } catch (IOException e) {
         }
     }
 
@@ -265,12 +276,12 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
             playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            Toast.makeText(getActivity(), "ERROR IO Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {
             Toast.makeText(getActivity(), "ERROR Exe Error", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             Toast.makeText(getActivity(), "ERROR Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "ERROR IO Error", Toast.LENGTH_SHORT).show();
         }
 
         listItems.clear();

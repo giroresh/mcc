@@ -8,6 +8,8 @@ public class VideoFiles extends PlaylistItems {
     private int id;
     private int type = 300;
     private String label;
+    private int nextID;
+    private int prevID;
 
     @Override
     public int getID() {
@@ -25,6 +27,16 @@ public class VideoFiles extends PlaylistItems {
     }
 
     @Override
+    public int getNextID() {
+        return nextID;
+    }
+
+    @Override
+    public int getPrevID() {
+        return prevID;
+    }
+
+    @Override
     public void setID(int ID) {
         this.id = ID;
     }
@@ -38,4 +50,15 @@ public class VideoFiles extends PlaylistItems {
     public void setType(int type) {
         this.type = type;
     }
+
+    @Override
+    public void setNextID(int nextID) {
+        this.nextID = nextID;
+    }
+
+    @Override
+    public void setPrevID(int prevID) {
+        this.prevID = prevID;
+    }
+
 }
