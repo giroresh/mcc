@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<item name="borderColor" type="color">#87add0</item>
+	<item name="lengthOffestTV2" type="color">#88fbd9</item>
+
+	<integer-array name="androidcolors">
+		<item>@color/borderColor</item>
+		<item>@color/lengthOffestTV2</item>
+	</integer-array>
+</resources>

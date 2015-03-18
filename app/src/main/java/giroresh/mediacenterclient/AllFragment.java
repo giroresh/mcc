@@ -1,9 +1,10 @@
 package giroresh.mediacenterclient;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -52,6 +53,8 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
     private Button offsetButton;
     private Button offsetMinusButton;
     private View view;
+    private TextView lengthTV;
+    private TextView offsetTV;
 
     public static AllFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -81,6 +84,17 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
         offsetButton.setOnClickListener(this);
         offsetMinusButton = (Button) view.findViewById(R.id.offsetMinusButton);
         offsetMinusButton.setOnClickListener(this);
+
+        offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
+        lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
+        offsetTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        lengthTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        offsetTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        lengthTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        offsetTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 10);
+        lengthTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 10);
+        offsetTV.setText(" " + offset + " ");
+        lengthTV.setText(" " + length + " ");
 
         Intent intent = getActivity().getIntent();
         serverIP = intent.getStringExtra("IP");
@@ -229,9 +243,6 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
      */
     @Override
     public void onClick(View v) {
-        TextView offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
-        TextView lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
-
         switch (v.getId()) {
             case R.id.lengthButton:
                 if (length < 50) {
@@ -262,7 +273,6 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                 }
                 break;
         }
-        Log.d("AudioFrag", "OFFSET: " + offset + " LENGTH: " + length);
     }
 
     void doListChange() {

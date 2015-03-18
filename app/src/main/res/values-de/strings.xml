@@ -1,7 +1,7 @@
 <resources>
 	<string name="app_name">MediaCenterClient</string>
 	<string name="playback">Abspiel Kontrolle</string>
-	<string name="play">Abspielen/Pausieren</string>
+	<string name="play">Abspielen/\nPausieren</string>
 	<string name="stop">Stop</string>
 	<string name="previous">Vorherige</string>
 	<string name="volume">Lautstärke</string>
@@ -40,4 +40,5 @@
 	<string name="adminKeyHint">passwort</string>
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
+	<string name="controlButtonsTV">Steuerung</string>
 </resources>

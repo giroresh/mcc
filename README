@@ -26,12 +26,12 @@ Current features:
 - Shutting down the server
 - Multilingual (en, hu, de)
 - Use Sliding Tabs for the playlist
+- Switching between previous and next file is possible
+  -> it works for all file types now, even though it makes not much sense atm for ROM files
 
 To be done:
 -----------
-
 - Handling rom files properly
-- Switching between previous and next sound track
 - Adding more languages
 - Making several methods more efficient and robust -> partially done @robustness
 - Making sure all status codes are handled properly -> partially done

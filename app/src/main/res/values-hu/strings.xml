@@ -1,7 +1,7 @@
 <resources>
 	<string name="app_name">MediaCenterClient</string>
 	<string name="playback">lejátszás vezérlése</string>
-	<string name="play">lejátszás/szüneteltetés</string>
+	<string name="play">lejátszás/\nszüneteltetés</string>
 	<string name="stop">megállít</string>
 	<string name="previous">előző</string>
 	<string name="volume">hangerő</string>
@@ -40,4 +40,5 @@
 	<string name="adminKeyHint">jelszó</string>
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
+	<string name="controlButtonsTV">irányitók</string>
 </resources>

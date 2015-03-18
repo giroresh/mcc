@@ -1,9 +1,10 @@
 package giroresh.mediacenterclient;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
+import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
@@ -51,6 +52,8 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     private Button lengthMinusButton;
     private Button offsetButton;
     private Button offsetMinusButton;
+    private TextView offsetTV;
+    private TextView lengthTV;
 
     public static AudioPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -80,6 +83,17 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         offsetButton.setOnClickListener(this);
         offsetMinusButton = (Button) view.findViewById(R.id.offsetMinusButton);
         offsetMinusButton.setOnClickListener(this);
+
+        offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
+        lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
+        offsetTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        lengthTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        offsetTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        lengthTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        offsetTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
+        lengthTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
+        offsetTV.setText(" " + offset + " ");
+        lengthTV.setText(" " + length + " ");
 
         Intent intent = getActivity().getIntent();
         serverIP = intent.getStringExtra("IP");
@@ -184,7 +198,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         /** Should be changed to something more sophisticated!!!!
          * ATM playID is fetched from list element
          */
-        playID = Integer.parseInt(((TextView)view).getText().toString().substring(0, 8));
+        playID = Integer.parseInt(((TextView) view).getText().toString().substring(0, 8));
 
         Boolean playReturnCode;
         try {
@@ -230,9 +244,6 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
      */
     @Override
     public void onClick(View v) {
-        TextView offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
-        TextView lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
-
         switch (v.getId()) {
             case R.id.lengthButton:
                 if (length < 50) {
@@ -263,8 +274,6 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
                 }
                 break;
         }
-        Log.d("AudioFrag", "OFFSET: " + offset + " LENGTH: " + length);
-        Log.d("AudioFrag", "listview size " + lv.getAdapter().getCount());
     }
 
     void doListChange() {
@@ -284,7 +293,6 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
 
         listItems.clear();
 
-        Log.d("AudioFrag", "playlist size is: " + playlistItemsFromXML.size()+ "");
         for (int i = 0; i < playlistItemsFromXML.size(); i++) {
             listItems.add(playlistItemsFromXML.get(i).getID() + " | " + playlistItemsFromXML.get(i).getLabel());
         }

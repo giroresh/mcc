@@ -3,7 +3,6 @@ package giroresh.mediacenterclient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -51,7 +50,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
         prevID = intent.getIntExtra("prevID", 0);
         nextID = intent.getIntExtra("nextID", 0);
 
-        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  nextID: " + nextID);
+//        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  nextID: " + nextID);
 
         playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
 

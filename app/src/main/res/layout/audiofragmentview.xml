@@ -20,17 +20,17 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/wrapper5">
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/length"
-				android:id="@+id/lengthTV"/>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/length"
+					android:id="@+id/lengthTV"/>
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:text="@string/lengthTV2"
 					android:id="@+id/lengthTV2"/>
-				</LinearLayout>
+			</LinearLayout>
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
@@ -52,11 +52,11 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/wrapper6">
-			<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="@string/offset"
-				android:id="@+id/offsetTV"/>
+				<TextView
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:text="@string/offset"
+					android:id="@+id/offsetTV"/>
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
