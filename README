@@ -17,21 +17,24 @@ Current features:
 
 - Connecting to the server
 - Setting the appropriate admin key
-- Playback of audiofiles
-- Playback of videofiles
+- Playback of audio files
+- Playback of video files
 - Listing all supported audio, video and rom files
-- controlling the playback of video and audio files
-- displaying basic tag information
-- multilingual (en, hu, de)
+- Controlling the playback of video and audio files
+- Displaying available tag information
+- Restarting the server
+- Shutting down the server
+- Multilingual (en, hu, de)
+- Use Sliding Tabs for the playlist
 
 To be done:
 -----------
 
-- Handling rom files
-- displaying further tag information
-- adding more languages
-- making several methods more efficient and robust
-- making sure all status codes are handled properly
+- Handling rom files properly
+- Switching between previous and next sound track
+- Adding more languages
+- Making several methods more efficient and robust -> partially done @robustness
+- Making sure all status codes are handled properly -> partially done
 - etc
 
 License
