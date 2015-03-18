@@ -5,10 +5,10 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
  * class that represents AudioFiles
  */
 public class AudioFiles extends PlaylistItems {
-    int id;
-    String label = "";
-    int type = 100;
-    int nextID;
+    private int id;
+    private String label = "";
+    private int type = 100;
+    private int nextID;
     int prevID;
 
     @Override

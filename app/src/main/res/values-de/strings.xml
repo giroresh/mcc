@@ -1,6 +1,5 @@
 <resources>
 	<string name="app_name">MediaCenterClient</string>
-	<string name="action_settings">action_settings</string>
 	<string name="playback">Abspiel Kontrolle</string>
 	<string name="play">Abspielen/Pausieren</string>
 	<string name="stop">Stop</string>
@@ -25,4 +24,20 @@
 	<string name="setAdminKeyTV">Admin Key setzen</string>
 	<string name="playbackInfoTV">Hier sollten Sie die Taginformationen der grad abgespielten Datei sehen</string>
 	<string name="playlistContextMenuTxt">Taginformation anzeigen</string>
+	<string name="lengthButtonTxt">+</string>
+	<string name="lengthButtonMinusTxt">-</string>
+	<string name="offsetButtonTxt">+</string>
+	<string name="offsetMinusButtonTxt">-</string>
+	<string name="offsetTV2"/>
+	<string name="lengthTV2"/>
+	<string name="description">MediaCenter Kontrollzentrum</string>
+	<string name="setServerInfo">Server info eingeben</string>
+	<string name="closeApp">App schließen</string>
+	<string name="toPlaylist">Zur Playlist</string>
+	<string name="serverControls">Server Kontrolle</string>
+	<string name="appname">MediaServer Kontroll App</string>
+	<string name="LoginTxt">Server Verbindungsinformationen</string>
+	<string name="adminKeyHint">passwort</string>
+	<string name="ipHint">192.168.0.1</string>
+	<string name="portHint">5002</string>
 </resources>

@@ -5,9 +5,9 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
  * class that represents RomFiles
  */
 public class RomFiles extends PlaylistItems {
-    int id;
-    int type = 200;
-    String label;
+    private int id;
+    private int type = 200;
+    private String label;
 
     @Override
     public int getID() {

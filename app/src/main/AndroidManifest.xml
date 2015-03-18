@@ -1,12 +1,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
 		  package="giroresh.mediacenterclient">
 	<uses-sdk android:minSdkVersion="14" android:targetSdkVersion="19" android:maxSdkVersion="21" />
-	<uses-permission android:name="android.permission.INTERNET"></uses-permission>
-	<application android:allowBackup="true"
-				 android:label="@string/app_name"
-				 android:icon="@drawable/ic_launcher">
+	<uses-permission android:name="android.permission.INTERNET"/>
+	<application android:allowBackup="true" android:label="@string/app_name" android:icon="@drawable/mcc">
 
-		<activity android:name="giroresh.mediacenterclient.Control"
+		<activity android:name="Control"
 				  android:label="@string/app_name">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN" />
@@ -14,19 +12,19 @@
 			</intent-filter>
 		</activity>
 
-		<activity android:name="giroresh.mediacenterclient.Login"
+		<activity android:name="Login"
 				  android:label="@string/app_name">
 		</activity>
 
-		<activity android:name="giroresh.mediacenterclient.ControlPlayback"
+		<activity android:name="ControlPlayback"
 				  android:label="@string/app_name">
 		</activity>
 
-		<activity android:name="giroresh.mediacenterclient.Playlist"
+		<activity android:name="Playlist"
 				  android:label="@string/app_name">
 		</activity>
 
-		<activity android:name="giroresh.mediacenterclient.SetAdminKey"
+		<activity android:name="SetAdminKey"
 				  android:label="@string/app_name">
 		</activity>
 	</application>

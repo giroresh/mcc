@@ -14,21 +14,16 @@ import java.net.Socket;
  * Does the actual sending and receiving
  */
 public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
-    String serverIP = null;
-    int portNr = 0;
+    private String serverIP = null;
+    private int portNr = 0;
     private PrintWriter outputStream = null;
     private BufferedReader inputStream = null;
     private Socket serverSocket;
     private String serverDO = null;
-    String result = "";
+    private String result = "";
 
 
     public SocketAsyncTask() {
-    }
-
-    @Override
-    protected void onPreExecute() {
-        super.onPreExecute();
     }
 
     @Override

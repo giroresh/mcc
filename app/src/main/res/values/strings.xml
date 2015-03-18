@@ -10,12 +10,12 @@
 	<string name="louder">louder</string>
 	<string name="quieter">quieter</string>
 	<string name="back">back</string>
-	<string name="ip">192.168.0.102</string>
+	<string name="ip">192.168.0.100</string>
 	<string name="port">5002</string>
 	<string name="portTV">Port</string>
 	<string name="serverName">Server name or IP address</string>
 	<string name="connectButtonString">Connect</string>
-	<string name="taginfos"></string>
+	<string name="taginfos"/>
 	<string name="offset">offset</string>
 	<string name="length">length</string>
 	<string name="shutdownServerButtonTxt">Shutdown Server</string>
@@ -24,4 +24,20 @@
 	<string name="setAdminKeyTV">Set the admin key</string>
 	<string name="playbackInfoTV">Here should be some Info about what you are listening/watching</string>
 	<string name="playlistContextMenuTxt">get Tag Info</string>
+	<string name="lengthButtonTxt">+</string>
+	<string name="lengthButtonMinusTxt">-</string>
+	<string name="offsetButtonTxt">+</string>
+	<string name="offsetMinusButtonTxt">-</string>
+	<string name="offsetTV2"/>
+	<string name="lengthTV2"/>
+	<string name="description">MediaCenter Control Panel</string>
+	<string name="appname">MediaServer Control App</string>
+	<string name="setServerInfo">Set server info</string>
+	<string name="closeApp">Close App</string>
+	<string name="toPlaylist">Go to the Playlist</string>
+	<string name="serverControls">Server Controls</string>
+	<string name="LoginTxt">Server Connection Info</string>
+	<string name="adminKeyHint">password</string>
+	<string name="ipHint">192.168.0.1</string>
+	<string name="portHint">5002</string>
 </resources>

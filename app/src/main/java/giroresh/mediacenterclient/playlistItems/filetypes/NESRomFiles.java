@@ -2,11 +2,12 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
 
 /**
  * Created by giro on 2015.01.29..
+ * NES Rom Files handling class
  */
 public class NESRomFiles extends RomFiles {
-    int id;
-    int type = 202;
-    String label;
+    private int id;
+    private int type = 202;
+    private String label;
 
     @Override
     public int getID() {

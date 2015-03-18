@@ -41,8 +41,17 @@ public class Login extends Activity implements OnClickListener {
                 Intent intent = new Intent(Login.this, Control.class);
                 EditText serverIP = (EditText) findViewById(R.id.serverIP);
                 EditText portNr = (EditText) findViewById(R.id.portNr);
-                serverIPString = serverIP.getText().toString();
-                portNrString = Integer.valueOf(portNr.getText().toString());
+                if (!serverIP.getText().toString().isEmpty()) {
+                    serverIPString = serverIP.getText().toString();
+                } else {
+                    Toast.makeText(this, "missing IP or Address Number ", Toast.LENGTH_LONG).show();
+                }
+
+                if (!portNr.getText().toString().isEmpty()) {
+                    portNrString = Integer.valueOf(portNr.getText().toString());
+                } else {
+                    Toast.makeText(this, "missing Port Number ", Toast.LENGTH_LONG).show();
+                }
 
                 try {
                     connected = ParseXML.getLoginStatus(new SocketAsyncTask().execute(serverIPString, portNrString, "STAT"));

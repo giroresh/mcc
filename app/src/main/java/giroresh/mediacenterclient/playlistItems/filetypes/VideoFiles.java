@@ -5,9 +5,9 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
  * class that represents VideoFiles
  */
 public class VideoFiles extends PlaylistItems {
-    int id;
-    int type = 300;
-    String label;
+    private int id;
+    private int type = 300;
+    private String label;
 
     @Override
     public int getID() {

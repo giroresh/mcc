@@ -5,17 +5,17 @@ package giroresh.mediacenterclient.playlistItems.tags;
  * class that represents VideoTags
  */
 public class VideoTags extends Tags {
-    String title;
-    String artist;
-    String album;
-    String year;
-    String track;
-    String genre;
-    String bitrate;
-    String samplerate;
-    String channels;
-    String length;
-    String comment;
+    private String title;
+    private String artist;
+    private String album;
+    private String year;
+    private String track;
+    private String genre;
+    private String bitrate;
+    private String samplerate;
+    private String channels;
+    private String length;
+    private String comment;
 
     @Override
     public String getTitle() {

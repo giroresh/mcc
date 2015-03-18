@@ -2,11 +2,12 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
 
 /**
  * Created by giro on 2015.01.29..
+ * * GB Rom Files handling class
  */
 public class GBRomsFiles extends RomFiles {
-    int id;
-    int type = 201;
-    String label;
+    private int id;
+    private int type = 201;
+    private String label;
 
     @Override
     public int getID() {

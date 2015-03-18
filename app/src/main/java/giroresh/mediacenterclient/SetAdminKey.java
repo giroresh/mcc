@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 /**
  * Created by giro on 2015.01.23..
+ * Sets the admin key for the server
  */
 public class SetAdminKey extends Activity implements View.OnClickListener {
     private Button setAdminKeyButton2;

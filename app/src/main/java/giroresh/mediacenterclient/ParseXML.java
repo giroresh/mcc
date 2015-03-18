@@ -27,17 +27,17 @@ import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
  * parses the given XML file and sorts it to the right class of playable items
  */
 public class ParseXML {
-    XmlPullParserFactory factory;
-    XmlPullParser xpp;
-    AudioFiles audioFiles = null;
-    VideoFiles videoFiles = null;
-    RomFiles romFiles = null;
-    List<PlaylistItems> playlistItemList = new ArrayList<>();
-    AudioTags audioTags = null;
-    VideoTags videoTags = null;
-    RomTags romTags = null;
+    private XmlPullParserFactory factory;
+    private XmlPullParser xpp;
+    private AudioFiles audioFiles = null;
+    private VideoFiles videoFiles = null;
+    private RomFiles romFiles = null;
+    private List<PlaylistItems> playlistItemList = new ArrayList<>();
+    private AudioTags audioTags = null;
+    private VideoTags videoTags = null;
+    private RomTags romTags = null;
 
-    ParseXML() throws XmlPullParserException, IOException {
+    ParseXML() throws XmlPullParserException {
         factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         xpp = factory.newPullParser();
@@ -328,21 +328,20 @@ public class ParseXML {
 
             if (!isInteger(returnCode)) {
                 return false;
-            } else {
-                switch (Integer.valueOf(returnCode)) {
-                    case 200:
-                        return true;
-                    case 401:
-                        return false;
-                    case 504:
-                        return false;
-                    default:
-                        return false;
-                }
             }
-        } else {
-            return false;
+
+            switch (Integer.valueOf(returnCode)) {
+                case 200:
+                    return true;
+                case 401:
+                    return false;
+                case 504:
+                    return false;
+                default:
+                    return false;
+            }
         }
+        return false;
     }
 
     public static boolean getCTRLReturnCodeStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
@@ -351,23 +350,22 @@ public class ParseXML {
 
             if (!isInteger(returnCode)) {
                 return false;
-            } else {
-                switch (Integer.valueOf(returnCode)) {
-                    case 200:
-                        return true;
-                    case 401:
-                        return false;
-                    case 500:
-                        return false;
-                    case 504:
-                        return false;
-                    default:
-                        return false;
-                }
             }
-        } else {
-            return false;
+
+            switch (Integer.valueOf(returnCode)) {
+                case 200:
+                    return true;
+                case 401:
+                    return false;
+                case 500:
+                    return false;
+                case 504:
+                    return false;
+                default:
+                    return false;
+                }
         }
+        return false;
     }
 
     public static Boolean getPlayReturnCodeStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
@@ -375,29 +373,29 @@ public class ParseXML {
 
         if (!isInteger(returnCode)) {
             return false;
-        } else {
-            switch (Integer.valueOf(returnCode)) {
-                case 200:
-                    return true;
-                case 401:
-                    return false;
-                case 402:
-                    return false;
-                case 500:
-                    return false;
-                case 501:
-                    return true;
-                case 502:
-                    return false;
-                case 504:
-                    return false;
-                default:
-                    return false;
-            }
         }
+
+        switch (Integer.valueOf(returnCode)) {
+            case 200:
+                return true;
+            case 401:
+                return false;
+            case 402:
+                return false;
+            case 500:
+                return false;
+            case 501:
+                return true;
+            case 502:
+                return false;
+            case 504:
+                return false;
+            default:
+                return false;
+            }
     }
 
-    public static boolean isInteger(String s) {
+    private static boolean isInteger(String s) {
         try {
             Integer.parseInt(s);
             return true;

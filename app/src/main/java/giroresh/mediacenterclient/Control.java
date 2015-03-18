@@ -8,9 +8,6 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
-import org.xmlpull.v1.XmlPullParserException;
-
-import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
 public class Control extends Activity implements OnClickListener {
@@ -39,6 +36,8 @@ public class Control extends Activity implements OnClickListener {
 
         setAdminKeyButton = (Button) findViewById(R.id.setAdminKeyButton);
         setAdminKeyButton.setOnClickListener(this);
+        setAdminKeyButton.setClickable(false);
+        setAdminKeyButton.setEnabled(false);
 
         restartButton = (Button) findViewById(R.id.restartButton);
         restartButton.setOnClickListener(this);
@@ -73,8 +72,7 @@ public class Control extends Activity implements OnClickListener {
                 break;
             case R.id.restartButton:
                 try {
-                    ParseXML xmlItems = new ParseXML();
-                    Boolean status = xmlItems.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
+                    Boolean status = ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
                     if (status) {
                         Toast.makeText(this, "server restarted", Toast.LENGTH_SHORT).show();
                     } else {
@@ -84,16 +82,11 @@ public class Control extends Activity implements OnClickListener {
                     Toast.makeText(this, "restart failed - Execution Error", Toast.LENGTH_SHORT).show();
                 } catch (InterruptedException e) {
                     Toast.makeText(this, "restart failed - Interrupt Error", Toast.LENGTH_SHORT).show();
-                } catch (XmlPullParserException e) {
-                    Toast.makeText(this, "restart failed - XML Error", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    Toast.makeText(this, "restart failed - IO Error", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.shutdownButton:
                 try {
-                    ParseXML xmlItems = new ParseXML();
-                    Boolean status = xmlItems.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "SHUTDOWN " + adminKey));
+                    Boolean status = ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "SHUTDOWN " + adminKey));
                     if (status) {
                         playlist.setClickable(false);
                         playlist.setEnabled(false);
@@ -111,10 +104,6 @@ public class Control extends Activity implements OnClickListener {
                     Toast.makeText(this, "shutdown failed - Execution Error", Toast.LENGTH_SHORT).show();
                 } catch (InterruptedException e) {
                     Toast.makeText(this, "shutdown failed - Interrupt Error", Toast.LENGTH_SHORT).show();
-                } catch (XmlPullParserException e) {
-                    Toast.makeText(this, "shutdown failed - XML Error", Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    Toast.makeText(this, "shutdown failed - IO Error", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case R.id.closeApp:
@@ -128,9 +117,9 @@ public class Control extends Activity implements OnClickListener {
      * reqcode == 2 Playlist -> unused atm
      * reqcode == 3 SetAdmin Key
      *
-     * @param reqCode
-     * @param resCode
-     * @param data
+     * @param reqCode request code of the activities
+     * @param resCode response code of the activities
+     * @param data the actual data sent by them
      */
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
         if (reqCode == 1) {
