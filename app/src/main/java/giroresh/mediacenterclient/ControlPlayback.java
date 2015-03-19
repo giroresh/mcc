@@ -14,8 +14,8 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
-import giroresh.mediacenterclient.playlistItems.tags.RomTags;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
 
 /**
@@ -64,9 +64,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
             } else if (classTypeOfTags.contains("VideoTags")) {
                 VideoTags vt = (VideoTags) selectedFile;
                 playbackInfoTV.setText(vt.getAllTagInfos());
-            } else if (classTypeOfTags.contains("RomTags")) {
-                RomTags rt = (RomTags) selectedFile;
-                playbackInfoTV.setText(rt.getAllTagInfos());
             } else {
                 playbackInfoTV.setText("selected filetype is unsupported");
             }
@@ -78,6 +75,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
             Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
         } catch (InterruptedException e) {
             Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (NoTagsException e) {
+            Toast.makeText(this, "File has no Tags, so display its ID", Toast.LENGTH_SHORT).show();
+            playbackInfoTV.setText(getResources().getText(R.string.noTagInfo).toString() +  playID);
         }
         playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(this);

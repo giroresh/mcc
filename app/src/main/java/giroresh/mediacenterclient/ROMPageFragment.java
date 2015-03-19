@@ -5,10 +5,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.TypedValue;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -26,7 +23,6 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
-import giroresh.mediacenterclient.playlistItems.tags.RomTags;
 
 /**
  * * Based on the android example code
@@ -117,8 +113,6 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
             adapter = new ArrayAdapter<>(getActivity(), R.layout.playlistitem, listItems);
             lv.setAdapter(adapter);
             lv.setOnItemClickListener(this);
-            registerForContextMenu(lv);
-
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
@@ -131,60 +125,6 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
             Toast.makeText(getActivity(), "NullPointer Error", Toast.LENGTH_SHORT).show();
         }
         return view;
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-
-        MenuInflater inflater = getActivity().getMenuInflater();
-        inflater.inflate(R.menu.playlistcontextmenu, menu);
-    }
-
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        if (getUserVisibleHint()) {
-            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-            selectedID = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString().substring(0, 8);
-
-            try {
-                infoTV = (TextView) getView().findViewById(R.id.infoTV);
-
-                switch (item.getItemId()) {
-                    case R.id.info:
-                        try {
-                            Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + selectedID));
-                            String classTypeOfTags = selectedFile.getClass().getName();
-
-                            if (classTypeOfTags.contains("RomTags")) {
-                                RomTags rt = (RomTags) selectedFile;
-                                infoTV.setText(rt.getAllTagInfos());
-                            } else {
-                                infoTV.setText("Here we only show ROM files");
-                            }
-                        } catch (XmlPullParserException e) {
-                            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
-                            return false;
-                        } catch (IOException e) {
-                            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
-                            return false;
-                        } catch (ExecutionException e) {
-                            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-                            return false;
-                        } catch (InterruptedException e) {
-                            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
-                            return false;
-                        }
-                        break;
-                    default:
-                        return false;
-                }
-            } catch (NullPointerException e) {
-                return false;
-            }
-        }
-        return false;
     }
 
     @Override

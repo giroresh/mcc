@@ -10,7 +10,7 @@
 	<string name="louder">hangosítás</string>
 	<string name="quieter">halkitás</string>
 	<string name="back">vissza</string>
-	<string name="ip">192.168.0.100</string>
+	<string name="ip">192.168.0.102</string>
 	<string name="port">5002</string>
 	<string name="portTV">port</string>
 	<string name="serverName">kiszolgáló neve vagy IP száma</string>
@@ -41,4 +41,5 @@
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
 	<string name="controlButtonsTV">irányitók</string>
+	<string name="noTagInfo">Sajnos a fajlnak nincsen tag-je,\nezért csak az ID tudjuk mutatni:\n</string>
 </resources>

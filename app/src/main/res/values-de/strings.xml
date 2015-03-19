@@ -41,4 +41,5 @@
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
 	<string name="controlButtonsTV">Steuerung</string>
+	<string name="noTagInfo">Leider hat die Datei keinen Tag,\ndaher wird nur die ID ausgegeben:\n</string>
 </resources>

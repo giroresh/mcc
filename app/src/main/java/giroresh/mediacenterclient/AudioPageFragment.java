@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
 
@@ -180,6 +181,9 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
                             return false;
                         } catch (InterruptedException e) {
                             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+                            return false;
+                        } catch (NoTagsException e) {
+                            Toast.makeText(getActivity(), "Audio Files should have Tags - even tough they might be empty!", Toast.LENGTH_SHORT).show();
                             return false;
                         }
                     default:

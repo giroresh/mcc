@@ -85,7 +85,8 @@
 				android:layout_height="wrap_content"
 				android:text="@string/taginfos"
 				android:id="@+id/infoTV"
-				android:gravity="center"/>
+				android:gravity="center"
+				android:layout_margin="5dp"/>
 		</LinearLayout>
 	</LinearLayout>
 	<ListView
