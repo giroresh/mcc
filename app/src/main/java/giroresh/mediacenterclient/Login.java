@@ -18,8 +18,6 @@ import java.util.concurrent.ExecutionException;
  * but no real connection gets established
  */
 public class Login extends Activity implements OnClickListener {
-    private Button connButton;
-    private Button backApp;
     private String serverIPString = null;
     private int portNrString = 0;
     private Boolean connected = false;
@@ -28,10 +26,10 @@ public class Login extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
-        connButton = (Button) findViewById(R.id.connButton);
+        Button connButton = (Button) findViewById(R.id.connButton);
         connButton.setOnClickListener(this);
 
-        backApp = (Button) findViewById(R.id.backApp);
+        Button backApp = (Button) findViewById(R.id.backApp);
         backApp.setOnClickListener(this);
     }
 

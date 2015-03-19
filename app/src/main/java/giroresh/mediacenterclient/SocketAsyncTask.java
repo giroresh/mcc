@@ -13,15 +13,8 @@ import java.net.Socket;
  * Created by giro on 2014.12.10..
  * Does the actual sending and receiving
  */
-public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
-    private String serverIP = null;
-    private int portNr = 0;
-    private PrintWriter outputStream = null;
-    private BufferedReader inputStream = null;
-    private Socket serverSocket;
-    private String serverDO = null;
+class SocketAsyncTask extends AsyncTask<Object, Void, String> {
     private String result = "";
-
 
     public SocketAsyncTask() {
     }
@@ -53,13 +46,13 @@ public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
     @Override
     protected String doInBackground(Object... params) {
         try {
-            serverIP = (String) params[0];
-            portNr = (Integer) params[1];
-            serverDO = (String) params[2];
+            String serverIP = (String) params[0];
+            int portNr = (Integer) params[1];
+            String serverDO = (String) params[2];
 
-            serverSocket = new Socket(serverIP, portNr);
-            outputStream = new PrintWriter(serverSocket.getOutputStream(), true);
-            inputStream = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
+            Socket serverSocket = new Socket(serverIP, portNr);
+            PrintWriter outputStream = new PrintWriter(serverSocket.getOutputStream(), true);
+            BufferedReader inputStream = new BufferedReader(new InputStreamReader(serverSocket.getInputStream()));
 
             outputStream.print(serverDO);
             outputStream.flush();
@@ -76,15 +69,4 @@ public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
         }
         return result;
     }
-
-    void setCmd(String doCmd) {
-        serverDO = doCmd;
-    }
-
-    @Override
-    protected void onPostExecute(String result) {
-        super.onPostExecute(result);
-        setCmd(result);
-    }
-
 }

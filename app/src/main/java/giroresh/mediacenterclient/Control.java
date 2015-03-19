@@ -11,10 +11,7 @@ import android.widget.Toast;
 import java.util.concurrent.ExecutionException;
 
 public class Control extends Activity implements OnClickListener {
-
-    private Button connServer;
     private Button playlist;
-    private Button closeApp;
     private Button setAdminKeyButton;
     private Button restartButton;
     private Button shutdownButton;
@@ -26,7 +23,7 @@ public class Control extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control);
-        connServer = (Button) findViewById(R.id.connServer);
+        Button connServer = (Button) findViewById(R.id.connServer);
         connServer.setOnClickListener(this);
 
         playlist = (Button) findViewById(R.id.playlistButton);
@@ -49,7 +46,7 @@ public class Control extends Activity implements OnClickListener {
         shutdownButton.setClickable(false);
         shutdownButton.setEnabled(false);
 
-        closeApp = (Button) findViewById(R.id.closeApp);
+        Button closeApp = (Button) findViewById(R.id.closeApp);
         closeApp.setOnClickListener(this);
     }
 

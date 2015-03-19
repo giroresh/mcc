@@ -46,7 +46,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
     private int playID;
     private String selectedID;
     private TextView infoTV;
-    private int type = 300;
+    private final int type = 300;
     private int length = 50;
     private int offset = 0;
     private Button lengthButton;

@@ -28,8 +28,7 @@ import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
  * Created by giro on 2014.12.15..
  * parses the given XML file and sorts it to the right class of playable items
  */
-public class ParseXML {
-    private XmlPullParserFactory factory;
+class ParseXML {
     private XmlPullParser xpp;
     private AudioFiles audioFiles = null;
     private VideoFiles videoFiles = null;
@@ -40,7 +39,7 @@ public class ParseXML {
     private RomTags romTags = null;
 
     ParseXML() throws XmlPullParserException {
-        factory = XmlPullParserFactory.newInstance();
+        XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         xpp = factory.newPullParser();
     }
@@ -391,7 +390,7 @@ public class ParseXML {
         if (!stat.get().isEmpty()) {
             String returnCode = stat.get().substring(8, 11);
 
-            if (!isInteger(returnCode)) {
+            if (isNotInteger(returnCode)) {
                 return false;
             }
 
@@ -413,7 +412,7 @@ public class ParseXML {
         if (!stat.get().isEmpty()) {
             String returnCode = stat.get().substring(8, 11);
 
-            if (!isInteger(returnCode)) {
+            if (isNotInteger(returnCode)) {
                 return false;
             }
 
@@ -436,7 +435,7 @@ public class ParseXML {
     public static Boolean getPlayReturnCodeStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
         String returnCode = stat.get().substring(8, 11);
 
-        if (!isInteger(returnCode)) {
+        if (isNotInteger(returnCode)) {
             return false;
         }
 
@@ -460,12 +459,12 @@ public class ParseXML {
             }
     }
 
-    private static boolean isInteger(String s) {
+    private static boolean isNotInteger(String s) {
         try {
             Integer.parseInt(s);
-            return true;
-        } catch (NumberFormatException e) {
             return false;
+        } catch (NumberFormatException e) {
+            return true;
         }
     }
 }

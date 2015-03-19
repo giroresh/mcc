@@ -41,7 +41,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private int playID;
     private String selectedID;
     private TextView infoTV;
-    private int type = 200;
+    private final int type = 200;
     private int length = 50;
     private int offset = 0;
     private Button lengthButton;

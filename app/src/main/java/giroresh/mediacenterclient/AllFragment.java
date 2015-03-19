@@ -46,7 +46,7 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
     private int playID;
     private String selectedID;
     private TextView infoTV;
-    private int type = 0;
+    private final int type = 0;
     private int length = 50;
     private int offset = 0;
     private Button lengthButton;

@@ -46,7 +46,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     private String selectedID;
     private TextView infoTV;
     private View view;
-    private int type = 100;
+    private final int type = 100;
     private int length = 50;
     private int offset = 0;
     private Button lengthButton;

@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * FragmentAdapter basically the same as the android example
  */
-public class FragmentAdapter extends FragmentPagerAdapter {
+class FragmentAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 4;
     private String tabTitles[] = new String[] {"All", "Audio", "Video", "Rom" };
     private Context context;
