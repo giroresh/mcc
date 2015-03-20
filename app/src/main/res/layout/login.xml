@@ -24,8 +24,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/serverIP"
+		android:layout_gravity="center_horizontal"
         android:text="@string/ip"
-		android:hint="@string/ipHint"/>
+		android:hint="@string/ipHint"
+		android:background="@drawable/edittextborder"
+		android:layout_weight="0.05"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"/>
 
 	<TextView
 		android:layout_width="wrap_content"
@@ -40,7 +45,11 @@
 		android:id="@+id/portNr"
 		android:layout_gravity="center_horizontal"
 		android:text="@string/port"
-		android:hint="@string/portHint"/>
+		android:hint="@string/portHint"
+		android:background="@drawable/edittextborder"
+		android:layout_weight="0.05"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"/>
 
 	<Button
         android:layout_width="wrap_content"

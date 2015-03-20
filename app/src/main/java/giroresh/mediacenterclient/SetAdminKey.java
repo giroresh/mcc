@@ -8,16 +8,23 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import giroresh.mediacenterclient.helper.MCCTextWatcher;
+
 /**
  * Created by giro on 2015.01.23..
  * Sets the admin key for the server
  */
 public class SetAdminKey extends Activity implements View.OnClickListener {
 
+    private EditText adminKey;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.setadminkey);
+
+        adminKey = (EditText) findViewById(R.id.setAdminKeyET);
+        adminKey.addTextChangedListener(new MCCTextWatcher(adminKey));
 
         Button setAdminKeyButton2 = (Button) findViewById(R.id.setAdminKeyButton2);
         setAdminKeyButton2.setOnClickListener(this);
@@ -35,7 +42,6 @@ public class SetAdminKey extends Activity implements View.OnClickListener {
     public void onClick(View v) {
         switch(v.getId()) {
             case R.id.setAdminKeyButton2:
-                EditText adminKey = (EditText) findViewById(R.id.setAdminKeyET);
                 String adminKeyString = adminKey.getText().toString();
                 Intent intent = new Intent(SetAdminKey.this, Control.class);
                 if (!adminKeyString.isEmpty()) {

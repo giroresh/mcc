@@ -2,4 +2,5 @@
 <resources>
 	<item name="borderColor" type="color">#87add0</item>
 	<item name="lengthOffestTV2" type="color">#88fbd9</item>
+	<color name="edittextBorderRed">#980000</color>
 </resources>

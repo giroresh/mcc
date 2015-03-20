@@ -11,6 +11,8 @@ import android.widget.Toast;
 
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.helper.MCCTextWatcher;
+
 /**
  * Created by giro on 2014.11.27..
  * This class is for the login procedure to the server
@@ -21,11 +23,19 @@ public class Login extends Activity implements OnClickListener {
     private String serverIPString = null;
     private int portNrString = 0;
     private Boolean connected = false;
+    private EditText serverIP;
+    private EditText portNr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
+        serverIP = (EditText) findViewById(R.id.serverIP);
+        serverIP.addTextChangedListener(new MCCTextWatcher(serverIP));
+
+        portNr = (EditText) findViewById(R.id.portNr);
+        portNr.addTextChangedListener(new MCCTextWatcher(portNr));
 
         Button connButton = (Button) findViewById(R.id.connButton);
         connButton.setOnClickListener(this);
@@ -35,11 +45,10 @@ public class Login extends Activity implements OnClickListener {
     }
 
     public void onClick(View v) {
-        switch(v.getId()) {
+        switch (v.getId()) {
             case R.id.connButton:
                 Intent intent = new Intent(Login.this, Control.class);
-                EditText serverIP = (EditText) findViewById(R.id.serverIP);
-                EditText portNr = (EditText) findViewById(R.id.portNr);
+
                 if (!serverIP.getText().toString().isEmpty()) {
                     serverIPString = serverIP.getText().toString();
                 } else {

@@ -18,6 +18,9 @@
 		android:id="@+id/setAdminKeyET"
 		android:layout_gravity="center_horizontal"
 		android:layout_weight="0.10"
+		android:paddingLeft="5dp"
+		android:paddingRight="5dp"
+		android:background="@drawable/edittextborder"
 		android:hint="@string/adminKeyHint"/>
 
 	<Button

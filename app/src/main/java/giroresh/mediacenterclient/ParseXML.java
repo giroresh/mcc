@@ -1,7 +1,6 @@
 package giroresh.mediacenterclient;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserException;
@@ -161,7 +160,6 @@ class ParseXML {
             result = result.substring(14);
 
             xpp.setInput(new StringReader(result));
-            Log.d("parseXML", "result is: " + result);
             int eventType = xpp.getEventType();
 
             String tagname = null;

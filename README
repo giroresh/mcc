@@ -9,7 +9,7 @@ https://github.com/GOMF/mcs
 The main focus at the moment is to implement a usable app and later on to implement the whole
 scale of functionality provided by the server and finally making it visually more appealing...
 
-The App requires at least Android 4.x (minSdkVersion="14").
+The App requires at least Android 4.x (minSdkVersion="16").
 It does work with SDK19 and should work also on Android L.
 
 Current features:
@@ -33,6 +33,8 @@ Current features:
 - Fixed issue with screen rotation and added Scrollviews were necessary
 - Removed TitelBar were it takes up to much space
 - App should have smaller memory footprint if in background and should close completely on Android 5 and onwards
+- Added simple input validation
+- minSDK increased to API 16 -> Jelly Bean 4.1 -> necessary for input validation
 
 To be done:
 -----------
