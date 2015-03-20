@@ -1,7 +1,9 @@
 package giroresh.mediacenterclient;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,6 +25,7 @@ public class Control extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control);
+
         Button connServer = (Button) findViewById(R.id.connServer);
         connServer.setOnClickListener(this);
 
@@ -50,6 +53,7 @@ public class Control extends Activity implements OnClickListener {
         closeApp.setOnClickListener(this);
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -104,7 +108,16 @@ public class Control extends Activity implements OnClickListener {
                 }
                 break;
             case R.id.closeApp:
-                finish();
+                System.runFinalization();
+                Runtime.getRuntime().gc();
+                System.gc();
+                String apiVersion = Build.VERSION.RELEASE;
+                if (apiVersion.startsWith("5.")) {
+                    finishAndRemoveTask();
+                } else {
+                    finish();
+                }
+
                 break;
         }
     }

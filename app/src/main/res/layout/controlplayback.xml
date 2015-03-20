@@ -1,45 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent">
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="match_parent"
+	android:fillViewport="true">
+
+<RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/playback"
         android:id="@+id/playbackTV"
-        android:layout_row="1"
-        android:layout_column="0"
-		android:layout_columnSpan="2"
-		android:layout_gravity="center"/>
+		android:layout_gravity="center"
+		android:layout_alignParentTop="true"
+		android:layout_centerHorizontal="true"/>
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/playbackInfoTV"
 		android:id="@+id/playbackInfoTV"
-		android:layout_row="2"
-		android:layout_column="0"
 		android:layout_margin="5dp"
-		android:layout_columnSpan="2"/>
+		android:layout_below="@+id/playbackTV"
+		android:layout_centerHorizontal="true"/>
 
 	<View
 		android:layout_width="fill_parent"
 		android:layout_height="1dp"
 		android:background="@color/borderColor"
-		android:layout_columnSpan="2"
-		android:layout_column="0"
-		android:layout_row="3"/>
+		android:layout_below="@+id/playbackInfoTV"/>
 
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/controlButtonsTV"
 		android:id="@+id/controlButtonsTV"
-		android:layout_row="3"
-		android:layout_column="0"
-		android:layout_columnSpan="2"
+		android:layout_below="@+id/playbackInfoTV"
+		android:layout_centerHorizontal="true"
 		android:layout_gravity="center"/>
 
     <Button
@@ -47,49 +46,45 @@
         android:layout_height="wrap_content"
         android:text="@string/play"
         android:id="@+id/playButton"
-        android:layout_row="4"
-        android:layout_column="0"/>
+		android:layout_below="@+id/controlButtonsTV"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/stop"
         android:id="@+id/stopButton"
-        android:layout_row="4"
-        android:layout_column="1"/>
+		android:layout_below="@+id/controlButtonsTV"
+		android:layout_toRightOf="@+id/playButton"
+		android:layout_toEndOf="@+id/playButton"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/previous"
         android:id="@+id/prevButton"
-        android:layout_row="5"
-        android:layout_column="0"/>
+		android:layout_below="@+id/playButton"/>
 
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/next"
 		android:id="@+id/nextButton"
-		android:layout_row="5"
-		android:layout_column="1"/>
+		android:layout_below="@+id/stopButton"
+		android:layout_toRightOf="@+id/prevButton"
+		android:layout_toEndOf="@+id/prevButton"/>
 
 	<View
 		android:layout_width="fill_parent"
 		android:layout_height="1dp"
 		android:background="@color/borderColor"
-		android:layout_columnSpan="2"
-		android:layout_column="0"
-		android:layout_row="6"/>
+		android:layout_below="@+id/prevButton"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/volume"
         android:id="@+id/volumeTV"
-        android:layout_row="6"
-        android:layout_column="0"
-		android:layout_columnSpan="2"
+		android:layout_below="@+id/prevButton"
 		android:layout_gravity="center"/>
 
     <ToggleButton
@@ -97,8 +92,7 @@
         android:layout_height="wrap_content"
         android:text="@string/mute"
         android:id="@+id/muteButton"
-        android:layout_row="7"
-        android:layout_column="0"
+		android:layout_below="@+id/volumeTV"
         android:checked="false"/>
 
     <Button
@@ -107,8 +101,7 @@
         android:layout_height="wrap_content"
         android:text="@string/louder"
         android:id="@+id/louderButton"
-        android:layout_row="7"
-        android:layout_column="1"/>
+		android:layout_below="@+id/muteButton"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -116,24 +109,23 @@
         android:layout_height="wrap_content"
         android:text="@string/quieter"
         android:id="@+id/quieterButton"
-        android:layout_row="8"
-        android:layout_column="1"/>
+		android:layout_below="@+id/muteButton"
+		android:layout_toRightOf="@+id/louderButton"
+		android:layout_toEndOf="@+id/louderButton"/>
 
 	<View
 		android:layout_width="fill_parent"
 		android:layout_height="1dp"
 		android:background="@color/borderColor"
-		android:layout_columnSpan="2"
-		android:layout_column="0"
-		android:layout_row="9"/>
+		android:id="@+id/viewUnderLouder"
+		android:layout_below="@+id/louderButton"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/back"
         android:id="@+id/backApp"
-        android:layout_row="11"
-        android:layout_column="1"
-		android:layout_columnSpan="2"/>
-
-</GridLayout>
+		android:layout_below="@id/viewUnderLouder"
+		android:layout_centerHorizontal="true"/>
+</RelativeLayout>
+</ScrollView>

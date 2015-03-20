@@ -7,13 +7,14 @@
 	<LinearLayout
 		android:orientation="horizontal"
 		android:layout_width="wrap_content"
-		android:layout_height="125dp"
-		android:id="@+id/wrapper">
-
+		android:layout_height="wrap_content"
+		android:id="@+id/wrapper"
+		android:baselineAligned="false">
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_weight="0"
 			android:id="@+id/wrapper2">
 			<LinearLayout
 				android:orientation="horizontal"
@@ -35,17 +36,22 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/lengthButton"
-				android:text="@string/lengthButtonTxt"/>
+				android:text="@string/lengthButtonTxt"
+				android:minHeight="20dp"
+				android:minWidth="40dp"/>
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/lengthButtonMinus"
-				android:text="@string/lengthButtonMinusTxt"/>
+				android:text="@string/lengthButtonMinusTxt"
+				android:minHeight="20dp"
+				android:minWidth="40dp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
+			android:layout_weight="0"
 			android:id="@+id/wrapper3">
 			<LinearLayout
 				android:orientation="horizontal"
@@ -63,23 +69,27 @@
 					android:text="@string/offsetTV2"
 					android:id="@+id/offsetTV2"/>
 			</LinearLayout>
-
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/offsetButton"
-				android:text="@string/offsetButtonTxt"/>
+				android:text="@string/offsetButtonTxt"
+				android:minHeight="20dp"
+				android:minWidth="40dp"/>
 			<Button
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:id="@+id/offsetMinusButton"
-				android:text="@string/offsetMinusButtonTxt"/>
+				android:text="@string/offsetMinusButtonTxt"
+				android:minHeight="20dp"
+				android:minWidth="40dp"/>
 		</LinearLayout>
 		<LinearLayout
 			android:orientation="vertical"
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:id="@+id/wrapper4">
+			android:id="@+id/wrapper4"
+			android:layout_weight="0">
 			<TextView
 				android:layout_width="match_parent"
 				android:layout_height="wrap_content"

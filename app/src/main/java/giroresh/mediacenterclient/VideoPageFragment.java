@@ -177,7 +177,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                                 Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
                                 return false;
                             } catch (NoTagsException e) {
-                                Toast.makeText(getActivity(), "Audio Files should have Tags - even tough they might be empty!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Video Files should have Tags - even tough they might be empty!", Toast.LENGTH_SHORT).show();
                                 return false;
                             }
                             break;

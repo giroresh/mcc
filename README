@@ -30,6 +30,9 @@ Current features:
   -> it works for all file types now, even though it makes not much sense atm for ROM files
 - Handling rom files properly -> early stages - not trying to display tag infos anymore
   -> NES files should be "playable" if fceu is present
+- Fixed issue with screen rotation and added Scrollviews were necessary
+- Removed TitelBar were it takes up to much space
+- App should have smaller memory footprint if in background and should close completely on Android 5 and onwards
 
 To be done:
 -----------

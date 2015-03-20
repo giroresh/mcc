@@ -182,8 +182,7 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
                             return false;
                         } catch (NoTagsException e) {
-                            Toast.makeText(getActivity(), "Audio Files should have Tags - even tough they might be empty!", Toast.LENGTH_SHORT).show();
-                            return false;
+                            infoTV.setText(getResources().getText(R.string.noTagInfo).toString() +  playID);                            return false;
                         }
                         break;
                     default:

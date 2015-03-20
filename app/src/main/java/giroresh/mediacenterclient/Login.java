@@ -26,6 +26,7 @@ public class Login extends Activity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         Button connButton = (Button) findViewById(R.id.connButton);
         connButton.setOnClickListener(this);
 

@@ -1,9 +1,12 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:tools="http://schemas.android.com/tools"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                tools:context=".Control">
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="wrap_content"
+	android:layout_height="match_parent"
+	android:fillViewport="true">
 
+<RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
@@ -19,24 +22,15 @@
 		android:text="@string/description"
 		android:id="@+id/useMediacenterTV"
 		android:layout_below="@+id/textView"
-		android:layout_centerHorizontal="true"
-		android:layout_marginTop="10dp"/>
+		android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/setServerInfo"
         android:id="@+id/connServer"
-        android:layout_marginTop="50dp"
+		android:layout_below="@+id/useMediacenterTV"
         android:layout_centerHorizontal="true"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/closeApp"
-        android:id="@+id/closeApp"
-		android:layout_alignParentBottom="true"
-		android:layout_centerHorizontal="true"/>
 
     <Button
         android:layout_width="wrap_content"
@@ -46,13 +40,18 @@
         android:layout_below="@+id/connServer"
         android:layout_centerHorizontal="true"/>
 
+	<View
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:background="@color/borderColor"
+		android:layout_below="@+id/playlistButton"/>
+
 	<TextView
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
 		android:text="@string/serverControls"
 		android:id="@+id/serverControlTV"
 		android:layout_below="@+id/playlistButton"
-		android:layout_marginTop="50dp"
 		android:layout_centerHorizontal="true"/>
 
 	<Button
@@ -60,7 +59,6 @@
 		android:layout_height="wrap_content"
 		android:text="@string/setAdminKeyButtonTxt"
 		android:id="@+id/setAdminKeyButton"
-		android:layout_centerVertical="true"
 		android:layout_centerHorizontal="true"
 		android:layout_below="@+id/serverControlTV"/>
 
@@ -69,7 +67,6 @@
 		android:layout_height="wrap_content"
 		android:text="@string/restartServerButtonTxt"
 		android:id="@+id/restartButton"
-		android:layout_centerVertical="true"
 		android:layout_centerHorizontal="true"
 		android:layout_below="@+id/setAdminKeyButton"/>
 
@@ -81,4 +78,20 @@
 		android:layout_below="@+id/restartButton"
 		android:layout_centerHorizontal="true"/>
 
+	<View
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:id="@+id/viewUnderShutdown"
+		android:background="@color/borderColor"
+		android:layout_below="@+id/shutdownButton"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:text="@string/closeApp"
+		android:id="@+id/closeApp"
+		android:layout_below="@+id/viewUnderShutdown"
+		android:layout_centerHorizontal="true"/>
+
 </RelativeLayout>
+</ScrollView>
