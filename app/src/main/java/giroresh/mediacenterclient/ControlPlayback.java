@@ -92,10 +92,10 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     } else if (aTagInfo.startsWith("channels")) {
                         tagInfoMultiLang += getResources().getString(R.string.tagChannels) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
                     } else if (aTagInfo.startsWith("comment")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t'));
+                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
                     }
                 }
-                playbackInfoTV.setText(tagInfoMultiLang);
+                playbackInfoTV.setText(tagInfoMultiLang.substring(0, tagInfoMultiLang.lastIndexOf("\n")));
             } else {
                 playbackInfoTV.setText(R.string.unsupportedFiletype);
             }

@@ -6,7 +6,7 @@
 
 	<LinearLayout
 		android:orientation="horizontal"
-		android:layout_width="wrap_content"
+		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/wrapper"
 		android:baselineAligned="false">
@@ -86,23 +86,37 @@
 		</LinearLayout>
 		<LinearLayout
 			android:orientation="vertical"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
+			android:layout_width="fill_parent"
+			android:layout_height="match_parent"
 			android:id="@+id/wrapper4"
 			android:layout_weight="0">
-			<TextView
-				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
-				android:text="@string/taginfos"
-				android:id="@+id/infoTV"
-				android:gravity="center"
-				android:layout_margin="5dp"/>
+			<ScrollView
+				xmlns:android="http://schemas.android.com/apk/res/android"
+				android:layout_width="fill_parent"
+				android:layout_height="match_parent"
+				android:fillViewport="true"
+				android:padding="3dp"
+				android:fadeScrollbars="false">
+				<TextView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:text="@string/taginfos"
+					android:id="@+id/infoTV"
+					android:gravity="center"
+					android:drawablePadding="5dp"/>
+			</ScrollView>
 		</LinearLayout>
 	</LinearLayout>
+	<View
+		android:layout_width="fill_parent"
+		android:layout_height="1dp"
+		android:id="@+id/viewUnderWrapper"
+		android:background="@color/borderColor"
+		android:layout_below="@+id/wrapper"/>
 	<ListView
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:id="@+id/romlist"
 		android:choiceMode="singleChoice"
-		android:layout_below="@+id/wrapper"/>
+		android:layout_below="@+id/viewUnderWrapper"/>
 </RelativeLayout>

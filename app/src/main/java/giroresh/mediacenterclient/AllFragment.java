@@ -188,10 +188,10 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                                     } else if (aTagInfo.startsWith("channels")) {
                                         tagInfoMultiLang += getResources().getString(R.string.tagChannels) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
                                     } else if (aTagInfo.startsWith("comment")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t'));
+                                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
                                     }
                                 }
-                                infoTV.setText(tagInfoMultiLang);
+                                infoTV.setText(tagInfoMultiLang.substring(0, tagInfoMultiLang.lastIndexOf("\n")));
                                 return true;
                             } else {
                                 infoTV.setText(R.string.unsupportedFiletype);
