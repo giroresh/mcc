@@ -19,7 +19,6 @@ import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.filetypes.RomFiles;
 import giroresh.mediacenterclient.playlistItems.filetypes.VideoFiles;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
-import giroresh.mediacenterclient.playlistItems.tags.RomTags;
 import giroresh.mediacenterclient.playlistItems.tags.Tags;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
 
@@ -35,7 +34,6 @@ class ParseXML {
     private List<PlaylistItems> playlistItemList = new ArrayList<>();
     private AudioTags audioTags = null;
     private VideoTags videoTags = null;
-    private RomTags romTags = null;
 
     ParseXML() throws XmlPullParserException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
@@ -177,15 +175,6 @@ class ParseXML {
                                         videoTags = new VideoTags();
                                         videoTags.setTitle(xpp.getAttributeValue("", "label"));
                                         break;
-                                    } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 200) {
-                                        romTags = new RomTags();
-                                        break;
-                                    } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 201) {
-                                        romTags = new RomTags();
-                                        break;
-                                    } else if (Integer.valueOf(xpp.getAttributeValue(x)) == 202) {
-                                        romTags = new RomTags();
-                                        break;
                                     } else {
                                         return null;
                                     }
@@ -205,8 +194,6 @@ class ParseXML {
                                     audioTags.setTitle(title);
                                 } else if (videoTags != null) {
                                     videoTags.setTitle(title);
-                                } else if (romTags != null) {
-                                    romTags.setTitle(title);
                                 }
                             }
                             break;
@@ -218,8 +205,6 @@ class ParseXML {
                                     audioTags.setArtist(artist);
                                 } else if (videoTags != null) {
                                     videoTags.setArtist(artist);
-                                } else if (romTags != null) {
-                                    romTags.setArtist(artist);
                                 }
                             }
                             break;
@@ -231,8 +216,6 @@ class ParseXML {
                                     audioTags.setAlbum(album);
                                 } else if (videoTags != null) {
                                     videoTags.setAlbum(album);
-                                } else if (romTags != null) {
-                                    romTags.setAlbum(album);
                                 }
                             }
                             break;
@@ -244,8 +227,6 @@ class ParseXML {
                                     audioTags.setYear(year);
                                 } else if (videoTags != null) {
                                     videoTags.setYear(year);
-                                } else if (romTags != null) {
-                                    romTags.setYear(year);
                                 }
                             }
                             break;
@@ -257,8 +238,6 @@ class ParseXML {
                                     audioTags.setComment(comment);
                                 } else if (videoTags != null) {
                                     videoTags.setComment(comment);
-                                } else if (romTags != null) {
-                                    romTags.setComment(comment);
                                 }
                             }
                             break;
@@ -270,8 +249,6 @@ class ParseXML {
                                     audioTags.setTrack(track);
                                 } else if (videoTags != null) {
                                     videoTags.setTrack(track);
-                                } else if (romTags != null) {
-                                    romTags.setTrack(track);
                                 }
                             }
                             break;
@@ -283,8 +260,7 @@ class ParseXML {
                                     audioTags.setGenre(genre);
                                 } else if (videoTags != null) {
                                     videoTags.setGenre(genre);
-                                } else if (romTags != null)
-                                    romTags.setGenre(genre);
+                                }
                             }
                             break;
                         }
@@ -295,8 +271,7 @@ class ParseXML {
                                     audioTags.setBitrate(bitrate);
                                 } else if (videoTags != null) {
                                     videoTags.setBitrate(bitrate);
-                                } else if (romTags != null)
-                                    romTags.setBitrate(bitrate);
+                                }
                             }
                             break;
                         }
@@ -307,8 +282,6 @@ class ParseXML {
                                     audioTags.setSample(samplerate);
                                 } else if (videoTags != null) {
                                     videoTags.setSample(samplerate);
-                                } else if (romTags != null) {
-                                    romTags.setSample(samplerate);
                                 }
                             }
                             break;
@@ -320,8 +293,6 @@ class ParseXML {
                                     audioTags.setChannels(channels);
                                 } else if (videoTags != null) {
                                     videoTags.setChannels(channels);
-                                } else if (romTags != null) {
-                                    romTags.setChannels(channels);
                                 }
                             }
                             break;
@@ -333,8 +304,6 @@ class ParseXML {
                                     audioTags.setLength(length);
                                 } else if (videoTags != null) {
                                     videoTags.setLength(length);
-                                } else if (romTags != null) {
-                                    romTags.setLength(length);
                                 }
                             }
                             break;
@@ -352,8 +321,6 @@ class ParseXML {
                 return audioTags;
             } else if (videoTags != null) {
                 return videoTags;
-            } else if (romTags != null) {
-                return romTags;
             } else {
                 return null;
             }
