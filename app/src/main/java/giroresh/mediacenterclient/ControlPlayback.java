@@ -70,29 +70,29 @@ public class ControlPlayback extends Activity implements OnClickListener {
             }
             if (tagInfo.length != 0) {
                 String tagInfoMultiLang = getResources().getString(R.string.tagNoInfo);
-                for (int i = 0; i < tagInfo.length; i++) {
-                    if (tagInfo[i].startsWith("title")) {
-                        tagInfoMultiLang = getResources().getString(R.string.tagTitle) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("album")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("artist")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagArtist) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("genre")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagGenre) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("track")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagTrack) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("year")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagYear) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("length")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagLength) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("bitrate")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("sample")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagSample) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("channels")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagChannels) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
-                    } else if (tagInfo[i].startsWith("comment")) {
-                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + tagInfo[i].substring(tagInfo[i].indexOf('\t'));
+                for (String aTagInfo : tagInfo) {
+                    if (aTagInfo.startsWith("title")) {
+                        tagInfoMultiLang = getResources().getString(R.string.tagTitle) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("album")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("artist")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagArtist) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("genre")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagGenre) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("track")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagTrack) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("year")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagYear) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("length")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagLength) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("bitrate")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("sample")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagSample) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("channels")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagChannels) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
+                    } else if (aTagInfo.startsWith("comment")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t'));
                     }
                 }
                 playbackInfoTV.setText(tagInfoMultiLang);

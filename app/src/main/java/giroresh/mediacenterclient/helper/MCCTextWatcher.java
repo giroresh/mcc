@@ -114,9 +114,11 @@ public class MCCTextWatcher implements TextWatcher {
         if (!matched) {
             matched = txt.matches("^((http|https)://)?([a-z\\.-]+)\\.([a-z\\.]{2,})+$");
             if (!matched) {
-                return txt.matches("^([a-z\\.-]+)\\.([a-z\\.]{2,})+\\b(?<!(^\\d{3}\\.{1}))\\b");
+                matched = txt.matches("^([a-z\\.-]+)\\.([a-z\\.]{2,})+\\b(?<!(^\\d{3}\\.{1}))\\b");
+                return matched;
+            } else {
+                return true;
             }
-            return true;
         } else {
             return true;
         }
