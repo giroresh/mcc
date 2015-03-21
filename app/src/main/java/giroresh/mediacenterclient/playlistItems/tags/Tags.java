@@ -5,29 +5,29 @@ package giroresh.mediacenterclient.playlistItems.tags;
  * Abstract class for all Tags
  */
 public abstract class Tags {
-    abstract public String getTitle();
-    abstract public String getArtist();
-    abstract public String getAlbum();
-    abstract public String getYear();
-    abstract public String getTrack();
-    abstract public String getGenre();
-    abstract public String getBitrate();
-    abstract public String getSamplerate();
-    abstract public String getChannels();
-    abstract public String getLength();
-    abstract public String getComment();
+    public abstract String getTitle();
+    public abstract String getArtist();
+    public abstract String getAlbum();
+    public abstract String getYear();
+    public abstract String getTrack();
+    public abstract String getGenre();
+    public abstract String getBitrate();
+    public abstract String getSample();
+    public abstract String getChannels();
+    public abstract String getLength();
+    public abstract String getComment();
 
-    abstract public void setTitle(String title);
-    abstract public void setArtist(String artist);
-    abstract public void setAlbum(String album);
-    abstract public void setYear(String year);
-    abstract public void setTrack(String track);
-    abstract public void setGenre(String genre);
-    abstract public void setBitrate(String bitrate);
-    abstract public void setSamplerate(String samplerate);
-    abstract public void setChannels(String channels);
-    abstract public void setLength(String length);
-    abstract public void setComment(String s);
+    public abstract void setTitle(String title);
+    public abstract void setArtist(String artist);
+    public abstract void setAlbum(String album);
+    public abstract void setYear(String year);
+    public abstract void setTrack(String track);
+    public abstract void setGenre(String genre);
+    public abstract void setBitrate(String bitrate);
+    public abstract void setSample(String samplerate);
+    public abstract void setChannels(String channels);
+    public abstract void setLength(String length);
+    public abstract void setComment(String s);
 
-    abstract public String getAllTagInfos();
+    public abstract String getAllTagInfo();
 }

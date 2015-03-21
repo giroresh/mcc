@@ -11,7 +11,7 @@ import android.support.v4.app.FragmentPagerAdapter;
  */
 class FragmentAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 4;
-    private String tabTitles[] = new String[] {"All", "Audio", "Video", "Rom" };
+    private String tabTitles[] = new String[] {"All", "Audio", "Video", "Rom"};
     private Context context;
 
     public FragmentAdapter(FragmentManager fm, Context context) {
@@ -28,13 +28,13 @@ class FragmentAdapter extends FragmentPagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return AllFragment.newInstance(1);
+                return AllFragment.newInstance(position);
             case 1:
-                return AudioPageFragment.newInstance(2);
+                return AudioPageFragment.newInstance(position);
             case 2:
-                return VideoPageFragment.newInstance(3);
+                return VideoPageFragment.newInstance(position);
             case 3:
-                return ROMPageFragment.newInstance(4);
+                return ROMPageFragment.newInstance(position);
             default:
                 return AllFragment.newInstance(1);
             }
@@ -42,7 +42,6 @@ class FragmentAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        // Generate title based on item position
         return tabTitles[position];
     }
 }

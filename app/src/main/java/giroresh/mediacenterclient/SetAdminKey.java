@@ -44,17 +44,24 @@ public class SetAdminKey extends Activity implements View.OnClickListener {
             case R.id.setAdminKeyButton2:
                 String adminKeyString = adminKey.getText().toString();
                 Intent intent = new Intent(SetAdminKey.this, Control.class);
-                if (!adminKeyString.isEmpty()) {
-                    intent.putExtra("AdminKey", adminKeyString);
-                    setResult(RESULT_OK, intent);
-                    Toast.makeText(this, "admin key set!", Toast.LENGTH_LONG).show();
-                    finish();
+
+                if (new MCCTextWatcher(adminKey).doAdminkeyValidation(adminKeyString)) {
+
+                    if (!adminKeyString.isEmpty()) {
+                        intent.putExtra("AdminKey", adminKeyString);
+                        setResult(RESULT_OK, intent);
+                        Toast.makeText(this, R.string.setPW, Toast.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toast.makeText(this, R.string.setPWNot, Toast.LENGTH_LONG).show();
+                        setResult(RESULT_CANCELED, intent);
+                        finish();
+                    }
+                    break;
                 } else {
-                    Toast.makeText(this, "unable to set admin key!", Toast.LENGTH_LONG).show();
-                    setResult(RESULT_CANCELED, intent);
-                    finish();
+                    Toast.makeText(this, R.string.adminKeyCheck, Toast.LENGTH_LONG).show();
+                    break;
                 }
-                break;
             case R.id.backApp:
                 Intent backIntent = new Intent(SetAdminKey.this, Control.class);
                 setResult(RESULT_CANCELED, backIntent);

@@ -160,9 +160,36 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
 
                                 if (classTypeOfTags.contains("VideoTags")) {
                                     VideoTags vt = (VideoTags) selectedFile;
-                                    infoTV.setText(vt.getAllTagInfos());
+                                    String[] tagInfo = vt.getAllTagInfo().split("\n");
+                                    String tagInfoMultiLang = getResources().getString(R.string.tagNoInfo);
+                                    for (int i = 0; i < tagInfo.length; i++) {
+                                        if (tagInfo[i].startsWith("title")) {
+                                            tagInfoMultiLang = getResources().getString(R.string.tagTitle) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("album")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("artist")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagArtist) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("genre")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagGenre) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("track")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagTrack) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("year")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagYear) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("length")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagLength) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("bitrate")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("sample")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagSample) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("channels")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagChannels) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                                        } else if (tagInfo[i].startsWith("comment")) {
+                                            tagInfoMultiLang += getResources().getString(R.string.tagComment) + tagInfo[i].substring(tagInfo[i].indexOf('\t'));
+                                        }
+                                    }
+                                    infoTV.setText(tagInfoMultiLang);
                                 } else {
-                                    infoTV.setText("Here we only show video files");
+                                    infoTV.setText(R.string.videoOnly);
                                 }
                             } catch (XmlPullParserException e) {
                                 Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
@@ -177,7 +204,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                                 Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
                                 return false;
                             } catch (NoTagsException e) {
-                                Toast.makeText(getActivity(), "Video Files should have Tags - even tough they might be empty!", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), R.string.videoShouldTags, Toast.LENGTH_SHORT).show();
                                 return false;
                             }
                             break;
@@ -216,13 +243,13 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                             intentPlayback.putExtra("nextID", nextID);
                             startActivityForResult(intentPlayback, 2);
                         } else {
-                            Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                         }
                     } else {
-                        Toast.makeText(getActivity(), "ERROR stopping selected file", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                 }
             } catch (ExecutionException e) {
                 Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
@@ -280,7 +307,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
             ParseXML xmlItems = new ParseXML();
             playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(getActivity(), "ERROR IO Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {

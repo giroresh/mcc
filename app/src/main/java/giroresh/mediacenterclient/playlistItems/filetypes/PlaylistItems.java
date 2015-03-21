@@ -5,15 +5,15 @@ package giroresh.mediacenterclient.playlistItems.filetypes;
  * This abstract class is the root for all items that might get displayed in the playlist
  */
 public abstract class PlaylistItems {
-    abstract public int getID();
-    abstract public String getLabel();
-    abstract public int getType();
+    public abstract int getID();
+    public abstract String getLabel();
+    public abstract int getType();
     public abstract int getNextID();
     public abstract int getPrevID();
 
-    abstract public void setID(int ID);
-    abstract public void setLabel(String Label);
-    abstract public void setType(int type);
+    public abstract void setID(int ID);
+    public abstract void setLabel(String Label);
+    public abstract void setType(int type);
     public abstract void setNextID(int nextID);
     public abstract void setPrevID(int prevID);
 }

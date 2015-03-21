@@ -152,13 +152,13 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
                         intentPlayback.putExtra("nextID", nextID);
                         startActivityForResult(intentPlayback, 2);
                     } else {
-                        Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), "ERROR stopping selected file", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getActivity(), "ERROR playing selected file", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
             }
         } catch (ExecutionException e) {
             Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
@@ -216,7 +216,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
             ParseXML xmlItems = new ParseXML();
             playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
-            e.printStackTrace();
+            Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(getActivity(), "ERROR IO Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {

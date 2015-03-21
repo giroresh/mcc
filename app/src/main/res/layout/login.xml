@@ -49,7 +49,8 @@
 		android:background="@drawable/edittextborder"
 		android:layout_weight="0.05"
 		android:paddingLeft="5dp"
-		android:paddingRight="5dp"/>
+		android:paddingRight="5dp"
+		android:inputType="number"/>
 
 	<Button
         android:layout_width="wrap_content"

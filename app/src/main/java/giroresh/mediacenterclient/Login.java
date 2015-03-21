@@ -52,13 +52,13 @@ public class Login extends Activity implements OnClickListener {
                 if (!serverIP.getText().toString().isEmpty()) {
                     serverIPString = serverIP.getText().toString();
                 } else {
-                    Toast.makeText(this, "missing IP or Address Number ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.serverIPEmpty, Toast.LENGTH_LONG).show();
                 }
 
                 if (!portNr.getText().toString().isEmpty()) {
                     portNrString = Integer.valueOf(portNr.getText().toString());
                 } else {
-                    Toast.makeText(this, "missing Port Number ", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.portNrEmpty, Toast.LENGTH_LONG).show();
                 }
 
                 try {
@@ -72,12 +72,12 @@ public class Login extends Activity implements OnClickListener {
                     intent.putExtra("IP", serverIPString);
                     intent.putExtra("port", portNrString);
                     setResult(RESULT_OK, intent);
-                    Toast.makeText(this, "successfully connected to Server!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.serverConnected, Toast.LENGTH_LONG).show();
                     finish();
                     break;
                 } else {
                     setResult(RESULT_CANCELED, intent);
-                    Toast.makeText(this, "Server unreachable!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.serverUnreachable, Toast.LENGTH_LONG).show();
                     finish();
                     break;
                 }

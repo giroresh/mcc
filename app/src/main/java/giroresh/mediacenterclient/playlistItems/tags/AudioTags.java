@@ -12,7 +12,7 @@ public class AudioTags extends Tags {
     private String track;
     private String genre;
     private String bitrate;
-    private String samplerate;
+    private String sample;
     private String channels;
     private String length;
     private String comment;
@@ -53,8 +53,8 @@ public class AudioTags extends Tags {
     }
 
     @Override
-    public String getSamplerate() {
-        return samplerate;
+    public String getSample() {
+        return sample;
     }
 
     @Override
@@ -108,8 +108,8 @@ public class AudioTags extends Tags {
     }
 
     @Override
-    public void setSamplerate(String samplerate) {
-        this.samplerate = samplerate;
+    public void setSample(String sample) {
+        this.sample = sample;
     }
 
     @Override
@@ -127,31 +127,44 @@ public class AudioTags extends Tags {
         this.comment = s;
     }
 
-    public String getAllTagInfos() {
-        String allInfos = "";
+    @Override
+    public String getAllTagInfo() {
+        String allInfo = "";
 
         if (getTitle() != null) {
-            allInfos += "title: \t" + getTitle() + "\n";
+            allInfo += "title: \t" + getTitle() + "\n";
         }
         if (getAlbum() != null) {
-            allInfos += "album: \t" + getAlbum() + "\n";
-        }
-        if (getTrack() != null) {
-            allInfos += "track: \t" + getTrack() + "\n";
+            allInfo += "album: \t" + getAlbum() + "\n";
         }
         if (getArtist() != null) {
-            allInfos += "artist: \t" + getArtist() + "\n";
+            allInfo += "artist: \t" + getArtist() + "\n";
         }
         if (getGenre() != null) {
-            allInfos += "genre: \t" + getGenre() + "\n";
+            allInfo += "genre: \t" + getGenre() + "\n";
+        }
+        if (getTrack() != null) {
+            allInfo += "track: \t" + getTrack() + "\n";
         }
         if (getYear() != null) {
-            allInfos += "Year: \t" + getYear() + "\n";
+            allInfo += "year: \t" + getYear() + "\n";
+        }
+        if (getLength() != null) {
+            allInfo += "length: \t" + getLength() + "\n";
+        }
+        if (getBitrate() != null) {
+            allInfo += "bitrate: \t" + getBitrate() + "\n";
+        }
+        if (getSample() != null) {
+            allInfo += "sample: \t" + getSample() + "\n";
+        }
+        if (getChannels() != null) {
+            allInfo += "channels: \t" + getChannels() + "\n";
         }
         if (getComment() != null) {
-            allInfos += "Comment: \t" + getComment() + "\n";
+            allInfo += "comment: \t" + getComment() + "\n";
         }
 
-        return allInfos;
+        return allInfo;
     }
 }

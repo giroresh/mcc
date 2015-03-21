@@ -22,7 +22,7 @@ class SocketAsyncTask extends AsyncTask<Object, Void, String> {
     @Override
     protected void onProgressUpdate(Void... values) {
         if (!isCancelled()) {
-            Log.d("ASYNC","currently working heavily!!!");
+            Log.i("ASYNC","currently working heavily!!!");
         }
         super.onProgressUpdate(values);
     }
@@ -65,7 +65,7 @@ class SocketAsyncTask extends AsyncTask<Object, Void, String> {
             outputStream.close();
             serverSocket.close();
         } catch (IOException e) {
-            Log.d("ASYNC", "Socket ERROR");
+            Log.e("ASYNC", "Socket ERROR");
         }
         return result;
     }

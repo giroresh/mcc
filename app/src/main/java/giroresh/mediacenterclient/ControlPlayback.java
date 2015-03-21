@@ -59,15 +59,45 @@ public class ControlPlayback extends Activity implements OnClickListener {
         try {
             Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + playID));
             String classTypeOfTags = selectedFile.getClass().getName();
+            String[] tagInfo = new String[0];
 
             if (classTypeOfTags.contains("AudioTags")) {
                 AudioTags at = (AudioTags) selectedFile;
-                playbackInfoTV.setText(at.getAllTagInfos());
+                tagInfo = at.getAllTagInfo().split("\n");
             } else if (classTypeOfTags.contains("VideoTags")) {
                 VideoTags vt = (VideoTags) selectedFile;
-                playbackInfoTV.setText(vt.getAllTagInfos());
+                tagInfo = vt.getAllTagInfo().split("\n");
+            }
+            if (tagInfo.length != 0) {
+                String tagInfoMultiLang = getResources().getString(R.string.tagNoInfo);
+                for (int i = 0; i < tagInfo.length; i++) {
+                    if (tagInfo[i].startsWith("title")) {
+                        tagInfoMultiLang = getResources().getString(R.string.tagTitle) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("album")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("artist")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagArtist) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("genre")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagGenre) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("track")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagTrack) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("year")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagYear) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("length")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagLength) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("bitrate")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("sample")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagSample) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("channels")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagChannels) + tagInfo[i].substring(tagInfo[i].indexOf('\t')) + "\n";
+                    } else if (tagInfo[i].startsWith("comment")) {
+                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + tagInfo[i].substring(tagInfo[i].indexOf('\t'));
+                    }
+                }
+                playbackInfoTV.setText(tagInfoMultiLang);
             } else {
-                playbackInfoTV.setText("selected filetype is unsupported");
+                playbackInfoTV.setText(R.string.unsupportedFiletype);
             }
         } catch (XmlPullParserException e) {
             Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
@@ -110,9 +140,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
         super.onBackPressed();
         try {
             if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                Toast.makeText(this, "stopped playback", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.stopSuccess, Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Did not stop playback", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
             }
         } catch (ExecutionException e) {
             Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
@@ -127,9 +157,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
             switch(v.getId()) {
                 case R.id.playButton:
                     if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL p"))) {
-                        Toast.makeText(this, "Did pause playback", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.pausedPlay, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "Did not pause playback", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.pausePlayUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.stopButton:
@@ -139,14 +169,14 @@ public class ControlPlayback extends Activity implements OnClickListener {
                         intentPlayback.putExtra("port", portNr);
                         startActivityForResult(intentPlayback, 2);
                     } else {
-                        Toast.makeText(this, "did not stop playback", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.prevButton:
                     try {
                         Boolean playReturnCode;
                         if (prevID == 0) {
-                            Toast.makeText(this, "First item on the List!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.curItemFirst, Toast.LENGTH_SHORT).show();
                         } else {
                             playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
                             if (playReturnCode) {
@@ -163,21 +193,19 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                         intentPlayback.putExtra("nextID", playID);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
-                                        Toast.makeText(this, "ERROR1 playing selected file", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(this, "ERROR2 stopping selected file", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(this, "ERROR3 stopping selected file", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (ExecutionException e) {
                         Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
-
                     } catch (InterruptedException e) {
                         Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
-
                     } catch (XmlPullParserException e) {
                         Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
                     } catch (IOException e) {
@@ -187,7 +215,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 case R.id.nextButton:
                     try {
                         if (nextID == 0) {
-                            Toast.makeText(this, "Last item on the list!", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(this, R.string.curItemLast, Toast.LENGTH_SHORT).show();
                         } else {
                             Boolean playReturnCode;
                             playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
@@ -205,13 +233,13 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                         intentPlayback.putExtra("nextID", nextID2);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
-                                        Toast.makeText(this, "ERROR1 playing selected file", Toast.LENGTH_SHORT).show();
+                                        Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                                     }
                                 } else {
-                                    Toast.makeText(this, "ERROR2 stopping selected file", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                                 }
                             } else {
-                                Toast.makeText(this, "ERROR3 stopping selected file", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                             }
                         }
                     } catch (ExecutionException e) {
@@ -228,24 +256,24 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     break;
                 case R.id.louderButton:
                     if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL +"))) {
-                        Toast.makeText(this, "increased volume", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.volIncr, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "unable to increase volume", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.volIncrUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.quieterButton:
                     if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL -"))) {
-                        Toast.makeText(this, "decreased volume", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.volDecr, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "unable to decrease volume", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.volDecrUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.backApp:
                     Intent backIntent = new Intent(ControlPlayback.this, Playlist.class);
                     if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                        Toast.makeText(this, "back to Playlist", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.backPress, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "back button press was unable to stop playback", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.backPressUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     setResult(RESULT_CANCELED, backIntent);
                     finish();

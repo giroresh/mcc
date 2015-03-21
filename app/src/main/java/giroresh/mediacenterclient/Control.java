@@ -75,9 +75,9 @@ public class Control extends Activity implements OnClickListener {
                 try {
                     Boolean status = ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
                     if (status) {
-                        Toast.makeText(this, "server restarted", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.restartedServer, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "restart failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.wrongPW, Toast.LENGTH_SHORT).show();
                     }
                 } catch (ExecutionException e) {
                     Toast.makeText(this, "restart failed - Execution Error", Toast.LENGTH_SHORT).show();
@@ -97,9 +97,9 @@ public class Control extends Activity implements OnClickListener {
                         restartButton.setEnabled(false);
                         shutdownButton.setClickable(false);
                         shutdownButton.setEnabled(false);
-                        Toast.makeText(this, "server shutdown", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.shutdownServer, Toast.LENGTH_SHORT).show();
                     } else {
-                        Toast.makeText(this, "shutdown failed", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, R.string.wrongPW, Toast.LENGTH_SHORT).show();
                     }
                 } catch (ExecutionException e) {
                     Toast.makeText(this, "shutdown failed - Execution Error", Toast.LENGTH_SHORT).show();

@@ -101,7 +101,7 @@ public class MCCTextWatcher implements TextWatcher {
      * @return true if at least 5 characters long and following special characters
      *   ! # %  + ? _
      */
-    private boolean doAdminkeyValidation(String txt) {
+    public boolean doAdminkeyValidation(String txt) {
         return txt.matches("(?=^.{5,}$)(?=.*([\\d]*))(?=.*[a-zA-Z])(?=.*([!#%_+?])*)(?!.*[\\s$;\"']).*$");
     }
 
@@ -110,12 +110,11 @@ public class MCCTextWatcher implements TextWatcher {
     }
 
     private Boolean doValidation(String txt) {
-        Boolean matched = txt.matches("\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b");
+        Boolean matched = txt.matches("^(?:\\d{1,3}\\.){3}\\d{1,3}$");
         if (!matched) {
-            matched = txt.matches("^((http|https)://)?([a-z\\.-]+)\\.([a-z\\.]{2,})+");
+            matched = txt.matches("^((http|https)://)?([a-z\\.-]+)\\.([a-z\\.]{2,})+$");
             if (!matched) {
-                matched = txt.matches("^(\\w+[.]?)+");
-                return matched;
+                return txt.matches("^([a-z\\.-]+)\\.([a-z\\.]{2,})+\\b(?<!(^\\d{3}\\.{1}))\\b");
             }
             return true;
         } else {

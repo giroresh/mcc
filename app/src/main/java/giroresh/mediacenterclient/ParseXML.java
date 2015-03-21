@@ -304,11 +304,11 @@ class ParseXML {
                             String samplerate = xpp.getText();
                             if (samplerate != null) {
                                 if (audioTags != null) {
-                                    audioTags.setSamplerate(samplerate);
+                                    audioTags.setSample(samplerate);
                                 } else if (videoTags != null) {
-                                    videoTags.setSamplerate(samplerate);
+                                    videoTags.setSample(samplerate);
                                 } else if (romTags != null) {
-                                    romTags.setSamplerate(samplerate);
+                                    romTags.setSample(samplerate);
                                 }
                             }
                             break;
