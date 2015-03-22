@@ -9,7 +9,7 @@ https://github.com/GOMF/mcs
 The main focus at the moment is to implement a usable app and later on to implement the whole
 scale of functionality provided by the server and finally making it visually more appealing...
 
-The App requires at least Android 4.x (minSdkVersion="16").
+The App requires at least Android 4.1 (minSdkVersion="16").
 It does work with SDK19 and should work also on Android L.
 
 Current features:
@@ -37,10 +37,12 @@ Current features:
 - minSDK increased to API 16 -> Jelly Bean 4.1 -> necessary for input validation
 - Displaying all available tag information + support for multilingualism
 - Replaced most of the hardcoded messages
+- Helper Class for equal executable task through out fragments
 
 To be done:
 -----------
 - Adding more languages
+- Fix offset issue for good
 - Determine necessary error messages and make them multilingual
 - Making several methods more efficient and robust -> partially done @robustness
 - Making sure all status codes are handled properly -> partially done

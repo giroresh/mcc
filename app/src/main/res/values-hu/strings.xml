@@ -41,7 +41,7 @@
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
 	<string name="controlButtonsTV">Szabályzók</string>
-	<string name="noTagInfo">Sajnos a fajlnak nincsen címkéje,\nezért csak az ID-t tudjuk mutatni:\n</string>
+	<string name="noTagInfo">Sajnos a fajlnak nincsen címkéje,\nezért csak az ID: %1$d és a címe: %2$s jelenik meg\n</string>
 	<string name="wrongPW">Talán rossz a jelszó?</string>
 	<string name="restartedServer">Kiszolgáló újrainditva</string>
 	<string name="shutdownServer">Kiszolgáló leállítva</string>

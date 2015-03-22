@@ -84,19 +84,13 @@
 				android:minHeight="20dp"
 				android:minWidth="40dp"/>
 		</LinearLayout>
-		<LinearLayout
-			android:orientation="vertical"
+		<ScrollView
+			xmlns:android="http://schemas.android.com/apk/res/android"
 			android:layout_width="fill_parent"
 			android:layout_height="match_parent"
-			android:id="@+id/wrapper4"
-			android:layout_weight="0">
-			<ScrollView
-				xmlns:android="http://schemas.android.com/apk/res/android"
-				android:layout_width="fill_parent"
-				android:layout_height="match_parent"
-				android:fillViewport="true"
-				android:padding="3dp"
-				android:fadeScrollbars="false">
+			android:fillViewport="true"
+			android:padding="3dp"
+			android:fadeScrollbars="false">
 				<TextView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
@@ -104,8 +98,7 @@
 					android:id="@+id/infoTV"
 					android:gravity="center"
 					android:drawablePadding="5dp"/>
-			</ScrollView>
-		</LinearLayout>
+		</ScrollView>
 	</LinearLayout>
 	<View
 		android:layout_width="fill_parent"

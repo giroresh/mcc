@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.helper.MCCFragHelper;
 import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
@@ -56,6 +57,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
     private View view;
     private TextView lengthTV;
     private TextView offsetTV;
+    private int maxOffset;
 
     public static VideoPageFragment newInstance(int page) {
             Bundle args = new Bundle();
@@ -63,206 +65,181 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
             VideoPageFragment fragment = new VideoPageFragment();
             fragment.setArguments(args);
             return fragment;
+    }
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mPage = getArguments().getInt(ARG_PAGE);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        view = inflater.inflate(R.layout.videofragmentview, container, false);
+        lv = (ListView) view.findViewById(R.id.videolist);
+
+        lengthButton = (Button) view.findViewById(R.id.lengthButton);
+        lengthButton.setOnClickListener(this);
+        lengthMinusButton = (Button) view.findViewById(R.id.lengthButtonMinus);
+        lengthMinusButton.setOnClickListener(this);
+
+        offsetButton = (Button) view.findViewById(R.id.offsetButton);
+        offsetButton.setOnClickListener(this);
+        offsetMinusButton = (Button) view.findViewById(R.id.offsetMinusButton);
+        offsetMinusButton.setOnClickListener(this);
+
+        lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
+        lengthTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        lengthTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        lengthTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
+        lengthTV.setText(" " + length + " ");
+
+        offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
+        offsetTV.setTypeface(null, Typeface.BOLD_ITALIC);
+        offsetTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
+        offsetTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
+        offsetTV.setText(" " + offset + " ");
+
+        Intent intent = getActivity().getIntent();
+        serverIP = intent.getStringExtra("IP");
+        portNr = intent.getIntExtra("port", 0);
+
+        listItems = new ArrayList<>();
+
+        try {
+        List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
+
+        playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+
+        if (!playlistItemsFromXML.isEmpty()) {
+            for (int i = 0; i < playlistItemsFromXML.size(); i++) {
+                listItems.add(playlistItemsFromXML.get(i).getID() + " | " + playlistItemsFromXML.get(i).getLabel());
+            }
         }
 
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            mPage = getArguments().getInt(ARG_PAGE);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.playlistitem, listItems);
+        lv.setAdapter(adapter);
+        lv.setOnItemClickListener(this);
+        registerForContextMenu(lv);
+
+        maxOffset = adapter.getCount()-2;
+
+        } catch (XmlPullParserException e) {
+            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+        } catch (ExecutionException e) {
+            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException e) {
+            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (NullPointerException e) {
+            Toast.makeText(getActivity(), "NullPointer Error", Toast.LENGTH_SHORT).show();
         }
+        return view;
+    }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-            view = inflater.inflate(R.layout.videofragmentview, container, false);
-            lv = (ListView) view.findViewById(R.id.videolist);
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+       super.onCreateContextMenu(menu, v, menuInfo);
 
-            lengthButton = (Button) view.findViewById(R.id.lengthButton);
-            lengthButton.setOnClickListener(this);
-            lengthMinusButton = (Button) view.findViewById(R.id.lengthButtonMinus);
-            lengthMinusButton.setOnClickListener(this);
+        MenuInflater inflater = getActivity().getMenuInflater();
+        inflater.inflate(R.menu.playlistcontextmenu, menu);
+    }
 
-            offsetButton = (Button) view.findViewById(R.id.offsetButton);
-            offsetButton.setOnClickListener(this);
-            offsetMinusButton = (Button) view.findViewById(R.id.offsetMinusButton);
-            offsetMinusButton.setOnClickListener(this);
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        if (getUserVisibleHint()) {
+            AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
 
-            offsetTV = (TextView) view.findViewById(R.id.offsetTV2);
-            lengthTV = (TextView) view.findViewById(R.id.lengthTV2);
-            offsetTV.setTypeface(null, Typeface.BOLD_ITALIC);
-            lengthTV.setTypeface(null, Typeface.BOLD_ITALIC);
-            offsetTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
-            lengthTV.setTextColor(getResources().getColor(R.color.lengthOffestTV2));
-            offsetTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
-            lengthTV.setTextSize(TypedValue.COMPLEX_UNIT_PT, 12);
-            offsetTV.setText(" " + offset + " ");
-            lengthTV.setText(" " + length + " ");
-
-            Intent intent = getActivity().getIntent();
-            serverIP = intent.getStringExtra("IP");
-            portNr = intent.getIntExtra("port", 0);
-
-            listItems = new ArrayList<>();
+            selectedID = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString().substring(0, 8);
 
             try {
-                ParseXML xmlItems = new ParseXML();
-                List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
+                infoTV = (TextView) getView().findViewById(R.id.infoTV);
 
-                playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+                switch (item.getItemId()) {
+                    case R.id.info:
+                        try {
+                            Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + selectedID));
+                            String classTypeOfTags = selectedFile.getClass().getName();
 
-                if (!playlistItemsFromXML.isEmpty()) {
-                    for (int i = 0; i < playlistItemsFromXML.size(); i++) {
-                        listItems.add(playlistItemsFromXML.get(i).getID() + " | " + playlistItemsFromXML.get(i).getLabel());
-                    }
-                }
-
-                adapter = new ArrayAdapter<>(getActivity(), R.layout.playlistitem, listItems);
-                lv.setAdapter(adapter);
-                lv.setOnItemClickListener(this);
-                registerForContextMenu(lv);
-
-            } catch (XmlPullParserException e) {
-                Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
-            } catch (ExecutionException e) {
-                Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-            } catch (InterruptedException e) {
-                Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
-            } catch (NullPointerException e) {
-                Toast.makeText(getActivity(), "NullPointer Error", Toast.LENGTH_SHORT).show();
-            }
-            return view;
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-            super.onCreateContextMenu(menu, v, menuInfo);
-
-            MenuInflater inflater = getActivity().getMenuInflater();
-            inflater.inflate(R.menu.playlistcontextmenu, menu);
-        }
-
-        @Override
-        public boolean onContextItemSelected(MenuItem item) {
-            if (getUserVisibleHint()) {
-                AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
-
-                selectedID = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString().substring(0, 8);
-
-                try {
-                    infoTV = (TextView) getView().findViewById(R.id.infoTV);
-
-                    switch (item.getItemId()) {
-                        case R.id.info:
-                            try {
-                                Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + selectedID));
-                                String classTypeOfTags = selectedFile.getClass().getName();
-
-                                if (classTypeOfTags.contains("VideoTags")) {
-                                    VideoTags vt = (VideoTags) selectedFile;
-                                    String[] tagInfo = vt.getAllTagInfo().split("\n");
-                                    String tagInfoMultiLang = getResources().getString(R.string.tagNoInfo);
-                                    for (String aTagInfo : tagInfo) {
-                                        if (aTagInfo.startsWith("title")) {
-                                            tagInfoMultiLang = getResources().getString(R.string.tagTitle) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("album")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("artist")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagArtist) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("genre")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagGenre) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("track")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagTrack) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("year")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagYear) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("length")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagLength) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("bitrate")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("sample")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagSample) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("channels")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagChannels) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        } else if (aTagInfo.startsWith("comment")) {
-                                            tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                        }
-                                    }
-                                    infoTV.setText(tagInfoMultiLang.substring(0, tagInfoMultiLang.lastIndexOf("\n")));
-                                    return true;
-                                } else {
-                                    infoTV.setText(R.string.videoOnly);
-                                }
-                            } catch (XmlPullParserException e) {
-                                Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
-                                return false;
-                            } catch (IOException e) {
-                                Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
-                                return false;
-                            } catch (ExecutionException e) {
-                                Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-                                return false;
-                            } catch (InterruptedException e) {
-                                Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
-                                return false;
-                            } catch (NoTagsException e) {
-                                Toast.makeText(getActivity(), R.string.videoShouldTags, Toast.LENGTH_SHORT).show();
+                            if (classTypeOfTags.contains("VideoTags")) {
+                                VideoTags vt = (VideoTags) selectedFile;
+                                infoTV.setText(MCCFragHelper.getMultiLangString(getResources(), vt.getAllTagInfo().split("\n")));
                                 return true;
+                            } else {
+                                infoTV.setText(R.string.videoOnly);
+                                return false;
                             }
-                            break;
-                        default:
+                        } catch (XmlPullParserException e) {
+                            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
                             return false;
-                    }
-                } catch (NullPointerException e) {
-                    Toast.makeText(getActivity(), "Something went really bad", Toast.LENGTH_SHORT).show();
-                    return false;
-                }
-            }
-            return false;
-        }
-
-        @Override
-        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            /** Should be changed to something more sophisticated!!!!
-             * ATM playID is fetched from list element
-             */
-            playID = Integer.parseInt(((TextView) view).getText().toString().substring(0, 8));
-
-            Boolean playReturnCode;
-            try {
-                playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
-                if (playReturnCode) {
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                        playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
-                        if (playReturnCode) {
-                            ParseXML xml = new ParseXML();
-                            int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
-                            int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
-                            Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
-                            intentPlayback.putExtra("IP", serverIP);
-                            intentPlayback.putExtra("port", portNr);
-                            intentPlayback.putExtra("playID", playID);
-                            intentPlayback.putExtra("prevID", prevID);
-                            intentPlayback.putExtra("nextID", nextID);
-                            startActivityForResult(intentPlayback, 2);
-                        } else {
-                            Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                        } catch (IOException e) {
+                            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+                            return false;
+                        } catch (ExecutionException e) {
+                            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
+                            return false;
+                        } catch (InterruptedException e) {
+                            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+                            return false;
+                        } catch (NoTagsException e) {
+                            Toast.makeText(getActivity(), R.string.videoShouldTags, Toast.LENGTH_SHORT).show();
+                            return true;
                         }
+                    default:
+                        return false;
+                }
+            } catch (NullPointerException e) {
+                Toast.makeText(getActivity(), "Something went really bad", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        /** Should be changed to something more sophisticated!!!!
+         * ATM playID is fetched from list element
+         */
+        playID = Integer.parseInt(((TextView) view).getText().toString().substring(0, 8));
+
+        Boolean playReturnCode;
+        try {
+            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+            if (playReturnCode) {
+                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+                    if (playReturnCode) {
+                        ParseXML xml = new ParseXML();
+                        int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
+                        int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
+                        Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
+                        intentPlayback.putExtra("IP", serverIP);
+                        intentPlayback.putExtra("port", portNr);
+                        intentPlayback.putExtra("playID", playID);
+                        intentPlayback.putExtra("prevID", prevID);
+                        intentPlayback.putExtra("nextID", nextID);
+                        startActivityForResult(intentPlayback, 2);
                     } else {
-                        Toast.makeText(getActivity(), R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
                 }
-            } catch (ExecutionException e) {
-                Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-            } catch (InterruptedException ie) {
-                Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
-            } catch (XmlPullParserException e) {
-                Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
-            } catch (IOException e) {
-                Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
             }
+        } catch (ExecutionException e) {
+            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
+        } catch (InterruptedException ie) {
+            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+        } catch (XmlPullParserException e) {
+            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+        } catch (IOException e) {
+            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
         }
+    }
 
     /**
      * Called when a view has been clicked.
@@ -287,7 +264,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                 }
                 break;
             case R.id.offsetButton:
-                if (offset < lv.getAdapter().getCount()) {
+                if (offset < maxOffset) {
                     offset++;
                     offsetTV.setText(" " + offset + " ");
                     doListChange();
@@ -306,8 +283,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            ParseXML xmlItems = new ParseXML();
-            playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

@@ -26,12 +26,12 @@ import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
  * Created by giro on 2014.12.15..
  * parses the given XML file and sorts it to the right class of playable items
  */
-class ParseXML {
-    private XmlPullParser xpp;
-    private AudioFiles audioFiles = null;
-    private VideoFiles videoFiles = null;
-    private RomFiles romFiles = null;
-    private List<PlaylistItems> playlistItemList = new ArrayList<>();
+public class ParseXML {
+    private static XmlPullParser xpp;
+    private static AudioFiles audioFiles = null;
+    private static VideoFiles videoFiles = null;
+    private static RomFiles romFiles = null;
+    private static List<PlaylistItems> playlistItemList = new ArrayList<>();
     private AudioTags audioTags = null;
     private VideoTags videoTags = null;
 
@@ -41,7 +41,8 @@ class ParseXML {
         xpp = factory.newPullParser();
     }
 
-    private List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
+    private static List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
+        playlistItemList.clear();
         String result = xmlResponse.get();
         result = result.substring(14);
 
@@ -124,7 +125,7 @@ class ParseXML {
         return playlistItemList;
     }
 
-    public List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
+    public static List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
         return getAllFiles(xmlResponse);
     }
 

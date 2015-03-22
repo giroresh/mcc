@@ -39,8 +39,6 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private String serverIP;
     private int portNr;
     private int playID;
-    private String selectedID;
-    private TextView infoTV;
     private final int type = 200;
     private int length = 50;
     private int offset = 0;
@@ -51,6 +49,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private View view;
     private TextView lengthTV;
     private TextView offsetTV;
+    private int maxOffset;
 
     public static ROMPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -99,10 +98,9 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
         listItems = new ArrayList<>();
 
         try {
-            ParseXML xmlItems = new ParseXML();
             List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
 
-            playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
 
             if (!playlistItemsFromXML.isEmpty()) {
                 for (int i = 0; i < playlistItemsFromXML.size(); i++) {
@@ -113,6 +111,9 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
             adapter = new ArrayAdapter<>(getActivity(), R.layout.playlistitem, listItems);
             lv.setAdapter(adapter);
             lv.setOnItemClickListener(this);
+
+            maxOffset = adapter.getCount()-2;
+
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
@@ -133,6 +134,8 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
          * ATM playID is fetched from list element
          */
         playID = Integer.parseInt(((TextView) view).getText().toString().substring(0, 8));
+        String titleToPlay = ((TextView) view).getText().toString();
+        titleToPlay = titleToPlay.substring(titleToPlay.indexOf("|")+1);
 
         Boolean playReturnCode;
         try {
@@ -150,6 +153,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
                         intentPlayback.putExtra("playID", playID);
                         intentPlayback.putExtra("prevID", prevID);
                         intentPlayback.putExtra("nextID", nextID);
+                        intentPlayback.putExtra("titleToPlay", titleToPlay);
                         startActivityForResult(intentPlayback, 2);
                     } else {
                         Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
@@ -194,7 +198,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
                 }
                 break;
             case R.id.offsetButton:
-                if (offset < lv.getAdapter().getCount()) {
+                if (offset < maxOffset) {
                     offset++;
                     offsetTV.setText(" " + offset + " ");
                     doListChange();
@@ -213,8 +217,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            ParseXML xmlItems = new ParseXML();
-            playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -26,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.helper.MCCFragHelper;
 import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
@@ -56,6 +56,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     private Button offsetMinusButton;
     private TextView offsetTV;
     private TextView lengthTV;
+    private int maxOffset;
 
     public static AudioPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -104,10 +105,9 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         listItems = new ArrayList<>();
 
         try {
-            ParseXML xmlItems = new ParseXML();
             List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
 
-           playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+           playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
 
             if (!playlistItemsFromXML.isEmpty()) {
                 for (int i = 0; i < playlistItemsFromXML.size(); i++) {
@@ -119,6 +119,9 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
             lv.setAdapter(adapter);
             lv.setOnItemClickListener(this);
             registerForContextMenu(lv);
+
+            maxOffset = adapter.getCount()-2;
+
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
@@ -165,35 +168,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
 
                             if (classTypeOfTags.contains("AudioTags")) {
                                 AudioTags at = (AudioTags) selectedFile;
-                                String[] tagInfo = at.getAllTagInfo().split("\n");
-                                String tagInfoMultiLang = getResources().getString(R.string.tagNoInfo);
-                                for (String aTagInfo : tagInfo) {
-                                    if (aTagInfo.startsWith("title")) {
-                                        Log.d("AudioFrag", "tagInfo is: " + aTagInfo);
-                                        tagInfoMultiLang = getResources().getString(R.string.tagTitle) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("album")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagAlbum) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("artist")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagArtist) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("genre")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagGenre) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("track")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagTrack) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("year")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagYear) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("length")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagLength) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("bitrate")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagBitrate) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("sample")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagSample) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("channels")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagChannels) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    } else if (aTagInfo.startsWith("comment")) {
-                                        tagInfoMultiLang += getResources().getString(R.string.tagComment) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
-                                    }
-                                }
-                                infoTV.setText(tagInfoMultiLang.substring(0, tagInfoMultiLang.lastIndexOf("\n")));
+                                infoTV.setText(MCCFragHelper.getMultiLangString(getResources(), at.getAllTagInfo().split("\n")));
                                 return true;
                             } else {
                                 infoTV.setText(R.string.audioOnly);
@@ -294,7 +269,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
                 }
                 break;
             case R.id.offsetButton:
-                if (offset < lv.getAdapter().getCount()) {
+                if (offset < maxOffset) {
                     offset++;
                     offsetTV.setText(" " + offset + " ");
                     doListChange();
@@ -313,8 +288,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            ParseXML xmlItems = new ParseXML();
-            playlistItemsFromXML.addAll(xmlItems.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {

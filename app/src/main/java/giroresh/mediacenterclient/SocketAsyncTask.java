@@ -13,7 +13,7 @@ import java.net.Socket;
  * Created by giro on 2014.12.10..
  * Does the actual sending and receiving
  */
-class SocketAsyncTask extends AsyncTask<Object, Void, String> {
+public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
     private String result = "";
 
     public SocketAsyncTask() {

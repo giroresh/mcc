@@ -41,7 +41,7 @@
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
 	<string name="controlButtonsTV">Steuerung</string>
-	<string name="noTagInfo">Leider hat die Datei keinen Tag,\ndaher wird nur die ID ausgegeben:\n</string>
+	<string name="noTagInfo">Leider hat die Datei keinen Tag,\ndaher wird nur die ID: %1$d und der Titel: %2$s ausgegeben\n</string>
 	<string name="wrongPW">Vielleicht falsches Passwort?</string>
 	<string name="restartedServer">Neustart erfolgreich</string>
 	<string name="shutdownServer">Herunterfahren erfolgreich</string>

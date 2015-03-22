@@ -41,7 +41,7 @@
 	<string name="ipHint">192.168.0.1</string>
 	<string name="portHint">5002</string>
 	<string name="controlButtonsTV">Controls</string>
-	<string name="noTagInfo">Sorry file has no tags,\nso we only are able to display its ID:\n</string>
+	<string name="noTagInfo">Sorry file has no tags,\nso we only are able to display its ID: %1$d Title: %2$s\n</string>
 	<string name="wrongPW">Maybe wrong password?</string>
 	<string name="restartedServer">Restarted server successfully</string>
 	<string name="shutdownServer">Shutdown server successfully</string>

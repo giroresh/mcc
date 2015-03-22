@@ -38,6 +38,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
     private Button quieterButton;
     private Button backApp;
     private TextView playbackInfoTV;
+    private String titleToPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +52,8 @@ public class ControlPlayback extends Activity implements OnClickListener {
         playID = intent.getIntExtra("playID", 0);
         prevID = intent.getIntExtra("prevID", 0);
         nextID = intent.getIntExtra("nextID", 0);
+        titleToPlay = intent.getStringExtra("titleToPlay");
+
 
 //        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  nextID: " + nextID);
 
@@ -108,7 +111,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
         } catch (InterruptedException e) {
             Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
         } catch (NoTagsException e) {
-            playbackInfoTV.setText(getResources().getText(R.string.noTagInfo).toString() +  playID);
+            playbackInfoTV.setText(getResources().getString(R.string.noTagInfo, playID, titleToPlay));
         }
         playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
