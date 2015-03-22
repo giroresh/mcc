@@ -37,7 +37,7 @@ Current features:
 - minSDK increased to API 16 -> Jelly Bean 4.1 -> necessary for input validation
 - Displaying all available tag information + support for multilingualism
 - Replaced most of the hardcoded messages
-- Helper Class for equal executable task through out fragments
+- Helper Class for fragments for identically executed tasks
 
 To be done:
 -----------
