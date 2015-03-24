@@ -3,4 +3,11 @@
 	<item name="borderColor" type="color">#87add0</item>
 	<item name="lengthOffestTV2" type="color">#88fbd9</item>
 	<color name="edittextBorderRed">#980000</color>
+	<color name="white">#FFFFFF</color>
+	<color name="green">#BB007f00</color>
+	<color name="turkiz">#BB156958</color>
+	<color name="bordo">#BB581010</color>
+	<color name="red">#BB980000</color>
+	<color name="blue">#BB1122BB</color>
+	<color name="bluish">#BB2192BB</color>
 </resources>

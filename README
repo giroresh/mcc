@@ -42,6 +42,8 @@ Current features:
 - ParseXML non static!
 - simplified several methods within ParseXML
 - Support for server compiled without taglib
+- Added custom toasts for better user experience (blue == info, red == error, green == success)
+- Login and SetAdminKey input fields become only bluish if input criteria are met
 
 To be done:
 -----------

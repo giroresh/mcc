@@ -14,6 +14,8 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.helper.MCCToast;
+
 public class Control extends Activity implements OnClickListener {
     private Button playlist;
     private Button setAdminKeyButton;
@@ -96,9 +98,9 @@ public class Control extends Activity implements OnClickListener {
                 try {
                     Boolean status = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
                     if (status) {
-                        Toast.makeText(this, R.string.restartedServer, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.restartedServer), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     } else {
-                        Toast.makeText(this, R.string.wrongPW, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.wrongPW), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                 } catch (ExecutionException e) {
                     Toast.makeText(this, "restart failed - Execution Error", Toast.LENGTH_SHORT).show();
@@ -120,9 +122,9 @@ public class Control extends Activity implements OnClickListener {
                         restartButton.setEnabled(false);
                         shutdownButton.setClickable(false);
                         shutdownButton.setEnabled(false);
-                        Toast.makeText(this, R.string.shutdownServer, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.shutdownServer), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     } else {
-                        Toast.makeText(this, R.string.wrongPW, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.wrongPW), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                 } catch (ExecutionException e) {
                     Toast.makeText(this, "shutdown failed - Execution Error", Toast.LENGTH_SHORT).show();
@@ -166,7 +168,7 @@ public class Control extends Activity implements OnClickListener {
                 serverStatusButton.setClickable(true);
                 serverStatusButton.setEnabled(true);
             } else if (resCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
             }
         } else if (reqCode == 3) {
             if (resCode == RESULT_OK) {
@@ -176,7 +178,7 @@ public class Control extends Activity implements OnClickListener {
                 shutdownButton.setClickable(true);
                 shutdownButton.setEnabled(true);
             } else if (resCode == RESULT_CANCELED) {
-                Toast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
             }
         }
     }

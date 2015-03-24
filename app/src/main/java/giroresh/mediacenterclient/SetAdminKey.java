@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import giroresh.mediacenterclient.helper.MCCTextWatcher;
+import giroresh.mediacenterclient.helper.MCCToast;
 
 /**
  * Created by giro on 2015.01.23..
@@ -50,16 +51,16 @@ public class SetAdminKey extends Activity implements View.OnClickListener {
                     if (!adminKeyString.isEmpty()) {
                         intent.putExtra("AdminKey", adminKeyString);
                         setResult(RESULT_OK, intent);
-                        Toast.makeText(this, R.string.setPW, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.setPW), Toast.LENGTH_LONG, R.drawable.mcctoastgreen);
                         finish();
                     } else {
-                        Toast.makeText(this, R.string.setPWNot, Toast.LENGTH_LONG).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.setPWNot), Toast.LENGTH_LONG, R.drawable.mcctoastred);
                         setResult(RESULT_CANCELED, intent);
                         finish();
                     }
                     break;
                 } else {
-                    Toast.makeText(this, R.string.adminKeyCheck, Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.adminKeyCheck), Toast.LENGTH_LONG, R.drawable.mcctoastred);
                     break;
                 }
             case R.id.backApp:

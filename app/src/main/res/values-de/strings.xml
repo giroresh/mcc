@@ -87,4 +87,5 @@
 	<string name="serverStatusInfoTVTxt"/>
 	<string name="serverStatusMsgBegin">Serverversion ist: %1$s \n Anzahl der geladen Dateien: %2$s\n</string>
 	<string name="serverStatusMsgRst">ID %1$s entspricht dem Datentyp %2$s\n</string>
+	<string name="toastContentDescrIV">Info Symbol</string>
 </resources>

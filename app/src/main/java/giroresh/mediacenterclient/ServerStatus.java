@@ -3,6 +3,8 @@ package giroresh.mediacenterclient;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 /** This activity displays the server status
  * Created by giro on 2015.03.23..
  */
-public class ServerStatus extends Activity {
+public class ServerStatus extends Activity implements View.OnClickListener {
 
     private int portNr;
     private String serverIP;
@@ -55,6 +57,24 @@ public class ServerStatus extends Activity {
             Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
             Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
+        }
+        Button backApp = (Button) findViewById(R.id.backApp);
+        backApp.setOnClickListener(this);
+    }
+
+    /**
+     * Called when a view has been clicked.
+     *
+     * @param v The view that was clicked.
+     */
+    @Override
+    public void onClick(View v) {
+        switch(v.getId()) {
+            case R.id.backApp:
+                Intent backIntent = new Intent(ServerStatus.this, Control.class);
+                setResult(RESULT_CANCELED, backIntent);
+                finish();
+                break;
         }
     }
 }

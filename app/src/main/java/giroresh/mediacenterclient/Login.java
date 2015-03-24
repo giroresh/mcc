@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.helper.MCCTextWatcher;
+import giroresh.mediacenterclient.helper.MCCToast;
 
 /**
  * Created by giro on 2014.11.27..
@@ -54,13 +55,13 @@ public class Login extends Activity implements OnClickListener {
                 if (!serverIP.getText().toString().isEmpty()) {
                     serverIPString = serverIP.getText().toString();
                 } else {
-                    Toast.makeText(this, R.string.serverIPEmpty, Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.serverIPEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
 
                 if (!portNr.getText().toString().isEmpty()) {
                     portNrString = Integer.valueOf(portNr.getText().toString());
                 } else {
-                    Toast.makeText(this, R.string.portNrEmpty, Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.portNrEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
 
                 try {
@@ -77,12 +78,12 @@ public class Login extends Activity implements OnClickListener {
                     intent.putExtra("IP", serverIPString);
                     intent.putExtra("port", portNrString);
                     setResult(RESULT_OK, intent);
-                    Toast.makeText(this, R.string.serverConnected, Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.serverConnected), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     finish();
                     break;
                 } else {
                     setResult(RESULT_CANCELED, intent);
-                    Toast.makeText(this, R.string.serverUnreachable, Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.serverUnreachable), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     finish();
                     break;
                 }

@@ -26,6 +26,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.helper.MCCFragHelper;
+import giroresh.mediacenterclient.helper.MCCToast;
 import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
@@ -228,13 +229,13 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                         intentPlayback.putExtra("titleToPlay", titleToPlay);
                         startActivityForResult(intentPlayback, 2);
                     } else {
-                        Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(getActivity(), getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                 } else {
-                    Toast.makeText(getActivity(), R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+                    MCCToast.makeText(getActivity(), getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
             } else {
-                Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(getActivity(), getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
             }
         } catch (ExecutionException e) {
             Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();

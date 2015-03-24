@@ -87,4 +87,5 @@
 	<string name="serverStatusInfoTVTxt"/>
 	<string name="serverStatusMsgBegin">Kiszolgáló Verzió: %1$s \nBetöltött fajlok száma: %2$s\n</string>
 	<string name="serverStatusMsgRst">a %1$s ID a(z) %2$s-nak felel meg\n</string>
+	<string name="toastContentDescrIV">Info Symbol</string>
 </resources>

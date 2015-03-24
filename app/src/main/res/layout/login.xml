@@ -27,7 +27,7 @@
 		android:layout_gravity="center_horizontal"
         android:text="@string/ip"
 		android:hint="@string/ipHint"
-		android:background="@drawable/edittextborder"
+		android:background="@drawable/edittextborderred"
 		android:layout_weight="0.05"
 		android:paddingLeft="5dp"
 		android:paddingRight="5dp"/>
@@ -46,7 +46,7 @@
 		android:layout_gravity="center_horizontal"
 		android:text="@string/port"
 		android:hint="@string/portHint"
-		android:background="@drawable/edittextborder"
+		android:background="@drawable/edittextborderred"
 		android:layout_weight="0.05"
 		android:paddingLeft="5dp"
 		android:paddingRight="5dp"

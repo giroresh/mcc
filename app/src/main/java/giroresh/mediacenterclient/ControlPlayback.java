@@ -15,6 +15,7 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.helper.MCCToast;
 import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
@@ -141,10 +142,8 @@ public class ControlPlayback extends Activity implements OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                Toast.makeText(this, R.string.stopSuccess, Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+            if (!xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                MCCToast.makeText(this, getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);                                                Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
             }
         } catch (ExecutionException e) {
             Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
@@ -159,9 +158,9 @@ public class ControlPlayback extends Activity implements OnClickListener {
             switch(v.getId()) {
                 case R.id.playButton:
                     if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL p"))) {
-                        Toast.makeText(this, R.string.pausedPlay, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.pausedPlay), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     } else {
-                        Toast.makeText(this, R.string.pausePlayUnsuccessful, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.pausePlayUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                     break;
                 case R.id.stopButton:
@@ -171,14 +170,14 @@ public class ControlPlayback extends Activity implements OnClickListener {
                         intentPlayback.putExtra("port", portNr);
                         startActivityForResult(intentPlayback, 2);
                     } else {
-                        Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                     break;
                 case R.id.prevButton:
                     try {
                         Boolean playReturnCode;
                         if (prevID == 0) {
-                            Toast.makeText(this, R.string.curItemFirst, Toast.LENGTH_SHORT).show();
+                            MCCToast.makeText(this, getResources().getString(R.string.curItemFirst), Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
                         } else {
                             playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
                             if (playReturnCode) {
@@ -197,13 +196,13 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                         intentPlayback.putExtra("titleToPlay", titleToPlay);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
-                                        Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                                        MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                                     }
                                 } else {
-                                    Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+                                    MCCToast.makeText(this, getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                                 }
                             } else {
-                                Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                                MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             }
                         }
                     } catch (ExecutionException e) {
@@ -219,7 +218,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 case R.id.nextButton:
                     try {
                         if (nextID == 0) {
-                            Toast.makeText(this, R.string.curItemLast, Toast.LENGTH_SHORT).show();
+                            MCCToast.makeText(this, getResources().getString(R.string.curItemLast), Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
                         } else {
                             Boolean playReturnCode;
                             playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
@@ -238,13 +237,13 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                         intentPlayback.putExtra("titleToPlay", titleToPlay);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
-                                        Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                                        MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                                     }
                                 } else {
-                                    Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
+                                    MCCToast.makeText(this, getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                                 }
                             } else {
-                                Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
+                                MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             }
                         }
                     } catch (ExecutionException e) {
@@ -261,24 +260,22 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     break;
                 case R.id.louderButton:
                     if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL +"))) {
-                        Toast.makeText(this, R.string.volIncr, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.volIncr), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     } else {
-                        Toast.makeText(this, R.string.volIncrUnsuccessful, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.volIncrUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                     break;
                 case R.id.quieterButton:
                     if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL -"))) {
-                        Toast.makeText(this, R.string.volDecr, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.volDecr), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                     } else {
-                        Toast.makeText(this, R.string.volDecrUnsuccessful, Toast.LENGTH_SHORT).show();
+                        MCCToast.makeText(this, getResources().getString(R.string.volDecrUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                     break;
                 case R.id.backApp:
                     Intent backIntent = new Intent(ControlPlayback.this, Playlist.class);
-                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                        Toast.makeText(this, R.string.backPress, Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(this, R.string.backPressUnsuccessful, Toast.LENGTH_SHORT).show();
+                    if (!xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                        MCCToast.makeText(this, getResources().getString(R.string.backPressUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                     setResult(RESULT_CANCELED, backIntent);
                     finish();
