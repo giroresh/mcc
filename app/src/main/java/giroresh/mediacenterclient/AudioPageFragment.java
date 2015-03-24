@@ -57,6 +57,7 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     private TextView offsetTV;
     private TextView lengthTV;
     private int maxOffset;
+    private ParseXML xml;
 
     public static AudioPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -105,9 +106,11 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
         listItems = new ArrayList<>();
 
         try {
+
             List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
 
-           playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            xml = new ParseXML();
+            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
 
             if (!playlistItemsFromXML.isEmpty()) {
                 for (int i = 0; i < playlistItemsFromXML.size(); i++) {
@@ -211,12 +214,11 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
 
         Boolean playReturnCode;
         try {
-            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+            playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
             if (playReturnCode) {
-                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+                if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                    playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
-                        ParseXML xml = new ParseXML();
                         int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
                         int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
@@ -288,7 +290,8 @@ public class AudioPageFragment extends Fragment implements AdapterView.OnItemCli
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            ParseXML xml = new ParseXML();
+            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {

@@ -50,6 +50,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private TextView lengthTV;
     private TextView offsetTV;
     private int maxOffset;
+    private ParseXML xml;
 
     public static ROMPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -100,7 +101,8 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
         try {
             List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
 
-            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            xml = new ParseXML();
+            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
 
             if (!playlistItemsFromXML.isEmpty()) {
                 for (int i = 0; i < playlistItemsFromXML.size(); i++) {
@@ -139,10 +141,10 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
 
         Boolean playReturnCode;
         try {
-            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+            playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
             if (playReturnCode) {
-                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
+                if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                    playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
                         ParseXML xml = new ParseXML();
                         int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
@@ -217,7 +219,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            playlistItemsFromXML.addAll(ParseXML.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

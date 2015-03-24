@@ -26,10 +26,16 @@
 
 		<activity android:name="Playlist"
 				  android:label="@string/app_name"
+				  android:noHistory="true"
 				  android:configChanges="orientation|screenLayout|screenSize">
 		</activity>
 
 		<activity android:name="SetAdminKey"
+				  android:label="@string/app_name"
+				  android:configChanges="orientation|screenLayout|screenSize">
+		</activity>
+
+		<activity android:name="ServerStatus"
 				  android:label="@string/app_name"
 				  android:configChanges="orientation|screenLayout|screenSize">
 		</activity>

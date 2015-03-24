@@ -27,11 +27,11 @@ import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
  * parses the given XML file and sorts it to the right class of playable items
  */
 public class ParseXML {
-    private static XmlPullParser xpp;
-    private static AudioFiles audioFiles = null;
-    private static VideoFiles videoFiles = null;
-    private static RomFiles romFiles = null;
-    private static List<PlaylistItems> playlistItemList = new ArrayList<>();
+    private XmlPullParser xpp;
+    private AudioFiles audioFiles = null;
+    private VideoFiles videoFiles = null;
+    private RomFiles romFiles = null;
+    private List<PlaylistItems> playlistItemList = new ArrayList<>();
     private AudioTags audioTags = null;
     private VideoTags videoTags = null;
 
@@ -41,8 +41,7 @@ public class ParseXML {
         xpp = factory.newPullParser();
     }
 
-    private static List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
-        playlistItemList.clear();
+    private List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
         String result = xmlResponse.get();
         result = result.substring(14);
 
@@ -125,7 +124,7 @@ public class ParseXML {
         return playlistItemList;
     }
 
-    public static List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
+    public List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
         return getAllFiles(xmlResponse);
     }
 
@@ -332,105 +331,72 @@ public class ParseXML {
 
     /**
      *
-     * @param result is the xml response of the server that gets checked for any error messages
-     * @return true if NO error message found
+     * @param result is the xml response of the server that gets checked for OK  messages
+     * @return true if OK found
      */
     private Boolean getStatusOfListCMD(String result) {
-        if (result.contains("502")) {
-            return false;
-        } else if (result.contains("401")) {
-            return false;
-        } else if (result.contains("402")) {
-            return  false;
-        } else if (result.contains("500")) {
-            return false;
-        } else if (result.contains("503")) {
-            return false;
-        } else if (result.contains("504")) {
-            return false;
-        }
-        return true;
+        return result.contains("200");
     }
 
-    public static boolean getLoginStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
-        if (!stat.get().isEmpty()) {
-            String returnCode = stat.get().substring(8, 11);
-
-            if (isNotInteger(returnCode)) {
-                return false;
-            }
-
-            switch (Integer.valueOf(returnCode)) {
-                case 200:
-                    return true;
-                case 401:
-                    return false;
-                case 504:
-                    return false;
-                default:
-                    return false;
-            }
-        }
-        return false;
-    }
-
-    public static boolean getCTRLReturnCodeStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
-        if (!stat.get().isEmpty()) {
-            String returnCode = stat.get().substring(8, 11);
-
-            if (isNotInteger(returnCode)) {
-                return false;
-            }
-
-            switch (Integer.valueOf(returnCode)) {
-                case 200:
-                    return true;
-                case 401:
-                    return false;
-                case 500:
-                    return false;
-                case 504:
-                    return false;
-                default:
-                    return false;
-                }
-        }
-        return false;
-    }
-
-    public static Boolean getPlayReturnCodeStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
+    public Boolean getStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
         String returnCode = stat.get().substring(8, 11);
 
         if (isNotInteger(returnCode)) {
             return false;
         }
 
-        switch (Integer.valueOf(returnCode)) {
-            case 200:
-                return true;
-            case 401:
-                return false;
-            case 402:
-                return false;
-            case 500:
-                return false;
-            case 501:
-                return true;
-            case 502:
-                return false;
-            case 504:
-                return false;
-            default:
-                return false;
-            }
+        return returnCode.contains("200");
     }
 
-    private static boolean isNotInteger(String s) {
+    private boolean isNotInteger(String s) {
         try {
             Integer.parseInt(s);
             return false;
         } catch (NumberFormatException e) {
             return true;
         }
+    }
+
+    public String getServerStatus(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
+        String result = xmlResponse.get();
+        result = result.substring(14);
+
+        xpp.setInput(new StringReader(result));
+
+        int eventType = xpp.getEventType();
+        String serverStatusStr = "";
+        while (eventType != XmlPullParser.END_DOCUMENT) {
+            switch (eventType) {
+                case XmlPullParser.START_TAG:
+                    if (xpp.getName().equals("items")) {
+                        for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                            if (xpp.getAttributeName(i).equals("version")) {
+                                serverStatusStr += "" + xpp.getAttributeValue(i);
+                            } else if (xpp.getAttributeName(i).equals("size")) {
+                                serverStatusStr += "\t" +  xpp.getAttributeValue(i) + "\n";
+                            }
+                        }
+                    }
+                    if (xpp.getName().equals("type")) {
+                        for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                            if (xpp.getAttributeName(i).equals("id")) {
+                                serverStatusStr += "" + xpp.getAttributeValue(i);
+                            } else if (xpp.getAttributeName(i).equals("name")) {
+                                serverStatusStr += "\t" + xpp.getAttributeValue(i) + "\n";
+                            }
+                        }
+                    }
+
+                    break;
+                case XmlPullParser.TEXT:
+                    break;
+                case XmlPullParser.END_TAG:
+                    break;
+                default:
+                    break;
+            }
+            eventType = xpp.next();
+        }
+        return serverStatusStr;
     }
 }

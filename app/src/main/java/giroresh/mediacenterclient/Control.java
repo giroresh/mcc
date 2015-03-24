@@ -10,6 +10,8 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.util.concurrent.ExecutionException;
 
 public class Control extends Activity implements OnClickListener {
@@ -20,11 +22,19 @@ public class Control extends Activity implements OnClickListener {
     private String serverIP = null;
     private int portNr = 0;
     private String adminKey;
+    private Button serverStatusButton;
+    private ParseXML xml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control);
+
+        try {
+            xml = new ParseXML();
+        } catch (XmlPullParserException e) {
+            Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
+        }
 
         Button connServer = (Button) findViewById(R.id.connServer);
         connServer.setOnClickListener(this);
@@ -38,6 +48,11 @@ public class Control extends Activity implements OnClickListener {
         setAdminKeyButton.setOnClickListener(this);
         setAdminKeyButton.setClickable(false);
         setAdminKeyButton.setEnabled(false);
+
+        serverStatusButton = (Button) findViewById(R.id.serverStatusButton);
+        serverStatusButton.setOnClickListener(this);
+        serverStatusButton.setClickable(false);
+        serverStatusButton.setEnabled(false);
 
         restartButton = (Button) findViewById(R.id.restartButton);
         restartButton.setOnClickListener(this);
@@ -71,9 +86,15 @@ public class Control extends Activity implements OnClickListener {
                 Intent intentSetAdminKey = new Intent(this, SetAdminKey.class);
                 startActivityForResult(intentSetAdminKey, 3);
                 break;
+            case R.id.serverStatusButton:
+                Intent intentServerStatus = new Intent(this, ServerStatus.class);
+                intentServerStatus.putExtra("IP", serverIP);
+                intentServerStatus.putExtra("port", portNr);
+                startActivityForResult(intentServerStatus, 4);
+                break;
             case R.id.restartButton:
                 try {
-                    Boolean status = ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
+                    Boolean status = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "RESTART " + adminKey));
                     if (status) {
                         Toast.makeText(this, R.string.restartedServer, Toast.LENGTH_SHORT).show();
                     } else {
@@ -87,12 +108,14 @@ public class Control extends Activity implements OnClickListener {
                 break;
             case R.id.shutdownButton:
                 try {
-                    Boolean status = ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "SHUTDOWN " + adminKey));
+                    Boolean status = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "SHUTDOWN " + adminKey));
                     if (status) {
                         playlist.setClickable(false);
                         playlist.setEnabled(false);
                         setAdminKeyButton.setClickable(false);
                         setAdminKeyButton.setEnabled(false);
+                        serverStatusButton.setClickable(false);
+                        serverStatusButton.setEnabled(false);
                         restartButton.setClickable(false);
                         restartButton.setEnabled(false);
                         shutdownButton.setClickable(false);
@@ -140,6 +163,8 @@ public class Control extends Activity implements OnClickListener {
                 playlist.setEnabled(true);
                 setAdminKeyButton.setClickable(true);
                 setAdminKeyButton.setEnabled(true);
+                serverStatusButton.setClickable(true);
+                serverStatusButton.setEnabled(true);
             } else if (resCode == RESULT_CANCELED) {
                 Toast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT).show();
             }

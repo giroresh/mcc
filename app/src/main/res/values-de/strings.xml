@@ -82,4 +82,9 @@
 	<string name="tagChannels">Kanäle</string>
 	<string name="tagComment">Kommentar</string>
 	<string name="tagNoInfo">Keine Tags</string>
+	<string name="serverStatsTxt">Server status</string>
+	<string name="serverStatusTVTxt">Server Status</string>
+	<string name="serverStatusInfoTVTxt"/>
+	<string name="serverStatusMsgBegin">Serverversion ist: %1$s \n Anzahl der geladen Dateien: %2$s\n</string>
+	<string name="serverStatusMsgRst">ID %1$s entspricht dem Datentyp %2$s\n</string>
 </resources>

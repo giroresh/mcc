@@ -57,10 +57,18 @@
 	<Button
 		android:layout_width="wrap_content"
 		android:layout_height="wrap_content"
+		android:text="@string/serverStatsTxt"
+		android:id="@+id/serverStatusButton"
+		android:layout_centerHorizontal="true"
+		android:layout_below="@+id/serverControlTV"/>
+
+	<Button
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
 		android:text="@string/setAdminKeyButtonTxt"
 		android:id="@+id/setAdminKeyButton"
 		android:layout_centerHorizontal="true"
-		android:layout_below="@+id/serverControlTV"/>
+		android:layout_below="@+id/serverStatusButton"/>
 
 	<Button
 		android:layout_width="wrap_content"

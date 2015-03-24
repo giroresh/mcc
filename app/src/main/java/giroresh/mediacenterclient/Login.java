@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.xmlpull.v1.XmlPullParserException;
+
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.helper.MCCTextWatcher;
@@ -62,11 +64,14 @@ public class Login extends Activity implements OnClickListener {
                 }
 
                 try {
-                    connected = ParseXML.getLoginStatus(new SocketAsyncTask().execute(serverIPString, portNrString, "STAT"));
+                    ParseXML xml = new ParseXML();
+                    connected = xml.getStatus(new SocketAsyncTask().execute(serverIPString, portNrString, "STAT"));
                 } catch (InterruptedException e) {
                     Toast.makeText(this, "Interrupt Error", Toast.LENGTH_LONG).show();
                 } catch (ExecutionException e) {
                     Toast.makeText(this, "Execution Error ", Toast.LENGTH_LONG).show();
+                } catch (XmlPullParserException e) {
+                    Toast.makeText(this, "XML Error ", Toast.LENGTH_LONG).show();
                 }
                 if (connected) {
                     intent.putExtra("IP", serverIPString);

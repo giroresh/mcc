@@ -38,6 +38,9 @@ Current features:
 - Displaying all available tag information + support for multilingualism
 - Replaced most of the hardcoded messages
 - Helper Class for fragments for identically executed tasks
+- Server Status is checkable through App
+- ParseXML non static!
+- simplified several methods within ParseXML
 
 To be done:
 -----------

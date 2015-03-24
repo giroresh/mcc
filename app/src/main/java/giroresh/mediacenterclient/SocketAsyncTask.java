@@ -60,7 +60,6 @@ public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
             while ((temp = inputStream.readLine()) != null) {
                 result += temp;
             }
-
             inputStream.close();
             outputStream.close();
             serverSocket.close();

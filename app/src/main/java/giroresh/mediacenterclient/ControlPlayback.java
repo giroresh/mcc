@@ -39,6 +39,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
     private Button backApp;
     private TextView playbackInfoTV;
     private String titleToPlay;
+    ParseXML xml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,8 @@ public class ControlPlayback extends Activity implements OnClickListener {
         playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
 
         try {
-            Object selectedFile = new ParseXML().getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + playID));
+            xml = new ParseXML();
+            Object selectedFile = xml.getTagInfo(new SocketAsyncTask().execute(serverIP, portNr, "INFO " + playID));
             String classTypeOfTags = selectedFile.getClass().getName();
             String[] tagInfo = new String[0];
 
@@ -142,7 +144,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
     public void onBackPressed() {
         super.onBackPressed();
         try {
-            if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+            if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                 Toast.makeText(this, R.string.stopSuccess, Toast.LENGTH_SHORT).show();
             } else {
                 Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
@@ -159,14 +161,14 @@ public class ControlPlayback extends Activity implements OnClickListener {
         try {
             switch(v.getId()) {
                 case R.id.playButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL p"))) {
+                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL p"))) {
                         Toast.makeText(this, R.string.pausedPlay, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, R.string.pausePlayUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.stopButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                         Intent intentPlayback = new Intent(ControlPlayback.this, Playlist.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
@@ -181,10 +183,10 @@ public class ControlPlayback extends Activity implements OnClickListener {
                         if (prevID == 0) {
                             Toast.makeText(this, R.string.curItemFirst, Toast.LENGTH_SHORT).show();
                         } else {
-                            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
+                            playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
                             if (playReturnCode) {
-                                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
+                                if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                                    playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
                                     if (playReturnCode) {
                                         ParseXML xml = new ParseXML();
                                         int prevID2 = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), prevID);
@@ -221,12 +223,11 @@ public class ControlPlayback extends Activity implements OnClickListener {
                             Toast.makeText(this, R.string.curItemLast, Toast.LENGTH_SHORT).show();
                         } else {
                             Boolean playReturnCode;
-                            playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
+                            playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
                             if (playReturnCode) {
-                                if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
-                                    playReturnCode = ParseXML.getPlayReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
+                                if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                                    playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
                                     if (playReturnCode) {
-                                        ParseXML xml = new ParseXML();
                                         int nextID2 = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), nextID);
                                         Intent intentPlayback = new Intent(this, ControlPlayback.class);
                                         intentPlayback.putExtra("IP", serverIP);
@@ -258,14 +259,14 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 case R.id.muteButton:
                     break;
                 case R.id.louderButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL +"))) {
+                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL +"))) {
                         Toast.makeText(this, R.string.volIncr, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, R.string.volIncrUnsuccessful, Toast.LENGTH_SHORT).show();
                     }
                     break;
                 case R.id.quieterButton:
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL -"))) {
+                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "CTRL -"))) {
                         Toast.makeText(this, R.string.volDecr, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, R.string.volDecrUnsuccessful, Toast.LENGTH_SHORT).show();
@@ -273,7 +274,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     break;
                 case R.id.backApp:
                     Intent backIntent = new Intent(ControlPlayback.this, Playlist.class);
-                    if (ParseXML.getCTRLReturnCodeStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                    if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                         Toast.makeText(this, R.string.backPress, Toast.LENGTH_SHORT).show();
                     } else {
                         Toast.makeText(this, R.string.backPressUnsuccessful, Toast.LENGTH_SHORT).show();
