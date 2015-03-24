@@ -219,7 +219,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(new ParseXML().getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

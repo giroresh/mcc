@@ -148,6 +148,16 @@ public class ParseXML {
         return 0;
     }
 
+    public String getTitleToPlay(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+        playlistItemList = getAllFiles(xmlResponse);
+        for (int x = 0; x < playlistItemList.size(); x++) {
+            if (playlistItemList.get(x).getID() == id) {
+                return playlistItemList.get(x).getLabel();
+            }
+        }
+        return "";
+    }
+
     public Tags getTagInfo(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException, NoTagsException {
         String result = xmlResponse.get();
 

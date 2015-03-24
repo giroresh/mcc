@@ -55,9 +55,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
         nextID = intent.getIntExtra("nextID", 0);
         titleToPlay = intent.getStringExtra("titleToPlay");
 
-
-//        Log.d("CTRLPLAYBACK", "playID: " + playID + " prevID: " + prevID + "  nextID: " + nextID);
-
         playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
 
         try {
@@ -189,13 +186,15 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                     playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + prevID));
                                     if (playReturnCode) {
                                         ParseXML xml = new ParseXML();
-                                        int prevID2 = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), prevID);
+                                        int prevID2 = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 0 0 50"), prevID);
+                                        titleToPlay = xml.getTitleToPlay(new SocketAsyncTask().execute(serverIP, portNr, "LIST 0 0 50"), prevID);
                                         Intent intentPlayback = new Intent(this, ControlPlayback.class);
                                         intentPlayback.putExtra("IP", serverIP);
                                         intentPlayback.putExtra("port", portNr);
                                         intentPlayback.putExtra("playID", prevID);
                                         intentPlayback.putExtra("prevID", prevID2);
                                         intentPlayback.putExtra("nextID", playID);
+                                        intentPlayback.putExtra("titleToPlay", titleToPlay);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
                                         Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
@@ -228,13 +227,15 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                 if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
                                     playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
                                     if (playReturnCode) {
-                                        int nextID2 = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 100 0 50"), nextID);
+                                        int nextID2 = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST 0 0 50"), nextID);
+                                        titleToPlay = xml.getTitleToPlay(new SocketAsyncTask().execute(serverIP, portNr, "LIST 0 0 50"), nextID);
                                         Intent intentPlayback = new Intent(this, ControlPlayback.class);
                                         intentPlayback.putExtra("IP", serverIP);
                                         intentPlayback.putExtra("port", portNr);
                                         intentPlayback.putExtra("playID", nextID);
                                         intentPlayback.putExtra("prevID", playID);
                                         intentPlayback.putExtra("nextID", nextID2);
+                                        intentPlayback.putExtra("titleToPlay", titleToPlay);
                                         startActivityForResult(intentPlayback, 2);
                                     } else {
                                         Toast.makeText(this, R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();

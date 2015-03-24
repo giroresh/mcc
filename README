@@ -41,6 +41,7 @@ Current features:
 - Server Status is checkable through App
 - ParseXML non static!
 - simplified several methods within ParseXML
+- Support for server compiled without taglib
 
 To be done:
 -----------

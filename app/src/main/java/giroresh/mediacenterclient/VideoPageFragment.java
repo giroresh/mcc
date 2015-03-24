@@ -59,6 +59,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
     private TextView offsetTV;
     private int maxOffset;
     private ParseXML xml;
+    private String titleToPlay;
 
     public static VideoPageFragment newInstance(int page) {
             Bundle args = new Bundle();
@@ -184,7 +185,9 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
                             return false;
                         } catch (NoTagsException e) {
-                            Toast.makeText(getActivity(), R.string.videoShouldTags, Toast.LENGTH_SHORT).show();
+                            titleToPlay = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString();
+                            titleToPlay = titleToPlay.substring(titleToPlay.indexOf("|")+1);
+                            infoTV.setText(getResources().getString(R.string.noTagInfo, Integer.parseInt(selectedID), titleToPlay));
                             return true;
                         }
                     default:
@@ -215,12 +218,14 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
                         ParseXML xml = new ParseXML();
                         int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
                         int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
+                        titleToPlay = xml.getTitleToPlay(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
                         intentPlayback.putExtra("playID", playID);
                         intentPlayback.putExtra("prevID", prevID);
                         intentPlayback.putExtra("nextID", nextID);
+                        intentPlayback.putExtra("titleToPlay", titleToPlay);
                         startActivityForResult(intentPlayback, 2);
                     } else {
                         Toast.makeText(getActivity(), R.string.playUnsuccessful, Toast.LENGTH_SHORT).show();
@@ -284,7 +289,7 @@ public class VideoPageFragment extends Fragment implements AdapterView.OnItemCli
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(new ParseXML().getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (IOException e) {

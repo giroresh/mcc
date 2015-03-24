@@ -58,6 +58,7 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
     private TextView offsetTV;
     private int maxOffset;
     private ParseXML xml;
+    private String titleToPlay;
 
     public static AllFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -185,7 +186,9 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                             Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
                             return false;
                         } catch (NoTagsException e) {
-                            infoTV.setText(getResources().getText(R.string.noTagInfo).toString() +  playID);
+                            titleToPlay = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString();
+                            titleToPlay = titleToPlay.substring(titleToPlay.indexOf("|")+1);
+                            infoTV.setText(getResources().getString(R.string.noTagInfo, Integer.parseInt(selectedID), titleToPlay));
                             return true;
                         }
                     default:
@@ -216,8 +219,9 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                     playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + playID));
                     if (playReturnCode) {
                         ParseXML xml = new ParseXML();
-                        int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length),playID);
+                        int prevID = xml.getPrevID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
                         int nextID = xml.getNextID(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
+                        titleToPlay = xml.getTitleToPlay(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length), playID);
                         Intent intentPlayback = new Intent(getActivity(), ControlPlayback.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
@@ -288,7 +292,7 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
     void doListChange() {
         List<PlaylistItems> playlistItemsFromXML = new ArrayList<>();
         try {
-            playlistItemsFromXML.addAll(xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
+            playlistItemsFromXML.addAll(new ParseXML().getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length)));
         } catch (XmlPullParserException e) {
             Toast.makeText(getActivity(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
         } catch (ExecutionException e) {
