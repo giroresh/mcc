@@ -349,13 +349,17 @@ public class ParseXML {
     }
 
     public Boolean getStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
-        String returnCode = stat.get().substring(8, 11);
-
-        if (isNotInteger(returnCode)) {
+        if (stat.get().isEmpty()) {
             return false;
-        }
+        } else {
+            String returnCode = stat.get().substring(8, 11);
 
-        return returnCode.contains("200");
+            if (isNotInteger(returnCode)) {
+                return false;
+            }
+
+            return returnCode.contains("200");
+        }
     }
 
     private boolean isNotInteger(String s) {
