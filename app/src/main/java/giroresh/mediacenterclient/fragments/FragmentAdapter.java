@@ -1,4 +1,4 @@
-package giroresh.mediacenterclient;
+package giroresh.mediacenterclient.fragments;
 
 
 import android.content.Context;
@@ -9,7 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 /**
  * FragmentAdapter basically the same as the android example
  */
-class FragmentAdapter extends FragmentPagerAdapter {
+public class FragmentAdapter extends FragmentPagerAdapter {
     private final int PAGE_COUNT = 4;
     private String tabTitles[] = new String[] {"All", "Audio", "Video", "Rom"};
     private Context context;

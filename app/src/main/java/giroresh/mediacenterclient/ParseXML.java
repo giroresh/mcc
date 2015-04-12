@@ -12,9 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
+import giroresh.mediacenterclient.MCCException.NoTagsException;
+import giroresh.mediacenterclient.SocketAsyncTask.SocketAsyncTaskResult;
 import giroresh.mediacenterclient.playlistItems.filetypes.AudioFiles;
 import giroresh.mediacenterclient.playlistItems.filetypes.GBRomsFiles;
+import giroresh.mediacenterclient.playlistItems.filetypes.MCCNullHandler;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 import giroresh.mediacenterclient.playlistItems.filetypes.RomFiles;
 import giroresh.mediacenterclient.playlistItems.filetypes.VideoFiles;
@@ -35,100 +37,114 @@ public class ParseXML {
     private AudioTags audioTags = null;
     private VideoTags videoTags = null;
 
-    ParseXML() throws XmlPullParserException {
+    public ParseXML() throws XmlPullParserException {
         XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
         factory.setNamespaceAware(true);
         xpp = factory.newPullParser();
     }
 
-    private List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
-        String result = xmlResponse.get();
-        result = result.substring(14);
+    public List<PlaylistItems> getAllFiles(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
+        if (xmlResponse.get().getResult() == null) {
+            MCCNullHandler nullHandler = new MCCNullHandler();
+            nullHandler.setMsg(xmlResponse.get().getError().getLocalizedMessage());
+            playlistItemList.add(nullHandler);
+            return playlistItemList;
+        }
+        String result = xmlResponse.get().getResult();
+        if (!result.isEmpty() && !(result.length() == 0)) {
+            result = result.substring(14);
 
-        xpp.setInput( new StringReader(result));
+            xpp.setInput(new StringReader(result));
 
-        int eventType = xpp.getEventType();
+            int eventType = xpp.getEventType();
 
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            switch (eventType) {
-                case XmlPullParser.START_TAG:
-                    if (xpp.getName().equals("item")) {
-                        for (int i = 1; i < xpp.getAttributeCount(); i++) {
-                            if (xpp.getAttributeName(i).equals("type")) {
-                                if (xpp.getAttributeValue(i).equals("100")) {
-                                    audioFiles = new AudioFiles();
-                                    audioFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
-                                } else if (xpp.getAttributeValue(i).equals("200")) {
-                                    romFiles = new RomFiles();
-                                    romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
-                                } else if (xpp.getAttributeValue(i).equals("201")) {
-                                    romFiles = new GBRomsFiles();
-                                    romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
-                                } else if (xpp.getAttributeValue(i).equals("202")) {
-                                    romFiles = new GBRomsFiles();
-                                    romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
-                                } else if (xpp.getAttributeValue(i).equals("300")) {
-                                    videoFiles = new VideoFiles();
-                                    videoFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (xpp.getName().equals("item")) {
+                            for (int i = 1; i < xpp.getAttributeCount(); i++) {
+                                if (xpp.getAttributeName(i).equals("type")) {
+                                    if (xpp.getAttributeValue(i).equals("100")) {
+                                        audioFiles = new AudioFiles();
+                                        audioFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                    } else if (xpp.getAttributeValue(i).equals("200")) {
+                                        romFiles = new RomFiles();
+                                        romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                    } else if (xpp.getAttributeValue(i).equals("201")) {
+                                        romFiles = new GBRomsFiles();
+                                        romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                    } else if (xpp.getAttributeValue(i).equals("202")) {
+                                        romFiles = new GBRomsFiles();
+                                        romFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                    } else if (xpp.getAttributeValue(i).equals("300")) {
+                                        videoFiles = new VideoFiles();
+                                        videoFiles.setType(Integer.valueOf(xpp.getAttributeValue(i)));
+                                    }
+                                }
+                                if (xpp.getAttributeName(i).equals("label")) {
+                                    if (audioFiles != null) {
+                                        audioFiles.setLabel(xpp.getAttributeValue(i));
+                                    } else if (videoFiles != null) {
+                                        videoFiles.setLabel(xpp.getAttributeValue(i));
+                                    } else if (romFiles != null) {
+                                        romFiles.setLabel(xpp.getAttributeValue(i));
+                                    }
                                 }
                             }
-                            if (xpp.getAttributeName(i).equals("label")) {
+                            if (xpp.getAttributeName(0).equals("id")) {
                                 if (audioFiles != null) {
-                                    audioFiles.setLabel(xpp.getAttributeValue(i));
+                                    audioFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
                                 } else if (videoFiles != null) {
-                                    videoFiles.setLabel(xpp.getAttributeValue(i));
+                                    videoFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
                                 } else if (romFiles != null) {
-                                    romFiles.setLabel(xpp.getAttributeValue(i));
+                                    romFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
                                 }
                             }
                         }
-                        if (xpp.getAttributeName(0).equals("id")) {
-                            if (audioFiles != null) {
-                                audioFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
-                            } else if (videoFiles != null) {
-                                videoFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
-                            } else if (romFiles != null) {
-                                romFiles.setID(Integer.valueOf(xpp.getAttributeValue(0)));
-                            }
-                        }
-                    }
-                    break;
-                case XmlPullParser.TEXT:
-                    break;
-                case XmlPullParser.END_TAG:
-                    break;
-                default:
-                    break;
+                        break;
+                    case XmlPullParser.TEXT:
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                    default:
+                        break;
+                }
+                if (audioFiles != null) {
+                    playlistItemList.add(audioFiles);
+                    audioFiles = null;
+                } else if (videoFiles != null) {
+                    playlistItemList.add(videoFiles);
+                    videoFiles = null;
+                } else if (romFiles != null) {
+                    playlistItemList.add(romFiles);
+                    romFiles = null;
+                }
+                eventType = xpp.next();
             }
-            if (audioFiles != null) {
-                playlistItemList.add(audioFiles);
-                audioFiles = null;
-            } else if (videoFiles != null) {
-                playlistItemList.add(videoFiles);
-                videoFiles = null;
-            } else if (romFiles != null) {
-                playlistItemList.add(romFiles);
-                romFiles = null;
-            }
-            eventType = xpp.next();
-        }
 
-        if (!playlistItemList.isEmpty()) {
-            playlistItemList.get(0).setNextID(playlistItemList.get(1).getID());
-            playlistItemList.get(playlistItemList.size() - 1).setPrevID(playlistItemList.get(playlistItemList.size() - 2).getID());
-            for (int x = 1; x < playlistItemList.size() - 1; x++) {
-                playlistItemList.get(x).setNextID(playlistItemList.get(x + 1).getID());
-                playlistItemList.get(x).setPrevID(playlistItemList.get(x - 1).getID());
+            if (!playlistItemList.isEmpty()) {
+                if (playlistItemList.size() > 1) {
+                    playlistItemList.get(0).setNextID(playlistItemList.get(1).getID());
+                    int lastID = playlistItemList.size() - 1;
+                    int prevID = playlistItemList.size() - 2;
+                    playlistItemList.get(lastID).setPrevID(playlistItemList.get(prevID).getID());
+                }
+                for (int x = 1; x < playlistItemList.size() - 1; x++) {
+                    playlistItemList.get(x).setNextID(playlistItemList.get(x + 1).getID());
+                    playlistItemList.get(x).setPrevID(playlistItemList.get(x - 1).getID());
+                }
             }
+            return playlistItemList;
+        } else {
+            return null;
         }
-        return playlistItemList;
     }
 
-    public List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
+    public List<PlaylistItems> getPlaylistItems(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException {
         return getAllFiles(xmlResponse);
     }
 
-    public int getPrevID(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+    public int getPrevID(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
         playlistItemList = getAllFiles(xmlResponse);
         for (int x = 0; x < playlistItemList.size(); x++) {
             if (playlistItemList.get(x).getID() == id) {
@@ -138,7 +154,7 @@ public class ParseXML {
         return 0;
     }
 
-    public int getNextID(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+    public int getNextID(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
         playlistItemList = getAllFiles(xmlResponse);
         for (int x = 0; x < playlistItemList.size(); x++) {
             if (playlistItemList.get(x).getID() == id) {
@@ -148,7 +164,7 @@ public class ParseXML {
         return 0;
     }
 
-    public String getTitleToPlay(AsyncTask<Object, Void, String> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
+    public String getTitleToPlay(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse, int id) throws XmlPullParserException, ExecutionException, InterruptedException, IOException {
         playlistItemList = getAllFiles(xmlResponse);
         for (int x = 0; x < playlistItemList.size(); x++) {
             if (playlistItemList.get(x).getID() == id) {
@@ -158,8 +174,11 @@ public class ParseXML {
         return "";
     }
 
-    public Tags getTagInfo(AsyncTask<Object, Void, String> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException, NoTagsException {
-        String result = xmlResponse.get();
+    public Tags getTagInfo(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse) throws XmlPullParserException, IOException, ExecutionException, InterruptedException, NoTagsException {
+        if (xmlResponse.get().getResult() == null) {
+            return null;
+        }
+        String result = xmlResponse.get().getResult();
 
         int resLength = result.length()>25 ? 25:result.length();
 
@@ -345,20 +364,22 @@ public class ParseXML {
      * @return true if OK found
      */
     private Boolean getStatusOfListCMD(String result) {
-        return result.contains("200");
+        return !(result.isEmpty() || result.length() == 0) && result.contains("200");
     }
 
-    public Boolean getStatus(AsyncTask<Object, Void, String> stat) throws ExecutionException, InterruptedException {
-        if (stat.get().isEmpty()) {
+    /**
+     * Used in the Fragments. Control, Login, ControlPlayback
+     * @param stat xml answer of the server
+     * @return returns true if cmd was executed successfully
+     * @throws ExecutionException
+     * @throws InterruptedException
+     */
+    public Boolean getStatus(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> stat) throws ExecutionException, InterruptedException {
+        if (stat.get().getResult() == null || stat.get().getResult().isEmpty()) {
             return false;
         } else {
-            String returnCode = stat.get().substring(8, 11);
-
-            if (isNotInteger(returnCode)) {
-                return false;
-            }
-
-            return returnCode.contains("200");
+            String returnCode = stat.get().getResult().substring(8, 11);
+            return !isNotInteger(returnCode) && returnCode.contains("200");
         }
     }
 
@@ -371,46 +392,62 @@ public class ParseXML {
         }
     }
 
-    public String getServerStatus(AsyncTask<Object, Void, String> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
-        String result = xmlResponse.get();
-        result = result.substring(14);
-
-        xpp.setInput(new StringReader(result));
-
-        int eventType = xpp.getEventType();
-        String serverStatusStr = "";
-        while (eventType != XmlPullParser.END_DOCUMENT) {
-            switch (eventType) {
-                case XmlPullParser.START_TAG:
-                    if (xpp.getName().equals("items")) {
-                        for (int i = 0; i < xpp.getAttributeCount(); i++) {
-                            if (xpp.getAttributeName(i).equals("version")) {
-                                serverStatusStr += "" + xpp.getAttributeValue(i);
-                            } else if (xpp.getAttributeName(i).equals("size")) {
-                                serverStatusStr += "\t" +  xpp.getAttributeValue(i) + "\n";
-                            }
-                        }
-                    }
-                    if (xpp.getName().equals("type")) {
-                        for (int i = 0; i < xpp.getAttributeCount(); i++) {
-                            if (xpp.getAttributeName(i).equals("id")) {
-                                serverStatusStr += "" + xpp.getAttributeValue(i);
-                            } else if (xpp.getAttributeName(i).equals("name")) {
-                                serverStatusStr += "\t" + xpp.getAttributeValue(i) + "\n";
-                            }
-                        }
-                    }
-
-                    break;
-                case XmlPullParser.TEXT:
-                    break;
-                case XmlPullParser.END_TAG:
-                    break;
-                default:
-                    break;
-            }
-            eventType = xpp.next();
+    /**
+     * Used in ServerStatus
+     * @param xmlResponse xml answer of the server
+     * @return returns server status as a string based on the server response
+     * @throws ExecutionException
+     * @throws InterruptedException
+     * @throws XmlPullParserException
+     * @throws IOException
+     */
+    public String getServerStatus(AsyncTask<Object, Void, SocketAsyncTaskResult<String>> xmlResponse) throws ExecutionException, InterruptedException, XmlPullParserException, IOException {
+        if (xmlResponse.get().getResult() == null) {
+            return null;
         }
-        return serverStatusStr;
+        String result = xmlResponse.get().getResult();
+        if (!result.isEmpty() && !(result.length() == 0)) {
+            result = result.substring(14);
+
+            xpp.setInput(new StringReader(result));
+
+            int eventType = xpp.getEventType();
+            String serverStatusStr = "";
+            while (eventType != XmlPullParser.END_DOCUMENT) {
+                switch (eventType) {
+                    case XmlPullParser.START_TAG:
+                        if (xpp.getName().equals("items")) {
+                            for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                if (xpp.getAttributeName(i).equals("version")) {
+                                    serverStatusStr += "" + xpp.getAttributeValue(i);
+                                } else if (xpp.getAttributeName(i).equals("size")) {
+                                    serverStatusStr += "\t" + xpp.getAttributeValue(i) + "\n";
+                                }
+                            }
+                        }
+                        if (xpp.getName().equals("type")) {
+                            for (int i = 0; i < xpp.getAttributeCount(); i++) {
+                                if (xpp.getAttributeName(i).equals("id")) {
+                                    serverStatusStr += "" + xpp.getAttributeValue(i);
+                                } else if (xpp.getAttributeName(i).equals("name")) {
+                                    serverStatusStr += "\t" + xpp.getAttributeValue(i) + "\n";
+                                }
+                            }
+                        }
+
+                        break;
+                    case XmlPullParser.TEXT:
+                        break;
+                    case XmlPullParser.END_TAG:
+                        break;
+                    default:
+                        break;
+                }
+                eventType = xpp.next();
+            }
+            return serverStatusStr;
+        } else {
+            return null;
+        }
     }
 }

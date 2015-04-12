@@ -14,6 +14,7 @@ import org.xmlpull.v1.XmlPullParserException;
 
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.SocketAsyncTask.SocketAsyncTask;
 import giroresh.mediacenterclient.helper.MCCToast;
 
 public class Control extends Activity implements OnClickListener {

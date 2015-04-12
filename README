@@ -30,8 +30,8 @@ Current features:
   -> it works for all file types now, even though it makes not much sense atm for ROM files
 - Handling rom files properly -> early stages - not trying to display tag infos anymore
   -> NES files should be "playable" if fceu is present
-- Fixed issue with screen rotation and added Scrollviews were necessary
-- Removed TitelBar were it takes up to much space in landscape mode
+- Fixed issue with screen rotation and added ScrollViews were necessary
+- Removed TitleBar were it takes up to much space in landscape mode
 - App should have smaller memory footprint if in background and should close completely on Android 5 and onwards
 - Input validation -> more robust
 - minSDK increased to API 16 -> Jelly Bean 4.1 -> necessary for input validation
@@ -44,11 +44,12 @@ Current features:
 - Support for server compiled without taglib
 - Added custom toasts for better user experience (blue == info, red == error, green == success)
 - Login and SetAdminKey input fields become only bluish if input criteria are met
+- Fixed offset issue for good
+- Eliminated several possible NullPointer
 
 To be done:
 -----------
 - Adding more languages
-- Fix offset issue for good
 - Determine necessary error messages and make them multilingual
 - Making several methods more efficient and robust -> partially done @robustness
 - Making sure all status codes are handled properly -> partially done

@@ -12,7 +12,7 @@
 	<string name="back">Vissza</string>
 	<string name="ip">192.168.0.100</string>
 	<string name="port">5002</string>
-	<string name="portTV">port</string>
+	<string name="portTV">Port</string>
 	<string name="serverName">Kiszolgáló neve vagy IP száma</string>
 	<string name="connectButtonString">Kapcsolódj</string>
 	<string name="taginfos"/>
@@ -52,9 +52,7 @@
 	<string name="playUnsuccessful">Nem lehet lejátszani!</string>
 	<string name="stopUnsuccessful">Nem lehetett megállitani!</string>
 	<string name="audioOnly">Itt csak audio fájlok láthatók!</string>
-	<string name="audioShouldTags">Audio fajlokanak van címkéje - esetleg üresek!</string>
 	<string name="videoOnly">Itt csak video fajlok láthatók!</string>
-	<string name="videoShouldTags">Video fajlokanak van címkéje - esetleg üresek!</string>
 	<string name="stopSuccess">Sikeresen leállítva!</string>
 	<string name="pausedPlay">Szüneteltetve</string>
 	<string name="pausePlayUnsuccessful">Nincs szüneteltetve!</string>
@@ -64,7 +62,6 @@
 	<string name="volIncrUnsuccessful">Hangosítás sikertelen!</string>
 	<string name="volDecr">Hangerő halkítva!</string>
 	<string name="volDecrUnsuccessful">Halkitás sikertelen!</string>
-	<string name="backPress">Vissza gomg megnyomva!</string>
 	<string name="backPressUnsuccessful">Vissza Gomb akció sikertelen</string>
 	<string name="serverIPEmpty">Kérem adjon meg egy IP számot vagy internetes címet!</string>
 	<string name="portNrEmpty">Kérem adjon meg egy port számot!</string>
@@ -88,4 +85,8 @@
 	<string name="serverStatusMsgBegin">Kiszolgáló Verzió: %1$s \nBetöltött fajlok száma: %2$s\n</string>
 	<string name="serverStatusMsgRst">a %1$s ID a(z) %2$s-nak felel meg\n</string>
 	<string name="toastContentDescrIV">Info Symbol</string>
+	<string name="serverStatusNoMsg">A kiszolgáló sajnos nem adott statusz információt</string>
+	<string name="getPlaylistItemCONNREFUSED">Nincs kapcsolat a kiszolgálóval!</string>
+	<string name="lostConnection">Nincs kapcsolat a kiszolgálóval!</string>
+	<string name="missingPlayID">Az ID hiányzik a kiválasztott elemnél!</string>
 </resources>

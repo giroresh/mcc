@@ -1,4 +1,4 @@
-package giroresh.mediacenterclient.playlistItems.MCCException;
+package giroresh.mediacenterclient.MCCException;
 
 /** For Handling File with no Tags
  * Created by giro on 2015.03.19..

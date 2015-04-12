@@ -52,9 +52,7 @@
 	<string name="playUnsuccessful">Playback impossible</string>
 	<string name="stopUnsuccessful">Unable to stop</string>
 	<string name="audioOnly">Here we only display audio files!</string>
-	<string name="audioShouldTags">Audio Files should have Tags - even tough they might be empty!</string>
 	<string name="videoOnly">Here we only show video files</string>
-	<string name="videoShouldTags">Video Files should have Tags - even tough they might be empty!</string>
 	<string name="stopSuccess">Stopped successfully</string>
 	<string name="pausedPlay">Playback paused</string>
 	<string name="pausePlayUnsuccessful">Playback did NOT pause</string>
@@ -64,7 +62,6 @@
 	<string name="volIncrUnsuccessful">Dit NOT increase volume</string>
 	<string name="volDecr">Volume decreased!</string>
 	<string name="volDecrUnsuccessful">Did NOT decrease volume!</string>
-	<string name="backPress">Back button pressed!</string>
 	<string name="backPressUnsuccessful">Back button action was unsuccessful</string>
 	<string name="serverIPEmpty">Please enter a server IP or address</string>
 	<string name="portNrEmpty">Please enter a port number!</string>
@@ -88,4 +85,8 @@
 	<string name="serverStatusMsgBegin">Serverversion ist: %1$s \n Anzahl der geladen Dateien: %2$s\n</string>
 	<string name="serverStatusMsgRst">ID %1$s entspricht dem Datentyp %2$s\n</string>
 	<string name="toastContentDescrIV">Info Symbol</string>
+	<string name="serverStatusNoMsg">Sorry server did not return any status information</string>
+	<string name="getPlaylistItemCONNREFUSED">We lost the connection to the server!</string>
+	<string name="lostConnection">We lost the connection to the server!</string>
+	<string name="missingPlayID">Missing the ID of the selected Item!</string>
 </resources>

@@ -3,6 +3,7 @@ package giroresh.mediacenterclient.helper;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.EditText;
 
 import giroresh.mediacenterclient.R;
 
@@ -16,6 +17,30 @@ public class MCCTextWatcher implements TextWatcher {
 
     public MCCTextWatcher(View view) {
         this.view = view;
+
+        switch (view.getId()) {
+            case R.id.serverIP:
+                if (doValidation(((EditText) view.findViewById(view.getId())).getText().toString())) {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborder));
+                } else {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborderred));
+                }
+                break;
+            case R.id.portNr:
+                if (doPortValidation(((EditText) view.findViewById(view.getId())).getText().toString())) {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborder));
+                } else {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborderred));
+                }
+                break;
+            case R.id.setAdminKeyET:
+                if (doAdminkeyValidation(((EditText) view.findViewById(view.getId())).getText().toString())) {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborder));
+                } else {
+                    view.setBackground(view.getResources().getDrawable(R.drawable.edittextborderred));
+                }
+                break;
+        }
     }
 
     /**
@@ -32,7 +57,6 @@ public class MCCTextWatcher implements TextWatcher {
      */
     @Override
     public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
     }
 
     /**

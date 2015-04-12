@@ -1,4 +1,4 @@
-package giroresh.mediacenterclient;
+package giroresh.mediacenterclient.SocketAsyncTask;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -13,7 +13,7 @@ import java.net.Socket;
  * Created by giro on 2014.12.10..
  * Does the actual sending and receiving
  */
-public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
+public class SocketAsyncTask extends AsyncTask<Object, Void, SocketAsyncTaskResult<String>> {
     private String result = "";
 
     public SocketAsyncTask() {
@@ -44,7 +44,7 @@ public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
      * @see #publishProgress
      */
     @Override
-    protected String doInBackground(Object... params) {
+    protected SocketAsyncTaskResult<String> doInBackground(Object... params) {
         try {
             String serverIP = (String) params[0];
             int portNr = (Integer) params[1];
@@ -63,9 +63,10 @@ public class SocketAsyncTask extends AsyncTask<Object, Void, String> {
             inputStream.close();
             outputStream.close();
             serverSocket.close();
+            return new SocketAsyncTaskResult<>(result);
         } catch (IOException e) {
             Log.e("ASYNC", "Socket ERROR");
+            return new SocketAsyncTaskResult<>(e);
         }
-        return result;
     }
 }

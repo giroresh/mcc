@@ -15,8 +15,9 @@ import org.xmlpull.v1.XmlPullParserException;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 
+import giroresh.mediacenterclient.SocketAsyncTask.SocketAsyncTask;
 import giroresh.mediacenterclient.helper.MCCToast;
-import giroresh.mediacenterclient.playlistItems.MCCException.NoTagsException;
+import giroresh.mediacenterclient.MCCException.NoTagsException;
 import giroresh.mediacenterclient.playlistItems.tags.AudioTags;
 import giroresh.mediacenterclient.playlistItems.tags.VideoTags;
 
