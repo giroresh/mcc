@@ -29,7 +29,7 @@ import giroresh.mediacenterclient.ParseXML;
 import giroresh.mediacenterclient.R;
 import giroresh.mediacenterclient.SocketAsyncTask.SocketAsyncTask;
 import giroresh.mediacenterclient.helper.MCCArrayAdapter;
-import giroresh.mediacenterclient.helper.MCCFragmentHelper;
+import giroresh.mediacenterclient.helper.MCCFragHelper;
 import giroresh.mediacenterclient.helper.MCCToast;
 import giroresh.mediacenterclient.playlistItems.filetypes.MCCNullHandler;
 import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
@@ -62,6 +62,7 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
     private TextView infoTV;
     private int maxOffset;
     private ParseXML xml;
+    private int maxLength;
 
     public static ROMPageFragment newInstance(int page) {
         Bundle args = new Bundle();
@@ -136,6 +137,9 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
                     lv.setOnItemClickListener(this);
                     registerForContextMenu(lv);
                     maxOffset = adapter.getCount()-1;
+                    length = adapter.getCount();
+                    maxLength = adapter.getCount();
+                    lengthTV.setText(" " + maxLength + " ");
                 }
             }
         } catch (XmlPullParserException e) {
@@ -237,34 +241,37 @@ public class ROMPageFragment extends Fragment implements AdapterView.OnItemClick
      */
     @Override
     public void onClick(View v) {
-        listItems.clear();
         switch (v.getId()) {
             case R.id.lengthButton:
-                if (length < 50) {
+                if (length < maxLength) {
                     length++;
                     lengthTV.setText(" " + length + " ");
-                    adapter = new MCCFragmentHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
+                    adapter.clear();
+                    adapter = new MCCFragHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
                 }
                 break;
             case R.id.lengthButtonMinus:
                 if (length > 1) {
                     length--;
                     lengthTV.setText(" " + length + " ");
-                    adapter = new MCCFragmentHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
+                    adapter.clear();
+                    adapter = new MCCFragHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
                 }
                 break;
             case R.id.offsetButton:
                 if (offset < maxOffset) {
                     offset++;
                     offsetTV.setText(" " + offset + " ");
-                    adapter = new MCCFragmentHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
+                    adapter.clear();
+                    adapter = new MCCFragHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
                 }
                 break;
             case R.id.offsetMinusButton:
                 if (offset > 0) {
                     offset--;
                     offsetTV.setText(" " + offset + " ");
-                    adapter = new MCCFragmentHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
+                    adapter.clear();
+                    adapter = new MCCFragHelper(getActivity()).doListChange(adapter, length, offset, type, serverIP, portNr);
                 }
                 break;
         }

@@ -44,11 +44,12 @@ Current features:
 - Support for server compiled without taglib
 - Added custom toasts for better user experience (blue == info, red == error, green == success)
 - Login and SetAdminKey input fields become only bluish if input criteria are met
-- Fixed offset issue for good
+- Fixed offset issue for good and fixed length weirdness
 - Eliminated several possible NullPointer
-- Made all error messages mutlilingual and deleted unnecassary ones
+- Made all error messages mutlilingual and deleted unnecessary ones
 - Playlist shows now the file type of the file with an image (all audio files are shown as mp3, all
 	video files are shown as mp4, all rom files as ROM and unknown filetypes as UFO)
+
 
 To be done:
 -----------

@@ -38,18 +38,18 @@ public class MCCArrayAdapter extends ArrayAdapter<PlaylistItems> {
 
         TextView tv = (TextView) convertView.findViewById(R.id.playlistItemTV);
         tv.setCompoundDrawablePadding(5);
-        PlaylistItems x = items.get(position);
-        if (x.getType() == 100) {
-            tv.setText("\t" + x.getID() + " | " + x.getLabel() + "\t");
+        PlaylistItems playlistItem = items.get(position);
+        if (playlistItem.getType() == 100) {
+            tv.setText(playlistItem.getID() + " | " + playlistItem.getLabel());
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mp3, 0, 0, 0);
-        } else if ((100 < x.getType()) && (x.getType() < 300)) {
-            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+        } else if ((100 < playlistItem.getType()) && (playlistItem.getType() < 300)) {
+            tv.setText(playlistItem.getID() + " | " + playlistItem.getLabel());
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rom, 0, 0, 0);
-        } else if (x.getType() == 300) {
-            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+        } else if (playlistItem.getType() == 300) {
+            tv.setText(playlistItem.getID() + " | " + playlistItem.getLabel());
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mp4, 0, 0, 0);
         } else {
-            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+            tv.setText(playlistItem.getID() + " | " + playlistItem.getLabel());
             tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ufo, 0, 0, 0);
         }
         return convertView;
