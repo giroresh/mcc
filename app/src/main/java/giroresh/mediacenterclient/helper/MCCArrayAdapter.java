@@ -1,22 +1,57 @@
 package giroresh.mediacenterclient.helper;
 
+import android.app.Activity;
 import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import java.util.List;
 
-/** For now its just a custom ArrayAdapter that does nothing more then we default one
- * Created by giro on 2015.04.10..
- */
-public class MCCArrayAdapter extends ArrayAdapter<String> {
-    private int resource;
-    Context context;
-    private List<String> items;
+import giroresh.mediacenterclient.R;
+import giroresh.mediacenterclient.playlistItems.filetypes.PlaylistItems;
 
-    public MCCArrayAdapter(Context context, int resource, List<String> items) {
+/** customized ArrayAdapter
+ * it shows the right image according to the actual file type
+ * Created by giro on 2015.04.13..
+ */
+public class MCCArrayAdapter extends ArrayAdapter<PlaylistItems> {
+    private int resource;
+    private Context context;
+    private List<PlaylistItems> items;
+
+    public MCCArrayAdapter(Context context, int resource, List<PlaylistItems> items) {
         super(context, resource, items);
         this.resource = resource;
         this.context = context;
         this.items = items;
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+        if (convertView == null) {
+            LayoutInflater inflater = ((Activity)context).getLayoutInflater();
+            convertView = inflater.inflate(resource, parent, false);
+        }
+
+        TextView tv = (TextView) convertView.findViewById(R.id.playlistItemTV);
+        tv.setCompoundDrawablePadding(5);
+        PlaylistItems x = items.get(position);
+        if (x.getType() == 100) {
+            tv.setText("\t" + x.getID() + " | " + x.getLabel() + "\t");
+            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mp3, 0, 0, 0);
+        } else if ((100 < x.getType()) && (x.getType() < 300)) {
+            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.rom, 0, 0, 0);
+        } else if (x.getType() == 300) {
+            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.mp4, 0, 0, 0);
+        } else {
+            tv.setText("\t" +x.getID() + " | " + x.getLabel() + "\t");
+            tv.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ufo, 0, 0, 0);
+        }
+        return convertView;
     }
 }

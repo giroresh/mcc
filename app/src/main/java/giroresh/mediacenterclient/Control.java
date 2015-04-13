@@ -104,9 +104,9 @@ public class Control extends Activity implements OnClickListener {
                         MCCToast.makeText(this, getResources().getString(R.string.wrongPW), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                 } catch (ExecutionException e) {
-                    Toast.makeText(this, "restart failed - Execution Error", Toast.LENGTH_SHORT).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 } catch (InterruptedException e) {
-                    Toast.makeText(this, "restart failed - Interrupt Error", Toast.LENGTH_SHORT).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
                 break;
             case R.id.shutdownButton:
@@ -128,9 +128,9 @@ public class Control extends Activity implements OnClickListener {
                         MCCToast.makeText(this, getResources().getString(R.string.wrongPW), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
                 } catch (ExecutionException e) {
-                    Toast.makeText(this, "shutdown failed - Execution Error", Toast.LENGTH_SHORT).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 } catch (InterruptedException e) {
-                    Toast.makeText(this, "shutdown failed - Interrupt Error", Toast.LENGTH_SHORT).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
                 break;
             case R.id.closeApp:
@@ -143,7 +143,6 @@ public class Control extends Activity implements OnClickListener {
                 } else {
                     finish();
                 }
-
                 break;
         }
     }
@@ -158,29 +157,32 @@ public class Control extends Activity implements OnClickListener {
      * @param data the actual data sent by them
      */
     protected void onActivityResult(int reqCode, int resCode, Intent data) {
-        if (reqCode == 1) {
-            if (resCode == RESULT_OK) {
-                serverIP = data.getExtras().getString("IP");
-                portNr = data.getExtras().getInt("port");
-                playlist.setClickable(true);
-                playlist.setEnabled(true);
-                setAdminKeyButton.setClickable(true);
-                setAdminKeyButton.setEnabled(true);
-                serverStatusButton.setClickable(true);
-                serverStatusButton.setEnabled(true);
-            } else if (resCode == RESULT_CANCELED) {
-                MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
-            }
-        } else if (reqCode == 3) {
-            if (resCode == RESULT_OK) {
-                adminKey = data.getExtras().getString("AdminKey");
-                restartButton.setClickable(true);
-                restartButton.setEnabled(true);
-                shutdownButton.setClickable(true);
-                shutdownButton.setEnabled(true);
-            } else if (resCode == RESULT_CANCELED) {
-                MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
-            }
+        switch (reqCode) {
+            case 1:
+                if (resCode == RESULT_OK) {
+                    serverIP = data.getExtras().getString("IP");
+                    portNr = data.getExtras().getInt("port");
+                    playlist.setClickable(true);
+                    playlist.setEnabled(true);
+                    setAdminKeyButton.setClickable(true);
+                    setAdminKeyButton.setEnabled(true);
+                    serverStatusButton.setClickable(true);
+                    serverStatusButton.setEnabled(true);
+                } else if (resCode == RESULT_CANCELED) {
+                    MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
+                }
+                break;
+            case 3:
+                if (resCode == RESULT_OK) {
+                    adminKey = data.getExtras().getString("AdminKey");
+                    restartButton.setClickable(true);
+                    restartButton.setEnabled(true);
+                    shutdownButton.setClickable(true);
+                    shutdownButton.setEnabled(true);
+                } else if (resCode == RESULT_CANCELED) {
+                    MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
+                }
+                break;
         }
     }
 }

@@ -89,4 +89,8 @@
 	<string name="getPlaylistItemCONNREFUSED">Nincs kapcsolat a kiszolgálóval!</string>
 	<string name="lostConnection">Nincs kapcsolat a kiszolgálóval!</string>
 	<string name="missingPlayID">Az ID hiányzik a kiválasztott elemnél!</string>
+	<string name="exeError">Egy futatási hiba lépet fel - Kérem inditsa újra az alkalmazást</string>
+	<string name="interruptError">Egy megszakitási hiba lépet fel - Kérem inditsa újra az alkalmazást</string>
+	<string name="xmlError">Egy XML hiba lépet fel - Kérem inditsa újra az alkalmazást</string>
+	<string name="ioError">Egy be/kiviteli hiba lépet fel - Kérem inditsa újra az alkalmazást</string>
 </resources>

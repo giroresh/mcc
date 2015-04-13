@@ -31,17 +31,8 @@ public class ControlPlayback extends Activity implements OnClickListener {
     private int prevID;
     private int nextID;
     private int playID;
-    private Button playButton;
-    private Button stopButton;
-    private Button prevButton;
-    private Button nextButton;
-    private Button muteButton;
-    private Button louderButton;
-    private Button quieterButton;
-    private Button backApp;
-    private TextView playbackInfoTV;
     private String titleToPlay;
-    ParseXML xml;
+    private ParseXML xml;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +48,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
         nextID = intent.getIntExtra("nextID", 0);
         titleToPlay = intent.getStringExtra("titleToPlay");
 
-        playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
+        TextView playbackInfoTV = (TextView) findViewById(R.id.playbackInfoTV);
 
         try {
             xml = new ParseXML();
@@ -104,38 +95,38 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 playbackInfoTV.setText(R.string.unsupportedFiletype);
             }
         } catch (XmlPullParserException e) {
-            Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (IOException e) {
-            Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (ExecutionException e) {
-            Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (InterruptedException e) {
-            Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (NoTagsException e) {
             playbackInfoTV.setText(getResources().getString(R.string.noTagInfo, playID, titleToPlay));
         }
-        playButton = (Button) findViewById(R.id.playButton);
+        Button playButton = (Button) findViewById(R.id.playButton);
         playButton.setOnClickListener(this);
 
-        stopButton = (Button) findViewById(R.id.stopButton);
+        Button stopButton = (Button) findViewById(R.id.stopButton);
         stopButton.setOnClickListener(this);
 
-        prevButton = (Button) findViewById(R.id.prevButton);
+        Button prevButton = (Button) findViewById(R.id.prevButton);
         prevButton.setOnClickListener(this);
 
-        nextButton = (Button) findViewById(R.id.nextButton);
+        Button nextButton = (Button) findViewById(R.id.nextButton);
         nextButton.setOnClickListener(this);
 
-        muteButton = (Button) findViewById(R.id.muteButton);
+        Button muteButton = (Button) findViewById(R.id.muteButton);
         muteButton.setOnClickListener(this);
 
-        louderButton = (Button) findViewById(R.id.louderButton);
+        Button louderButton = (Button) findViewById(R.id.louderButton);
         louderButton.setOnClickListener(this);
 
-        quieterButton = (Button) findViewById(R.id.quieterButton);
+        Button quieterButton = (Button) findViewById(R.id.quieterButton);
         quieterButton.setOnClickListener(this);
 
-        backApp = (Button) findViewById(R.id.backApp);
+        Button backApp = (Button) findViewById(R.id.backApp);
         backApp.setOnClickListener(this);
     }
 
@@ -147,14 +138,15 @@ public class ControlPlayback extends Activity implements OnClickListener {
                 MCCToast.makeText(this, getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);                                                Toast.makeText(this, R.string.stopUnsuccessful, Toast.LENGTH_SHORT).show();
             }
         } catch (ExecutionException e) {
-            Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (InterruptedException e) {
-            Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
     }
 
     @Override
     public void onClick(View v) {
+        Boolean playReturnCode;
         try {
             switch(v.getId()) {
                 case R.id.playButton:
@@ -166,6 +158,7 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     break;
                 case R.id.stopButton:
                     if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
+                        MCCToast.makeText(this, getResources().getString(R.string.stopSuccess), Toast.LENGTH_SHORT, R.drawable.mcctoastgreen);
                         Intent intentPlayback = new Intent(ControlPlayback.this, Playlist.class);
                         intentPlayback.putExtra("IP", serverIP);
                         intentPlayback.putExtra("port", portNr);
@@ -175,8 +168,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     }
                     break;
                 case R.id.prevButton:
-                    try {
-                        Boolean playReturnCode;
                         if (prevID == 0) {
                             MCCToast.makeText(this, getResources().getString(R.string.curItemFirst), Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
                         } else {
@@ -206,22 +197,11 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                 MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             }
                         }
-                    } catch (ExecutionException e) {
-                        Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
-                    } catch (InterruptedException e) {
-                        Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
-                    } catch (XmlPullParserException e) {
-                        Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
-                    }
                     break;
                 case R.id.nextButton:
-                    try {
                         if (nextID == 0) {
                             MCCToast.makeText(this, getResources().getString(R.string.curItemLast), Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
                         } else {
-                            Boolean playReturnCode;
                             playReturnCode = xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "PLAY " + nextID));
                             if (playReturnCode) {
                                 if (xml.getStatus(new SocketAsyncTask().execute(serverIP, portNr, "STOP"))) {
@@ -247,15 +227,6 @@ public class ControlPlayback extends Activity implements OnClickListener {
                                 MCCToast.makeText(this, getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             }
                         }
-                    } catch (ExecutionException e) {
-                        Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
-                    } catch (InterruptedException e) {
-                        Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
-                    } catch (XmlPullParserException e) {
-                        Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
-                    } catch (IOException e) {
-                        Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
-                    }
                     break;
                 case R.id.muteButton:
                     break;
@@ -283,9 +254,13 @@ public class ControlPlayback extends Activity implements OnClickListener {
                     break;
             }
         } catch (ExecutionException e) {
-            Toast.makeText(this, "Execution Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (InterruptedException e) {
-            Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+        } catch (XmlPullParserException e) {
+            MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+        } catch (IOException e) {
+            MCCToast.makeText(this, getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
     }
 }

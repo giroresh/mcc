@@ -136,7 +136,7 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
 
                         }
                     }
-                    adapter = new MCCArrayAdapter(this.getActivity(), R.layout.playlistitem, listItems);
+                    adapter = new MCCArrayAdapter(this.getActivity(), R.layout.playlistitem, playlistItemsFromXML);
                     adapter.setNotifyOnChange(true);
                     lv.setAdapter(adapter);
                     lv.setOnItemClickListener(this);
@@ -145,13 +145,13 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                 }
             }
         } catch (XmlPullParserException e) {
-            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(getActivity(), getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (IOException e) {
-            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(getActivity(), getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (ExecutionException e) {
-            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(getActivity(), getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (InterruptedException e) {
-            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(getActivity(), getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
         return view;
     }
@@ -199,16 +199,16 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                                 }
                             }
                         } catch (XmlPullParserException e) {
-                            Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+                            MCCToast.makeText(getActivity(), getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             return false;
                         } catch (IOException e) {
-                            Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+                            MCCToast.makeText(getActivity(), getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             return false;
                         } catch (ExecutionException e) {
-                            Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-                            return false;
+                            MCCToast.makeText(getActivity(), getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                            return  false;
                         } catch (InterruptedException e) {
-                            Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+                            MCCToast.makeText(getActivity(), getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                             return false;
                         } catch (NoTagsException e) {
                             titleToPlay = ((TextView) info.targetView.findViewById(R.id.playlistItemTV)).getText().toString();
@@ -258,20 +258,16 @@ public class AllFragment extends Fragment implements AdapterView.OnItemClickList
                         } else {
                             MCCToast.makeText(getActivity(), getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                         }
-                    } else {
-                        MCCToast.makeText(getActivity(), getResources().getString(R.string.stopUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                     }
-                } else {
-                    MCCToast.makeText(getActivity(), getResources().getString(R.string.playUnsuccessful), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
             } catch (ExecutionException e) {
-                Toast.makeText(getActivity(), "Execution Error", Toast.LENGTH_SHORT).show();
-            } catch (InterruptedException ie) {
-                Toast.makeText(getActivity(), "Interrupt Error", Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(getActivity(), getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+            } catch (InterruptedException e) {
+                MCCToast.makeText(getActivity(), getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
             } catch (XmlPullParserException e) {
-                Toast.makeText(getActivity(), "XML Error", Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(getActivity(), getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
             } catch (IOException e) {
-                Toast.makeText(getActivity(), "IO Error", Toast.LENGTH_SHORT).show();
+                MCCToast.makeText(getActivity(), getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
             }
         }
     }

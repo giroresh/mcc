@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
 import giroresh.mediacenterclient.SocketAsyncTask.SocketAsyncTask;
+import giroresh.mediacenterclient.helper.MCCToast;
 
 /** This activity displays the server status
  * Created by giro on 2015.03.23..
@@ -54,13 +55,13 @@ public class ServerStatus extends Activity implements View.OnClickListener {
                 serverStatusInfoTV.setText(displayed);
             }
         } catch (ExecutionException e) {
-            Toast.makeText(this, "Exe Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (InterruptedException e) {
-            Toast.makeText(this, "Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (XmlPullParserException e) {
-            Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (IOException e) {
-            Toast.makeText(this, "IO Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
         Button backApp = (Button) findViewById(R.id.backApp);
         backApp.setOnClickListener(this);

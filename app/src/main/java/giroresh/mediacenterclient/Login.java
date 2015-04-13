@@ -68,12 +68,12 @@ public class Login extends Activity implements OnClickListener {
                 try {
                     ParseXML xml = new ParseXML();
                     connected = xml.getStatus(new SocketAsyncTask().execute(serverIPString, portNrString, "STAT"));
-                } catch (InterruptedException e) {
-                    Toast.makeText(this, "Interrupt Error", Toast.LENGTH_LONG).show();
                 } catch (ExecutionException e) {
-                    Toast.makeText(this, "Execution Error ", Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                } catch (InterruptedException e) {
+                    MCCToast.makeText(this, getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 } catch (XmlPullParserException e) {
-                    Toast.makeText(this, "XML Error ", Toast.LENGTH_LONG).show();
+                    MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
                 if (connected) {
                     intent.putExtra("IP", serverIPString);

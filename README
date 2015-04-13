@@ -46,11 +46,13 @@ Current features:
 - Login and SetAdminKey input fields become only bluish if input criteria are met
 - Fixed offset issue for good
 - Eliminated several possible NullPointer
+- Made all error messages mutlilingual and deleted unnecassary ones
+- Playlist shows now the file type of the file with an image (all audio files are shown as mp3, all
+	video files are shown as mp4, all rom files as ROM and unknown filetypes as UFO)
 
 To be done:
 -----------
 - Adding more languages
-- Determine necessary error messages and make them multilingual
 - Making several methods more efficient and robust -> partially done @robustness
 - Making sure all status codes are handled properly -> partially done
 - etc

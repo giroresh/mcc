@@ -89,4 +89,8 @@
 	<string name="getPlaylistItemCONNREFUSED">We lost the connection to the server!</string>
 	<string name="lostConnection">We lost the connection to the server!</string>
 	<string name="missingPlayID">Missing the ID of the selected Item!</string>
+	<string name="exeError">An execution error occurred - please restart the app</string>
+	<string name="interruptError">An interrupt error occurred - please restart the app</string>
+	<string name="xmlError">An XML error occurred - please restart the app</string>
+	<string name="ioError">An IO error occurred - please restart the app</string>
 </resources>

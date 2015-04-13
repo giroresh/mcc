@@ -39,28 +39,25 @@ public class MCCFragmentHelper {
 
         try {
             if ( (playlistItemsFromXML = xml.getPlaylistItems(new SocketAsyncTask().execute(serverIP, portNr, "LIST " + type + " " + offset + " " + length))) == null ) {
-                listItems.add(context.getResources().getString(R.string.getPlaylistItemCONNREFUSED));
-            }
-            if (playlistItemsFromXML != null) {
+                playlistItemsFromXML = new ArrayList<>();
+                playlistItemsFromXML.add(new MCCNullHandler(context.getResources().getString(R.string.getPlaylistItemCONNREFUSED)));
+            } else {
                 if (!playlistItemsFromXML.isEmpty()) {
                     if (getMCCNullHandlerContained(playlistItemsFromXML)) {
-                        listItems.add(context.getResources().getString(R.string.getPlaylistItemCONNREFUSED));
+                        playlistItemsFromXML.add(new MCCNullHandler(context.getResources().getString(R.string.getPlaylistItemCONNREFUSED)));
                     } else {
-                        for (int i = 0; i < playlistItemsFromXML.size(); i++) {
-                            listItems.add(playlistItemsFromXML.get(i).getID() + " | " + playlistItemsFromXML.get(i).getLabel());
-                        }
+                        adapter.addAll(playlistItemsFromXML);
                     }
                 }
             }
-            adapter.addAll(listItems);
         } catch (XmlPullParserException e) {
-            Toast.makeText(context.getApplicationContext(), "ERROR XML Error", Toast.LENGTH_SHORT).show();
-        } catch (ExecutionException e) {
-            Toast.makeText(context.getApplicationContext(), "ERROR Exe Error", Toast.LENGTH_SHORT).show();
-        } catch (InterruptedException e) {
-            Toast.makeText(context.getApplicationContext(), "ERROR Interrupt Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         } catch (IOException e) {
-            Toast.makeText(context.getApplicationContext(), "ERROR IO Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.ioError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+        } catch (ExecutionException e) {
+            MCCToast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+        } catch (InterruptedException e) {
+            MCCToast.makeText(context.getApplicationContext(), context.getResources().getString(R.string.interruptError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
         return adapter;
     }

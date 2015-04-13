@@ -8,7 +8,10 @@ public class MCCNullHandler extends PlaylistItems {
     private String msg;
 
     public MCCNullHandler() {
+    }
 
+    public MCCNullHandler(String msg) {
+        this.msg = msg;
     }
 
     public String getMsg() {
