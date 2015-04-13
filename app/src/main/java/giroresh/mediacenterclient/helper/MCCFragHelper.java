@@ -2,7 +2,6 @@ package giroresh.mediacenterclient.helper;
 
 import android.content.Context;
 import android.content.res.Resources;
-import android.util.Log;
 import android.widget.Toast;
 
 import org.xmlpull.v1.XmlPullParserException;
@@ -50,7 +49,6 @@ public class MCCFragHelper {
         String tagInfoMultiLang = resources.getString(R.string.tagNoInfo);
         for (String aTagInfo : tagInfo) {
             if (aTagInfo.startsWith("title")) {
-                Log.d("AudioFrag", "tagInfo is: " + aTagInfo);
                 tagInfoMultiLang = resources.getString(R.string.tagTitle) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
             } else if (aTagInfo.startsWith("album")) {
                 tagInfoMultiLang += resources.getString(R.string.tagAlbum) + aTagInfo.substring(aTagInfo.indexOf('\t')) + "\n";
