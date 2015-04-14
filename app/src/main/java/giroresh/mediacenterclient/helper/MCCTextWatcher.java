@@ -20,7 +20,7 @@ public class MCCTextWatcher implements TextWatcher {
 
         switch (view.getId()) {
             case R.id.serverIP:
-                if (doValidation(((EditText) view.findViewById(view.getId())).getText().toString())) {
+                if (doIPValidation(((EditText) view.findViewById(view.getId())).getText().toString())) {
                     view.setBackground(view.getResources().getDrawable(R.drawable.edittextborder));
                 } else {
                     view.setBackground(view.getResources().getDrawable(R.drawable.edittextborderred));
@@ -96,7 +96,7 @@ public class MCCTextWatcher implements TextWatcher {
     public void afterTextChanged(Editable s) {
         switch (view.getId()) {
             case R.id.serverIP:
-                if (doValidation(s.toString())) {
+                if (doIPValidation(s.toString())) {
                     view.setBackground(view.getResources().getDrawable(R.drawable.edittextborder));
                 } else {
                     view.setBackground(view.getResources().getDrawable(R.drawable.edittextborderred));
@@ -120,25 +120,29 @@ public class MCCTextWatcher implements TextWatcher {
     }
 
     /**
-     * Password must be at least as strong as the password "admin" is
+     * Password must be at least as strong as the password "admin" is and have at least one word character
+     * we do not use PINs as passwords
      * @param txt text to validate
      * @return true if at least 5 characters long and following special characters
-     *   ! # %  + ? _
+     *   ! # %  + ? _ -
      */
     public boolean doAdminkeyValidation(String txt) {
-        return txt.matches("(?=^.{5,}$)(?=.*([\\d]*))(?=.*[a-zA-Z])(?=.*([!#%_+?])*)(?!.*[\\s$;\"']).*$");
+        return txt.matches("(?=^.{5,}$)(?=.*([\\d]*))(?=.*[a-zA-Z])(?=.*([!#%-_+?])*)(?!.*[\\s$:;<>{}\\[\\]*&@\"'()/§]).*$");
     }
 
-    private Boolean doPortValidation(String txt) {
+    public Boolean doPortValidation(String txt) {
         return txt.matches("^(6553[0-5]|655[0-2]\\d|65[0-4]\\d\\d|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3}|0)$");
     }
 
-    private Boolean doValidation(String txt) {
+    public Boolean doIPValidation(String txt) {
+        // check for IPv4
         Boolean matched = txt.matches("^(?:\\d{1,3}\\.){3}\\d{1,3}$");
         if (!matched) {
-            matched = txt.matches("^((http|https)://)?([a-z\\.-]+)\\.([a-z\\.]{2,})+$");
+            // check for http/https based stuff
+            matched = txt.matches("^((http|https)[:]{1}[\\/\\/]{2})?([a-z\\.-]+)\\.([a-z]{2,})+");
             if (!matched) {
-                matched = txt.matches("^([a-z\\.-]+)\\.([a-z\\.]{2,})+\\b(?<!(^\\d{3}\\.{1}))\\b");
+                // check for url ^([a-z\.-]+)\.([a-z\.]{2,})+\b(?<!(^\d{3}\.{1}))\b
+                matched = txt.matches("^([a-z\\.-]+)\\.([a-z]{2,})+([\\.]{1})+\\b(?<!(^\\d{3}\\.{1}))\\b");
                 return matched;
             } else {
                 return true;

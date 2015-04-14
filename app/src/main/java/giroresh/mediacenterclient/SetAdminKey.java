@@ -47,7 +47,6 @@ public class SetAdminKey extends Activity implements View.OnClickListener {
                 Intent intent = new Intent(SetAdminKey.this, Control.class);
 
                 if (new MCCTextWatcher(adminKey).doAdminkeyValidation(adminKeyString)) {
-
                     if (!adminKeyString.isEmpty()) {
                         intent.putExtra("AdminKey", adminKeyString);
                         setResult(RESULT_OK, intent);

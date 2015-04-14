@@ -93,4 +93,6 @@
 	<string name="interruptError">An interrupt error occurred - please restart the app</string>
 	<string name="xmlError">An XML error occurred - please restart the app</string>
 	<string name="ioError">An IO error occurred - please restart the app</string>
+	<string name="serverIPFaulty">Server IP is faulty, please check!</string>
+	<string name="portNrFaulty">Port number faulty - please check!</string>
 </resources>

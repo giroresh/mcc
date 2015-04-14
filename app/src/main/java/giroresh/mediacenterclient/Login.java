@@ -29,6 +29,7 @@ public class Login extends Activity implements OnClickListener {
     private Boolean connected = false;
     private EditText serverIP;
     private EditText portNr;
+    private Integer portInt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,23 +52,32 @@ public class Login extends Activity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.connButton:
-                Intent intent = new Intent(Login.this, Control.class);
+                String serverIPString = serverIP.getText().toString();
+                String portNrString = portNr.getText().toString();
 
-                if (!serverIP.getText().toString().isEmpty()) {
-                    serverIPString = serverIP.getText().toString();
-                } else {
+                if (serverIPString.isEmpty()) {
                     MCCToast.makeText(this, getResources().getString(R.string.serverIPEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
-                }
-
-                if (!portNr.getText().toString().isEmpty()) {
-                    portNrString = Integer.valueOf(portNr.getText().toString());
-                } else {
+                    break;
+                } else if (portNrString.isEmpty()) {
                     MCCToast.makeText(this, getResources().getString(R.string.portNrEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    break;
                 }
 
+                Boolean serverIPBool = new MCCTextWatcher(serverIP).doIPValidation(serverIPString);
+                Boolean portNrBool = new MCCTextWatcher(portNr).doPortValidation(portNrString);
+
+                if (!serverIPBool) {
+                    MCCToast.makeText(this, getResources().getString(R.string.serverIPFaulty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    break;
+                }
+                if (!portNrBool) {
+                    MCCToast.makeText(this, getResources().getString(R.string.portNrFaulty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    break;
+                }
+                portInt = Integer.valueOf(portNrString);
                 try {
                     ParseXML xml = new ParseXML();
-                    connected = xml.getStatus(new SocketAsyncTask().execute(serverIPString, portNrString, "STAT"));
+                    connected = xml.getStatus(new SocketAsyncTask().execute(serverIPString, portInt, "STAT"));
                 } catch (ExecutionException e) {
                     MCCToast.makeText(this, getResources().getString(R.string.exeError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 } catch (InterruptedException e) {
@@ -75,6 +85,7 @@ public class Login extends Activity implements OnClickListener {
                 } catch (XmlPullParserException e) {
                     MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
                 }
+                Intent intent = new Intent(Login.this, Control.class);
                 if (connected) {
                     intent.putExtra("IP", serverIPString);
                     intent.putExtra("port", portNrString);

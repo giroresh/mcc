@@ -85,12 +85,14 @@
 	<string name="serverStatusMsgBegin">Serverversion ist: %1$s \n Anzahl der geladen Dateien: %2$s\n</string>
 	<string name="serverStatusMsgRst">ID %1$s entspricht dem Datentyp %2$s\n</string>
 	<string name="toastContentDescrIV">Info Symbol</string>
-	<string name="serverStatusNoMsg">Sorry server did not return any status information</string>
-	<string name="getPlaylistItemCONNREFUSED">We lost the connection to the server!</string>
-	<string name="lostConnection">We lost the connection to the server!</string>
-	<string name="missingPlayID">Missing the ID of the selected Item!</string>
+	<string name="serverStatusNoMsg">Der Server hat keine Statusnachricht zurückgeliefert</string>
+	<string name="getPlaylistItemCONNREFUSED">Verbindung zum Server verloren!</string>
+	<string name="lostConnection">Verbindung zum Server verloren!</string>
+	<string name="missingPlayID">Die ID des ausgewählten Elements fehlt!</string>
 	<string name="exeError">An execution error occured - please restart the app</string>
 	<string name="interruptError">An interrupt error occured - please restart the app</string>
 	<string name="xmlError">An XML error occured - please restart the app</string>
 	<string name="ioError">An IO error occured - please restart the app</string>
+	<string name="serverIPFaulty">Die Server IP ist falsch - bitte überprüfen Sie jene!</string>
+	<string name="portNrFaulty">Die Portnummer ist falsch - bitte überprüfen Sie jene!</string>
 </resources>
