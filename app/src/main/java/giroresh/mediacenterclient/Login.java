@@ -56,10 +56,10 @@ public class Login extends Activity implements OnClickListener {
                 String portNrString = portNr.getText().toString();
 
                 if (serverIPString.isEmpty()) {
-                    MCCToast.makeText(this, getResources().getString(R.string.serverIPEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    serverIP.setError(getResources().getString(R.string.serverIPEmpty));
                     break;
                 } else if (portNrString.isEmpty()) {
-                    MCCToast.makeText(this, getResources().getString(R.string.portNrEmpty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    portNr.setError(getResources().getString(R.string.portNrEmpty));
                     break;
                 }
 
@@ -67,11 +67,11 @@ public class Login extends Activity implements OnClickListener {
                 Boolean portNrBool = new MCCTextWatcher(portNr).doPortValidation(portNrString);
 
                 if (!serverIPBool) {
-                    MCCToast.makeText(this, getResources().getString(R.string.serverIPFaulty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    serverIP.setError(getResources().getString(R.string.serverIPFaulty));
                     break;
                 }
                 if (!portNrBool) {
-                    MCCToast.makeText(this, getResources().getString(R.string.portNrFaulty), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
+                    portNr.setError(getResources().getString(R.string.portNrFaulty));
                     break;
                 }
                 portInt = Integer.valueOf(portNrString);
