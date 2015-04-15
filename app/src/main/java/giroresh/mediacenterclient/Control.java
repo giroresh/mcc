@@ -36,7 +36,7 @@ public class Control extends Activity implements OnClickListener {
         try {
             xml = new ParseXML();
         } catch (XmlPullParserException e) {
-            Toast.makeText(this, "XML Error", Toast.LENGTH_SHORT).show();
+            MCCToast.makeText(this, getResources().getString(R.string.xmlError), Toast.LENGTH_SHORT, R.drawable.mcctoastred);
         }
 
         Button connServer = (Button) findViewById(R.id.connServer);
@@ -161,7 +161,7 @@ public class Control extends Activity implements OnClickListener {
             case 1:
                 if (resCode == RESULT_OK) {
                     serverIP = data.getExtras().getString("IP");
-                    portNr = data.getExtras().getInt("port");
+                    portNr = Integer.parseInt(data.getExtras().getString("port"));
                     playlist.setClickable(true);
                     playlist.setEnabled(true);
                     setAdminKeyButton.setClickable(true);
@@ -170,6 +170,12 @@ public class Control extends Activity implements OnClickListener {
                     serverStatusButton.setEnabled(true);
                 } else if (resCode == RESULT_CANCELED) {
                     MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
+                    playlist.setClickable(false);
+                    playlist.setEnabled(false);
+                    setAdminKeyButton.setClickable(false);
+                    setAdminKeyButton.setEnabled(false);
+                    serverStatusButton.setClickable(false);
+                    serverStatusButton.setEnabled(false);
                 }
                 break;
             case 3:
@@ -181,6 +187,10 @@ public class Control extends Activity implements OnClickListener {
                     shutdownButton.setEnabled(true);
                 } else if (resCode == RESULT_CANCELED) {
                     MCCToast.makeText(this, "Back at Control!", Toast.LENGTH_SHORT, R.drawable.mcctoastblue);
+                    restartButton.setClickable(false);
+                    restartButton.setEnabled(false);
+                    shutdownButton.setClickable(false);
+                    shutdownButton.setEnabled(false);
                 }
                 break;
         }
